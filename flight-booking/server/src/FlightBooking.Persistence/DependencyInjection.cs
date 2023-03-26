@@ -11,6 +11,7 @@ namespace FlightBooking.Persistence
         {
             services.AddScoped(typeof(IMongoDbFactory), typeof(MongoDbFactory));
 
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IFlightRepository), typeof(FlightRepository));
 
             return services;

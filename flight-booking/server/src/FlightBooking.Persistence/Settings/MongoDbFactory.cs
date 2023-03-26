@@ -20,6 +20,11 @@ namespace FlightBooking.Persistence.Settings
             return _database.GetCollection<T>(GetCollectionName(typeof(T)));
         }
 
+        public IMongoCollection<T> GetCollection<T>(string collectionName)
+        {
+            return _database.GetCollection<T>(collectionName);
+        }
+
         private static string GetCollectionName(Type t)
         {
             BsonCollectionAttribute? collectionAttribute = t.GetCustomAttribute(typeof(BsonCollectionAttribute)) as BsonCollectionAttribute;
