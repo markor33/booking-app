@@ -3,7 +3,7 @@ using FlightBooking.Business.Helpers.CustomAttributes;
 
 namespace FlightBooking.Business.Entities
 {
-    [BsonCollection("flights")]
+    [BsonCollection("Flights")]
     public class Flight : BaseEntity
     {
         public string? From { get; set; }
