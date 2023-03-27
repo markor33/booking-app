@@ -6,7 +6,7 @@ namespace FlightBooking.Business.Entities
     [BsonCollection("Users")]
     public class User : BaseEntity
     {
-        public Guid UserId { get; set; }
+        public Guid AppUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Address Address { get; set; }
