@@ -54,7 +54,7 @@ namespace FlightBooking.API.Identity
             result = await _userManager.AddToRoleAsync(user, "USER");
             if (!result.Succeeded)
                 return result;
-            registerRequest.User.UserId = user.Id;
+            registerRequest.User.AppUserId = user.Id;
             await _userRepository.CreateAsync(registerRequest.User);
             return result;
         }

@@ -1,0 +1,11 @@
+node_modules
+/dist
+/e2e
+.git
+.gitignore
+README.md
+angular.json
+package-lock.json
+package.json
+tsconfig.json
+tslint.json
