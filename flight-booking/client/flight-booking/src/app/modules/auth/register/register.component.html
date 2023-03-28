@@ -1,0 +1,70 @@
+<mat-card>
+    <form (ngSubmit)="register()">
+        <mat-card-header>
+            <mat-card-title>Register</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-grid-list cols="2">
+                <mat-grid-tile>
+                    <div class="register-details-container">
+                        <h1>Account details</h1>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Username</mat-label>
+                            <input matInput type="text" required [(ngModel)]="registerRequest.username" name="username">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="email" required [(ngModel)]="registerRequest.email" name="email">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Enter password</mat-label>
+                            <input matInput [type]="hidePassword ? 'password' : 'text'" required [(ngModel)]="registerRequest.password" name="password">
+                            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="register-details-container">
+                        <h1>User details</h1>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>First name</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.firstName" name="firstName">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Last name</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.lastName" name="lastName">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Country</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.address.country" name="country">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>City</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.address.city" name="city">
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Street</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.address.street" name="street">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Number</mat-label>
+                                <input matInput type="text" required [(ngModel)]="registerRequest.user.address.number" name="number">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+        <mat-card-actions>
+            <button color="primary" mat-raised-button type="submit">Register</button>
+            <button color="accent" mat-raised-button type="reset">Reset</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
