@@ -1,0 +1,18 @@
+mat-card {
+    max-width: 60%;
+    margin: 10em auto;
+}
+
+.register-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.register-details-container div mat-form-field {
+    margin-right: 5px;
+}
+
+mat-card-actions button {
+    margin-left: 10px;
+}
