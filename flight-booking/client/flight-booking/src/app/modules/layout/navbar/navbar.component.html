@@ -24,10 +24,16 @@
             <span matLine>Home</span>
           </div>
         </a>
-        <a mat-list-item routerLink="/flights/admin" *ngIf="userRole == ''">
+        <a mat-list-item routerLink="/flights/admin" *ngIf="userRole == 'ADMIN'">
           <div>
             <mat-icon fontIcon="airplanemode_active"></mat-icon>
             <span matLine>Flights</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/flights/create" *ngIf="userRole == 'ADMIN'">
+          <div>
+            <mat-icon fontIcon="add_circle_outline"></mat-icon>
+            <span matLine>Create flights</span>
           </div>
         </a>
       </mat-nav-list>
