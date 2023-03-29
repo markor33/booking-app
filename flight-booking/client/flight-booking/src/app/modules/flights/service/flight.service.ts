@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { Flight } from '../model/flight.model';
@@ -12,7 +12,11 @@ export class FlightService {
     headers: { 'Content-Type': 'application/json' }
   };
 
-  constructor(private httpClient: HttpClient) { }
+  http: HttpClient;
+
+  constructor(private httpClient: HttpClient, handler: HttpBackend) {
+    this.http = new HttpClient(handler)
+   }
 
   getAllFlights() : Observable<Flight[]>{
     return this.httpClient.get<Flight[]>('api/flight', this.httpOptions)
@@ -29,7 +33,7 @@ export class FlightService {
 
   uploadSignature(vals: any): Observable<any>{
     let data = vals;
-    return this.httpClient.post('https://api.cloudinary.com/v1_1/disvuvajt/image/upload', data)
+    return this.http.post('https://api.cloudinary.com/v1_1/disvuvajt/image/upload', data)
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
