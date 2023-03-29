@@ -1,7 +1,9 @@
 ﻿using FlightBooking.Business.Entities;
 using FlightBooking.Business.Repositories;
 using FlightBooking.Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace FlightBooking.API.Controllers
 {
@@ -43,6 +45,7 @@ namespace FlightBooking.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(string id)
         {
             await _flightService.DeleteAsync(id);

@@ -10,11 +10,13 @@ import { MatOptionModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { CreateFlightComponent } from './admin-flights/create-flight/create-flight.component';
+import { AuthGuard } from '../auth/helpers/auth.guard';
+import { RoleGuard } from '../auth/helpers/role.guard';
 
 
 const routes: Routes = [
-  { path: 'flights/admin', component: AdminFlightsComponent},
-  { path: 'flights/create', component: CreateFlightComponent}
+  { path: 'flights/admin', component: AdminFlightsComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}},
+  { path: 'flights/create', component: CreateFlightComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}}
 ];
 
 @NgModule({
