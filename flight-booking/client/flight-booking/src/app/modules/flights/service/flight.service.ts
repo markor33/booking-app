@@ -22,6 +22,15 @@ export class FlightService {
   deleteFlight(id: string) : Observable<boolean>{
     return this.httpClient.delete<boolean>('api/flight/' + id, this.httpOptions);
   }
+  createFlight(flight: Flight) : Observable<Flight>{
+    return this.httpClient.post<Flight>('api/flight', flight, this.httpOptions)
+    .pipe(catchError(this.handleError<Flight>('createFlight')));
+  }
+
+  uploadSignature(vals: any): Observable<any>{
+    let data = vals;
+    return this.httpClient.post('https://api.cloudinary.com/v1_1/disvuvajt/image/upload', data)
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

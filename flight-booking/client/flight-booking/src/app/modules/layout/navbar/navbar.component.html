@@ -30,6 +30,12 @@
             <span matLine>Flights</span>
           </div>
         </a>
+        <a mat-list-item routerLink="/flights/create" *ngIf="userRole == ''">
+          <div>
+            <mat-icon fontIcon="add_circle_outline"></mat-icon>
+            <span matLine>Create flights</span>
+          </div>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

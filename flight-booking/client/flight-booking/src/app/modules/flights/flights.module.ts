@@ -9,16 +9,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
+import { CreateFlightComponent } from './admin-flights/create-flight/create-flight.component';
 
 
 const routes: Routes = [
-  { path: 'flights/admin', component: AdminFlightsComponent}
+  { path: 'flights/admin', component: AdminFlightsComponent},
+  { path: 'flights/create', component: CreateFlightComponent}
 ];
 
 @NgModule({
   declarations: [
     AdminFlightsComponent,
     FlightInfComponent,
+    CreateFlightComponent,
   ],
   imports: [
     CommonModule,

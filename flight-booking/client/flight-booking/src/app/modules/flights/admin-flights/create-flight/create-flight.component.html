@@ -1,0 +1,23 @@
+<div class="container">
+    <div class = "row">
+        <div class="col col1">
+        </div>
+        <div class="col col2">
+            <label for="destiantion">Destination:</label>
+            <input type="text" id="destination" [(ngModel)]="flight.destination"><br>
+            <label for="departure">Departure time:</label>
+            <input type="datetime-local" id="departure" [(ngModel)]="flight.departureTime"><br>
+            <label for="landing">Landing time:</label>
+            <input type="datetime-local" id="landing" [(ngModel)]="flight.landingTime"><br>
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" [(ngModel)]="flight.origin"><br>
+            <label for="price">Tiket price:</label>
+            <input type="number" id="price" [(ngModel)]="flight.ticketPrice"><br>
+            <label for="available">Amount of available tickets:</label>
+            <input type="number" id="available" [(ngModel)]="flight.numOfAvailableTickets"><br>
+            <label for="available">Add photo:</label>
+            <input type="file" id="file" name="file" (change)="handleUpload($event)"><br>
+            <button (click)="createFlight()">Create flight</button>
+        </div> 
+    </div>
+</div>
