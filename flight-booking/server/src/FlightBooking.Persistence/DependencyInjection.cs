@@ -1,4 +1,5 @@
 ﻿using FlightBooking.Business.Repositories;
+using FlightBooking.Business.Services;
 using FlightBooking.Persistence.Repositories;
 using FlightBooking.Persistence.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace FlightBooking.Persistence
 
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddScoped(typeof(IFlightRepository), typeof(FlightRepository));
+
+            services.AddScoped(typeof(IFlightService), typeof(FlightService));
 
             return services;
         }
