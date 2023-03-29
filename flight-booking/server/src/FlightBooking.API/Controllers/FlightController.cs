@@ -1,5 +1,6 @@
 ﻿using FlightBooking.Business.Entities;
 using FlightBooking.Business.Repositories;
+using FlightBooking.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightBooking.API.Controllers
@@ -8,43 +9,43 @@ namespace FlightBooking.API.Controllers
     [ApiController]
     public class FlightController : ControllerBase
     {
-        private readonly IFlightRepository _flightRepository;
+        private readonly IFlightService _flightService;
 
-        public FlightController(IFlightRepository flightRepository)
+        public FlightController(IFlightService flightService)
         {
-            _flightRepository = flightRepository;
+            _flightService = flightService;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Flight>>> GetAll()
         {
-            return Ok(await _flightRepository.GetAllAsync());
+            return Ok(await _flightService.GetAllAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok(await _flightRepository.GetByIdAsync(id));
+            return Ok(await _flightService.GetByIdAsync(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Flight>> Create(Flight flight)
         {
-            flight = await _flightRepository.CreateAsync(flight);
+            flight = await _flightService.CreateAsync(flight);
             return CreatedAtAction(nameof(Get), new { id = flight.Id }, flight);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(Flight flight)
         {
-            await _flightRepository.UpdateAsync(flight);
+            await _flightService.UpdateAsync(flight);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            await _flightRepository.DeleteAsync(id);
+            await _flightService.DeleteAsync(id);
             return Ok();
         }
 
