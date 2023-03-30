@@ -30,18 +30,8 @@ export class CreateFlightComponent {
   }
 
   createFlight(){
-    this.data.append('file', this.base64textString);
-    this.data.append('upload_preset','dypot2fv');
-    this.data.append('cloud_name','disvuvajt');
-    this.data.append('public_id', this.flight.destination + Date.now());
-
-    this.flightService.uploadSignature(this.data).subscribe((imageData) => {
-      this.flight.imgUrl = imageData.secure_url;
-      
-      this.flightService.createFlight(this.flight).subscribe((res) => {
-        this.router.navigate(['/flights/admin']);
-      })
-
+    this.flightService.createFlight(this.flight).subscribe((res) => {
+      this.router.navigate(['/flights/admin']);
     })
   }
 
@@ -50,7 +40,7 @@ export class CreateFlightComponent {
     const file = event.target.files[0];
     reader.readAsDataURL(file);
     reader.onload = () => {
-      this.base64textString = reader.result;
-  };
+      this.flight.imgUrl = reader.result as string;
+  }; 
 }
 }

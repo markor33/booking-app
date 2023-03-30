@@ -1,7 +1,7 @@
 using FlightBooking.API.Identity;
 using FlightBooking.API.Identity.Models;
+using FlightBooking.API.Infrastructure;
 using FlightBooking.Persistence;
-using FlightBooking.Persistence.Seed;
 using FlightBooking.Persistence.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -50,6 +50,7 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped(typeof(IImageUploader), typeof(ImageUploader));
 
 builder.Services.AddPersistence();
 
