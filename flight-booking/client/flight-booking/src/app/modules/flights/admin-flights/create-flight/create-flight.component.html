@@ -1,19 +1,38 @@
-<div class="container">
-    <div class = "row">
-            <label for="destiantion">Destination:</label>
-            <input type="text" class="form-control" id="destination" [(ngModel)]="flight.destination"><br>
-            <label for="departure">Departure time:</label>
-            <input type="datetime-local" class="form-control" id="departure" [(ngModel)]="flight.departureTime"><br>
-            <label for="landing">Landing time:</label>
-            <input type="datetime-local" class="form-control" id="landing" [(ngModel)]="flight.landingTime"><br>
-            <label for="origin">Origin:</label>
-            <input type="text" id="origin" class="form-control" [(ngModel)]="flight.origin"><br>
-            <label for="price">Tiket price:</label>
-            <input type="number" id="price" class="form-control" [(ngModel)]="flight.ticketPrice"><br>
-            <label for="available">Amount of available tickets:</label>
-            <input type="number" id="available" class="form-control" [(ngModel)]="flight.numOfAvailableTickets"><br>
-            <label for="available">Add photo:</label>
-            <input type="file" id="file" name="file" class="form-control" (change)="handleUpload($event)"><br>
-            <button (click)="createFlight()">Create flight</button>
-    </div>
-</div>
+<mat-card>
+    <form (ngSubmit)="createFlight()">
+        <mat-card-header>
+            <mat-card-title>Create new flight</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="outline">
+                <mat-label>Destination</mat-label>
+                <input matInput type="text" required [(ngModel)]="flight.destination" name="destination">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Departure time:</mat-label>
+                <input matInput type="datetime-local" required [(ngModel)]="flight.departureTime" name="departureTime">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Landing time:</mat-label>
+                <input matInput type="datetime-local" required [(ngModel)]="flight.landingTime" name="landingTime">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Origin</mat-label>
+                <input matInput type="text" required [(ngModel)]="flight.origin" name="origin">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Tiket price</mat-label>
+                <input matInput type="number" required [(ngModel)]="flight.ticketPrice" name="ticketPrice">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Amount of available tickets</mat-label>
+                <input matInput type="number" required [(ngModel)]="flight.numOfAvailableTickets" name="numOfAvailableTickets">
+            </mat-form-field>
+            <button type="button" mat-raised-button (click)="fileInput.click()" color="primary">Choose image</button>
+            <input hidden (change)="handleUpload($event)" #fileInput type="file" id="file">
+            <mat-card-actions>
+                <button mat-raised-button type="submit" color="primary">Create</button>
+            </mat-card-actions>
+        </mat-card-content>
+    </form>
+</mat-card>

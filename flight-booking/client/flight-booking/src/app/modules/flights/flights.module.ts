@@ -12,7 +12,8 @@ import {MatSelectModule} from '@angular/material/select';
 import { CreateFlightComponent } from './admin-flights/create-flight/create-flight.component';
 import { AuthGuard } from '../auth/helpers/auth.guard';
 import { RoleGuard } from '../auth/helpers/role.guard';
-
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   { path: 'flights/admin', component: AdminFlightsComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}},
@@ -33,6 +34,8 @@ const routes: Routes = [
     MatOptionModule,
     MatSelectModule,
     FormsModule,
+    MatButtonModule,
+    MatInputModule,
     RouterModule.forChild(routes),
   ]
 })

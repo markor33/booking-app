@@ -8,10 +8,9 @@ import { FlightService } from '../../service/flight.service';
   templateUrl: './create-flight.component.html',
   styleUrls: ['./create-flight.component.css']
 })
-export class CreateFlightComponent {
+export class CreateFlightComponent{
 
   flight: Flight;
-  data: FormData;
   base64textString: any;
   constructor(private flightService: FlightService,
     private router: Router){
@@ -26,7 +25,6 @@ export class CreateFlightComponent {
       imgUrl: "",
       id:""
     }
-    this.data = new FormData;
   }
 
   createFlight(){
