@@ -1,9 +1,9 @@
-﻿using FlightBooking.Business.Entities;
-using FlightBooking.Business.Repositories;
+﻿using FlightBooking.API.Infrastructure;
+using FlightBooking.Business.Entities;
 using FlightBooking.Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
+
 
 namespace FlightBooking.API.Controllers
 {
@@ -12,10 +12,12 @@ namespace FlightBooking.API.Controllers
     public class FlightController : ControllerBase
     {
         private readonly IFlightService _flightService;
+        private readonly IImageUploader _imageUploader;
 
-        public FlightController(IFlightService flightService)
+        public FlightController(IFlightService flightService, IImageUploader imageUploader)
         {
             _flightService = flightService;
+            _imageUploader = imageUploader;
         }
 
         [HttpGet]
@@ -33,6 +35,7 @@ namespace FlightBooking.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Flight>> Create(Flight flight)
         {
+            flight.ImgUrl = _imageUploader.UploadImage(flight.ImgUrl, flight.Destination);
             flight = await _flightService.CreateAsync(flight);
             return CreatedAtAction(nameof(Get), new { id = flight.Id }, flight);
         }

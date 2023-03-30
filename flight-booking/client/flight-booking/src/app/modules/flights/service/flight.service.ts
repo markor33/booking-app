@@ -31,11 +31,6 @@ export class FlightService {
     .pipe(catchError(this.handleError<Flight>('createFlight')));
   }
 
-  uploadSignature(vals: any): Observable<any>{
-    let data = vals;
-    return this.http.post('https://api.cloudinary.com/v1_1/disvuvajt/image/upload', data)
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
