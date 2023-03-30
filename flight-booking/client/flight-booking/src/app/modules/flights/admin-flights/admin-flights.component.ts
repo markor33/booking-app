@@ -28,8 +28,6 @@ export class AdminFlightsComponent {
   }
   flightInfo(flight: Flight){
     const dialogRef = this.dialog.open(FlightInfComponent,{
-      width: '500px',
-      height: '700px',
       data: flight
     }).afterClosed()
     .subscribe((shouldReload: boolean) => { this.getAllFlights();
