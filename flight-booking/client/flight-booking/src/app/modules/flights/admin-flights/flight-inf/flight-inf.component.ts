@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Flight } from '../../model/flight.model';
 import { FlightService } from '../../service/flight.service';
 
@@ -14,7 +15,7 @@ export class FlightInfComponent implements OnInit{
   constructor(
     private dailog: MatDialogRef<FlightInfComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Flight,
-    private flightService: FlightService,
+    private flightService: FlightService, private snackBar: MatSnackBar
   ){
     this.flight = {
       departureTime: new Date(),
@@ -33,7 +34,15 @@ export class FlightInfComponent implements OnInit{
   }
 
   deleteFlight(){
-    this.flightService.deleteFlight(this.flight.id).subscribe((res) => 
-    this.dailog.close())
+    this.flightService.deleteFlight(this.flight.id).subscribe((res) => {
+      this.snackBar.open("Flight successfully deleated!", "Ok", {
+        duration: 2000,
+        panelClass: ['blue-snackbar']
+      });
+      setTimeout(() => {
+        this.dailog.close()
+      }, 1000);
+    }
+    )
   }
 }

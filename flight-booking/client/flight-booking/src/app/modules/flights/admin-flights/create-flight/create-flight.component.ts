@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Flight } from '../../model/flight.model';
 import { FlightService } from '../../service/flight.service';
@@ -13,7 +14,7 @@ export class CreateFlightComponent{
   flight: Flight;
   base64textString: any;
   constructor(private flightService: FlightService,
-    private router: Router){
+    private router: Router, private snackBar: MatSnackBar){
 
     this.flight = {
       departureTime: new Date(),
@@ -29,7 +30,13 @@ export class CreateFlightComponent{
 
   createFlight(){
     this.flightService.createFlight(this.flight).subscribe((res) => {
-      this.router.navigate(['/flights/admin']);
+      this.snackBar.open("Flight successfully created!", "Ok", {
+        duration: 2000,
+        panelClass: ['blue-snackbar']
+      });
+      setTimeout(() => {
+        this.router.navigate(['/flights/admin']);
+      }, 1000);
     })
   }
 
