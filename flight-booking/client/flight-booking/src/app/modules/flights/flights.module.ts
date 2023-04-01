@@ -14,6 +14,7 @@ import { AuthGuard } from '../auth/helpers/auth.guard';
 import { RoleGuard } from '../auth/helpers/role.guard';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const routes: Routes = [
   { path: 'flights/admin', component: AdminFlightsComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}},
@@ -36,6 +37,7 @@ const routes: Routes = [
     FormsModule,
     MatButtonModule,
     MatInputModule,
+    MatSnackBarModule,
     RouterModule.forChild(routes),
   ]
 })
