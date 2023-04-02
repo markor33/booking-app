@@ -20,6 +20,7 @@ export class FlightInfComponent implements OnInit{
   userRole: string = '';
   temp: boolean = false;
   notEnoughTickets: boolean = false;
+  tickets: number;
 
   constructor(
     private dailog: MatDialogRef<FlightInfComponent>,
@@ -27,6 +28,7 @@ export class FlightInfComponent implements OnInit{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private flightService: FlightService, private snackBar: MatSnackBar
   ){
+    this.tickets = 0;
     this.flight = {
       departureTime: new Date(),
       landingTime: new Date(),
@@ -53,6 +55,7 @@ export class FlightInfComponent implements OnInit{
     this.flight = this.data.data;
     this.temp = this.data.temp;
     this.bookedFlight.flightId = this.data.data.id;
+    this.tickets = this.data.tickets;
   }
 
   deleteFlight(){

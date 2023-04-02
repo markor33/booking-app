@@ -15,11 +15,13 @@ export class FlightsListComponent {
 
   flights: Flight[];
   bookedFlights: BookedFlight[];
+  numberOfTickets: number[];
   temp: boolean = true;
 
   constructor(private flightService: FlightService, private dialog: MatDialog, private router: Router){ 
     this.flights = [];
     this.bookedFlights = [];
+    this.numberOfTickets = [];
     var navigation = this.router.getCurrentNavigation();
     if(navigation != null){
       var extras = navigation.extras.state;
@@ -31,6 +33,7 @@ export class FlightsListComponent {
           this.temp = false;
           this.bookedFlights.forEach(e => {     
             this.flights.push(e.flight);
+            this.numberOfTickets.push(e.numberOfTickets);
           })
         }        
       }
@@ -41,9 +44,9 @@ export class FlightsListComponent {
 
   }
 
-  flightInfo(flight: Flight){
+  flightInfo(flight: Flight, i: number){
     const dialogRef = this.dialog.open(FlightInfComponent,{
-      data: { data: flight, temp: this.temp }
+      data: { data: flight, temp: this.temp, tickets: this.numberOfTickets[i] }
     }).afterClosed()
     .subscribe((shouldReload: boolean) => { 
       if(this.temp) {

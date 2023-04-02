@@ -8,8 +8,9 @@
         <p>Landing time:  {{flight.landingTime | date:'medium':'+0000'}}</p>
         <p>Origin: {{flight.origin}}</p>
         <p>Ticket price: {{flight.ticketPrice}}€</p>
-        <p>Amount of available tickets: {{flight.numOfAvailableTickets}}</p>
-            
+        <p *ngIf="userRole == 'USER' && temp">Amount of available tickets: {{flight.numOfAvailableTickets}}</p>
+        <p *ngIf="userRole == 'USER' && !temp">Amount of purchased tickets: {{tickets}}</p>    
+
         <div *ngIf="userRole == 'USER' && temp">
             <mat-label>Number of tickets</mat-label>
             <input matInput type="number" required [(ngModel)]="bookedFlight.numberOfTickets" name="numberOfTickets">
