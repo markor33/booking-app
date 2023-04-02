@@ -1,6 +1,7 @@
 import { HttpClient, HttpBackend  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
+import { BookedFlight } from '../model/booked-flight.model';
 import { Flight } from '../model/flight.model';
 
 @Injectable({
@@ -23,9 +24,20 @@ export class FlightService {
     .pipe(catchError(this.handleError<Flight[]>('getAllFlights', [])));
   }
 
+  getUserFlights() : Observable<Flight[]>{
+    return this.httpClient.get<Flight[]>('api/BookedFlight/user', this.httpOptions)
+    .pipe(catchError(this.handleError<Flight[]>('getUserFlights', [])));
+  }
+
   deleteFlight(id: string) : Observable<boolean>{
     return this.httpClient.delete<boolean>('api/flight/' + id, this.httpOptions);
   }
+
+  bookFlight(bookedFlight: BookedFlight) : Observable<boolean>{
+    return this.httpClient.post<boolean>('api/BookedFlight', bookedFlight, this.httpOptions)
+    .pipe(catchError(this.handleError<boolean>('bookFlight')));
+  }
+  
   createFlight(flight: Flight) : Observable<Flight>{
     return this.httpClient.post<Flight>('api/flight', flight, this.httpOptions)
     .pipe(catchError(this.handleError<Flight>('createFlight')));

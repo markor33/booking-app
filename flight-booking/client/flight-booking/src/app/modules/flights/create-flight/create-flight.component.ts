@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Flight } from '../../model/flight.model';
-import { FlightService } from '../../service/flight.service';
+import { Flight } from '../model/flight.model';
+import { FlightService } from '../service/flight.service';
 
 @Component({
   selector: 'app-create-flight',
@@ -35,7 +35,7 @@ export class CreateFlightComponent{
         panelClass: ['blue-snackbar']
       });
       setTimeout(() => {
-        this.router.navigate(['/flights/admin']);
+        this.router.navigate(['/flights/overview']);
       }, 1000);
     })
   }

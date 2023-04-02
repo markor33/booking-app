@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/service/auth.service';
 import { Router } from '@angular/router';
+import { FlightService } from '../../flights/service/flight.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,8 @@ export class NavbarComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private flightService: FlightService) {
   }
 
   ngOnInit(): void {
@@ -29,6 +31,18 @@ export class NavbarComponent {
     this.authService.logout();
     this.userRole = '';
     this.router.navigate(['/']);
+  }
+
+  getFlights(): void {
+    this.flightService.getAllFlights().subscribe((res) => {
+      this.router.navigateByUrl('/flights', {state: {flights: res}});
+    })
+  }
+
+  getMyFlights(): void {
+    this.flightService.getUserFlights().subscribe((res) => {
+      this.router.navigateByUrl('/flights', {state: {bookedFlights: res}});
+    })
   }
 
 }
