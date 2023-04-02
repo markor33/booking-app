@@ -17,7 +17,13 @@ export class FlightService {
 
   constructor(private httpClient: HttpClient, handler: HttpBackend) {
     this.http = new HttpClient(handler)
-   }
+  }
+
+  search(date: Date, origin: string, destination: string, numberOfPassengers: number) : Observable<Flight[]> {
+    let url: string = `api/flight/search?date=${date.toISOString()}&origin=${origin}&destination=${destination}&numberOfPassengers=${numberOfPassengers}`;
+    return this.httpClient.get<Flight[]>(url, this.httpOptions)
+    .pipe(catchError(this.handleError<Flight[]>('getAllFlights', [])));;
+  }
 
   getAllFlights() : Observable<Flight[]>{
     return this.httpClient.get<Flight[]>('api/flight', this.httpOptions)

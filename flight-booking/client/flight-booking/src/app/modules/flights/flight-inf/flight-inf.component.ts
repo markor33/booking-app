@@ -21,6 +21,7 @@ export class FlightInfComponent implements OnInit{
   temp: boolean = false;
   notEnoughTickets: boolean = false;
   tickets: number;
+  numberOfPassengers: number = 0;
 
   constructor(
     private dailog: MatDialogRef<FlightInfComponent>,
