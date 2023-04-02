@@ -17,7 +17,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlightsListComponent } from './flights-list/flights-list.component';
 
 const routes: Routes = [
-  { path: 'flights', component: FlightsListComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'USER'], flights: []}},
+  { path: 'flights',
+  children: [{path:'user', component: FlightsListComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['USER', 'ADMIN'], flights: []}},
+            {path:'admin', component: FlightsListComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'USER'], flights: []}}] },
   { path: 'flights/create', component: CreateFlightComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}}
 ];
 

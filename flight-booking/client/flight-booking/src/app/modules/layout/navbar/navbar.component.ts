@@ -35,13 +35,13 @@ export class NavbarComponent {
 
   getFlights(): void {
     this.flightService.getAllFlights().subscribe((res) => {
-      this.router.navigateByUrl('/flights', {state: {flights: res}});
+      this.router.navigateByUrl('/flights/admin', {state: {flights: res}});
     })
   }
 
   getMyFlights(): void {
     this.flightService.getUserFlights().subscribe((res) => {
-      this.router.navigateByUrl('/flights', {state: {bookedFlights: res}});
+      this.router.navigateByUrl('/flights/user', {state: {bookedFlights: res}});
     })
   }
 

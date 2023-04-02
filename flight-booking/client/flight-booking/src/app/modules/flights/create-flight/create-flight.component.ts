@@ -34,9 +34,6 @@ export class CreateFlightComponent{
         duration: 2000,
         panelClass: ['blue-snackbar']
       });
-      setTimeout(() => {
-        this.router.navigate(['/flights/overview']);
-      }, 1000);
     })
   }
 

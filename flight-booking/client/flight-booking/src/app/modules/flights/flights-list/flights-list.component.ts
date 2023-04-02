@@ -46,7 +46,11 @@ export class FlightsListComponent {
       data: { data: flight, temp: this.temp }
     }).afterClosed()
     .subscribe((shouldReload: boolean) => { 
-      
+      if(this.temp) {
+        this.flightService.getAllFlights().subscribe((res) => {
+          this.flights = res;
+        }) 
+      }
     });
   }
 }
