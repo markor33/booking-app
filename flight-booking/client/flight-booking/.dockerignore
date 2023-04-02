@@ -1,11 +1,10 @@
 node_modules
-/dist
-/e2e
+npm-debug.log
+Dockerfile*
+docker-compose*
+.dockerignore
 .git
 .gitignore
 README.md
-angular.json
-package-lock.json
-package.json
-tsconfig.json
-tslint.json
+LICENSE
+.vscode
