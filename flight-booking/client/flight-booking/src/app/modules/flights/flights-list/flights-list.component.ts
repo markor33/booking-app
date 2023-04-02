@@ -49,11 +49,6 @@ export class FlightsListComponent {
       data: { data: flight, temp: this.temp, tickets: this.numberOfTickets[i] }
     }).afterClosed()
     .subscribe((shouldReload: boolean) => { 
-      if(this.temp) {
-        this.flightService.getAllFlights().subscribe((res) => {
-          this.flights = res;
-        }) 
-      }
     });
   }
 }

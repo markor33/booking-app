@@ -57,7 +57,6 @@ export class FlightInfComponent implements OnInit{
     this.temp = this.data.temp;
     this.bookedFlight.flightId = this.data.data.id;
     this.tickets = this.data.tickets;
-    console.log(this.numberOfPassengers);
   }
 
   deleteFlight(){
