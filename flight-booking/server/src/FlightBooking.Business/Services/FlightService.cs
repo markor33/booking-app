@@ -18,7 +18,10 @@ namespace FlightBooking.Business.Services
         public Task<List<Flight>> GetAllAsync() => _flightRepository.GetAllAsync();
 
         public Task<Flight> GetByIdAsync(string id) => _flightRepository.GetByIdAsync(id);
-    
+
+        public async Task<List<Flight>> SearchAsync(DateTime date, string origin, string destination, int numberOfPassengers)
+            => await _flightRepository.SearchAsync(date, origin, destination, numberOfPassengers);
+
         public Task UpdateAsync(Flight flight) => _flightRepository.UpdateAsync(flight);
        
     }

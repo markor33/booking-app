@@ -24,7 +24,7 @@
             <span matLine>Home</span>
           </div>
         </a>
-        <a mat-list-item (click)="getFlights()" *ngIf="userRole == 'ADMIN' || userRole == 'USER'">
+        <a mat-list-item (click)="getFlights()" *ngIf="userRole == 'ADMIN'">
           <div>
             <mat-icon fontIcon="airplanemode_active"></mat-icon>
             <span matLine>Flights</span>
