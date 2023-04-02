@@ -66,6 +66,7 @@ namespace FlightBooking.API.Identity
             {
                 Subject = new ClaimsIdentity(new[]
                 {
+                    new Claim("UserId", user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(ClaimTypes.Role, role)
                 }),

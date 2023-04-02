@@ -9,8 +9,16 @@
         <p>Origin: {{flight.origin}}</p>
         <p>Ticket price: {{flight.ticketPrice}}€</p>
         <p>Amount of available tickets: {{flight.numOfAvailableTickets}}</p>
+            
+        <div *ngIf="userRole == 'USER' && temp">
+            <mat-label>Number of tickets</mat-label>
+            <input matInput type="number" required [(ngModel)]="bookedFlight.numberOfTickets" name="numberOfTickets">
+            <mat-label *ngIf="notEnoughTickets">There is not enough available tickets.</mat-label>
+        </div>
+    
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button (click)="deleteFlight()" color="primary">Delete flight</button>
+        <button mat-raised-button (click)="deleteFlight()" color="primary"  *ngIf="userRole == 'ADMIN'">Delete flight</button>
+        <button mat-raised-button (click)="bookFlight()" color="primary"  *ngIf="userRole == 'USER' && temp">Book flight</button>
     </mat-card-actions>
 </mat-card>

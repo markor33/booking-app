@@ -2,6 +2,7 @@ using FlightBooking.API.Identity;
 using FlightBooking.API.Identity.Models;
 using FlightBooking.API.Infrastructure;
 using FlightBooking.Persistence;
+using FlightBooking.Persistence.Seed;
 using FlightBooking.Persistence.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -64,7 +65,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-await IdentitySeed.SeedIdentityDatabase(app.Services.CreateScope().ServiceProvider);
+//await IdentitySeed.SeedIdentityDatabase(app.Services.CreateScope().ServiceProvider);
+//await UserSeed.SeedUsers(app.Services.CreateScope().ServiceProvider);
 //await FlightSeed.SeedFlights(app.Services.CreateScope().ServiceProvider);
 
 if (app.Environment.IsDevelopment())
