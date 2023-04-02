@@ -21,6 +21,7 @@ export class FlightInfComponent implements OnInit{
   temp: boolean = false;
   notEnoughTickets: boolean = false;
   tickets: number;
+  numberOfPassengers: number = 0;
 
   constructor(
     private dailog: MatDialogRef<FlightInfComponent>,
@@ -56,6 +57,7 @@ export class FlightInfComponent implements OnInit{
     this.temp = this.data.temp;
     this.bookedFlight.flightId = this.data.data.id;
     this.tickets = this.data.tickets;
+    console.log(this.numberOfPassengers);
   }
 
   deleteFlight(){

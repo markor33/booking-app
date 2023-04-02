@@ -5,7 +5,7 @@ import {MatCardModule} from '@angular/material/card';
 import { FlightInfComponent } from './flight-inf/flight-inf.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { CreateFlightComponent } from './create-flight/create-flight.component';
@@ -15,12 +15,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlightsListComponent } from './flights-list/flights-list.component';
+import { SearchComponent } from './search/search.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 const routes: Routes = [
   { path: 'flights',
   children: [{path:'user', component: FlightsListComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['USER', 'ADMIN'], flights: []}},
-            {path:'admin', component: FlightsListComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN', 'USER'], flights: []}}] },
-  { path: 'flights/create', component: CreateFlightComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}}
+            {path:'admin', component: FlightsListComponent,  data: { flights: []}}] },
+  { path: 'flights/create', component: CreateFlightComponent,  canActivate: [AuthGuard, RoleGuard], data: { roles: ['ADMIN']}},
+  { path: '', component: SearchComponent}
 ];
 
 @NgModule({
@@ -29,6 +32,7 @@ const routes: Routes = [
     FlightInfComponent,
     CreateFlightComponent,
     FlightsListComponent,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +40,8 @@ const routes: Routes = [
     MatDialogModule,
     MatFormFieldModule,
     MatOptionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     FormsModule,
     MatButtonModule,

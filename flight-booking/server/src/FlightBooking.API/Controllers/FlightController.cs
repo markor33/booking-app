@@ -1,4 +1,5 @@
-﻿using FlightBooking.API.Infrastructure;
+﻿using CloudinaryDotNet.Actions;
+using FlightBooking.API.Infrastructure;
 using FlightBooking.Business.Entities;
 using FlightBooking.Business.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -30,6 +31,17 @@ namespace FlightBooking.API.Controllers
         public async Task<IActionResult> Get(string id)
         {
             return Ok(await _flightService.GetByIdAsync(id));
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Flight>>> Search(
+            [FromQuery] DateTime date, 
+            [FromQuery] string origin, 
+            [FromQuery] string destination,
+            [FromQuery] int numberOfPassengers)
+        {
+            var flights = await _flightService.SearchAsync(date, origin, destination, numberOfPassengers);
+            return Ok(flights);
         }
 
         [HttpPost]
