@@ -2,7 +2,6 @@
 using FlightBooking.API.Identity.Models;
 using FlightBooking.Business.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -67,6 +66,7 @@ namespace FlightBooking.API.Identity
             {
                 Subject = new ClaimsIdentity(new[]
                 {
+                    new Claim("UserId", user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                     new Claim(ClaimTypes.Role, role)
                 }),

@@ -22,8 +22,14 @@
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
     "@auth0/angular-jwt": "^5.1.2",
+    "@cloudinary/ng": "^1.11.2",
+    "@cloudinary/url-gen": "^1.9.2",
+    "angular-uploader": "^8.16.0",
+    "bootstrap": "^5.2.3",
+    "cloudinary": "^1.35.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "uploader": "^3.13.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {

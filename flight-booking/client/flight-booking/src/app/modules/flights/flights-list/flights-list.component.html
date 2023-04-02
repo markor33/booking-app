@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row custom">
+        <div class="col-md-3 mx-auto my-5 image-card" *ngFor="let flight of flights; let i = index" (click) = "flightInfo(flight, i)">
+            <mat-card id="image-card">
+            <img mat-card-image src={{flight.imgUrl}} alt={{flight.destination}} class="img"/>
+            <mat-card-content>
+                <p class="destination" >{{flight.destination}}</p>
+                <p>from {{flight.origin}}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <p class="price">{{flight.ticketPrice}}€</p>
+              </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
+

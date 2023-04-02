@@ -3,7 +3,7 @@
     <button mat-icon-button class="example-icon" (click)="sidenav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
-    <span>Book a Flight</span>
+    <span>Flight Booking</span>
     <span class="spacer"></span>
     <button mat-icon-button [matMenuTriggerFor]="accountMenu" *ngIf="isUserLogged">
       <mat-icon>account_circle</mat-icon>
@@ -22,6 +22,24 @@
           <div>
             <mat-icon fontIcon="home"></mat-icon>
             <span matLine>Home</span>
+          </div>
+        </a>
+        <a mat-list-item (click)="getFlights()" *ngIf="userRole == 'ADMIN' || userRole == 'USER'">
+          <div>
+            <mat-icon fontIcon="airplanemode_active"></mat-icon>
+            <span matLine>Flights</span>
+          </div>
+        </a>
+        <a mat-list-item (click)="getMyFlights()" *ngIf="userRole == 'USER'">
+          <div>
+            <mat-icon fontIcon="airplanemode_active"></mat-icon>
+            <span matLine>My Flights</span>
+          </div>
+        </a>
+        <a mat-list-item routerLink="/flights/create" *ngIf="userRole == 'ADMIN'">
+          <div>
+            <mat-icon fontIcon="add_circle_outline"></mat-icon>
+            <span matLine>Create flights</span>
           </div>
         </a>
       </mat-nav-list>

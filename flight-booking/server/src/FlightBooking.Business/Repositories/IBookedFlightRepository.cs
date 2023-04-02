@@ -3,8 +3,9 @@ using FlightBooking.Business.Repositories.Base;
 
 namespace FlightBooking.Business.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IBookedFlightRepository : IRepository<BookedFlight>
     {
-        public Task<User> GetByAppUserIdAsync(string appUserId);
+        public Task<List<BookedFlight>> GetByUserIdAsync(string userId);
     }
+
 }

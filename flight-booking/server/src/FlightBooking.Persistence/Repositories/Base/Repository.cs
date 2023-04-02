@@ -7,7 +7,7 @@ namespace FlightBooking.Persistence.Repositories.Base
 {
     public abstract class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
 
         public Repository(IMongoDbFactory mongoDbFactory)
         {

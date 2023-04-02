@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{flight.destination}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src={{flight.imgUrl}} alt={{flight.destination}} height="290" width="500">
+    <mat-card-content>
+        <p>Departure time:  {{flight.departureTime | date:'medium':'+0000'}}</p>
+        <p>Landing time:  {{flight.landingTime | date:'medium':'+0000'}}</p>
+        <p>Origin: {{flight.origin}}</p>
+        <p>Ticket price: {{flight.ticketPrice}}€</p>
+        <p *ngIf="userRole == 'USER' && temp">Amount of available tickets: {{flight.numOfAvailableTickets}}</p>
+        <p *ngIf="userRole == 'USER' && !temp">Amount of purchased tickets: {{tickets}}</p>    
+
+        <div *ngIf="userRole == 'USER' && temp">
+            <mat-label>Number of tickets</mat-label>
+            <input matInput type="number" required [(ngModel)]="bookedFlight.numberOfTickets" name="numberOfTickets">
+            <mat-label *ngIf="notEnoughTickets">There is not enough available tickets.</mat-label>
+        </div>
+    
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button (click)="deleteFlight()" color="primary"  *ngIf="userRole == 'ADMIN'">Delete flight</button>
+        <button mat-raised-button (click)="bookFlight()" color="primary"  *ngIf="userRole == 'USER' && temp">Book flight</button>
+    </mat-card-actions>
+</mat-card>
