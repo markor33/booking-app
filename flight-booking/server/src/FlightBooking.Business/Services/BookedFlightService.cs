@@ -17,6 +17,9 @@ namespace FlightBooking.Business.Services
         public async Task<BookedFlight> CreateAsync(BookedFlight bookedFlight)
         {
             var flight = await _flightService.GetByIdAsync(bookedFlight.FlightId);
+            if(flight.NumOfAvailableTickets < bookedFlight.NumberOfTickets) {
+                return null;
+            }
             flight.NumOfAvailableTickets -= bookedFlight.NumberOfTickets;
             await _flightService.UpdateAsync(flight);
             return await _bookedFlightRepository.CreateAsync(bookedFlight);            

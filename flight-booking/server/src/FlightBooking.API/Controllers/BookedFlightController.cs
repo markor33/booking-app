@@ -41,6 +41,10 @@ namespace FlightBooking.API.Controllers
                 NumberOfTickets = flightDTO.NumberOfTickets
             };
             var flight = await _bookedFlightService.CreateAsync(bookedFlight);
+            if(flight == null)
+            {
+                return BadRequest();
+            }
             return CreatedAtAction(nameof(Get), new { id = flight.Id }, flight);
         }
 
