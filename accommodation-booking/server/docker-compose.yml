@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  identity.api:
+    image: ${DOCKER_REGISTRY-}identityapi
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+    ports:
+    - 11000:80
+
+  identity.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - identity-data:/var/lib/postgresql/data
+    ports:
+     - 21000:5432
+
+volumes:
+  identity-data:
