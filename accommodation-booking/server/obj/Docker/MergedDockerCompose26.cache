@@ -1,0 +1,236 @@
+name: dockercompose8410326755903827926
+services:
+  identity.api:
+    build:
+      context: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: Identity.API
+      target: base
+    container_name: Identity.API_1
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: identityapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/Identity.API.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "11000"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\src\Services\Identity\Identity.API
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      target: /src
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+  identity.db:
+    environment:
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_USERNAME: postgres
+    image: postgres:alpine
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 5432
+      published: "21000"
+      protocol: tcp
+    restart: always
+    volumes:
+    - type: volume
+      source: identity-data
+      target: /var/lib/postgresql/data
+      volume: {}
+  reservations.api:
+    build:
+      context: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      dockerfile: src/Services/Reservations/Reservations.API/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: Reservations.API
+      target: base
+    container_name: Reservations.API
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: reservationsapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/Reservations.API.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "12000"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\src\Services\Reservations\Reservations.API
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      target: /src
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+  web.bff:
+    build:
+      context: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      dockerfile: src/ApiGateway/Web.Bff/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: Web.Bff
+      target: base
+    container_name: Web.Bff
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: webbff:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net6.0/Web.Bff.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+    - mode: ingress
+      target: 80
+      published: "10000"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\src\ApiGateway\Web.Bff
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server
+      target: /src
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\vsdbg\vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\.nuget\packages\
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/ASP.NET/Https
+      target: /root/.aspnet/https
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: C:\Users\Marko\AppData\Roaming/Microsoft/UserSecrets
+      target: /root/.microsoft/usersecrets
+      read_only: true
+      bind:
+        create_host_path: true
+networks:
+  default:
+    name: dockercompose8410326755903827926_default
+volumes:
+  identity-data:
+    name: dockercompose8410326755903827926_identity-data

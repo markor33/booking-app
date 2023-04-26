@@ -21,7 +21,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService) { }
 
   login(loginRequest: LoginRequest): Observable<boolean> {
-    return this.httpClient.post<LoginResponse>('http://localhost:11000/api/auth/login', loginRequest, this.httpOptions).pipe(
+    return this.httpClient.post<LoginResponse>('api/identity/auth/login', loginRequest, this.httpOptions).pipe(
       map((res) => {
         localStorage.setItem('token', res.jwt);
         this.userClaims = this.jwtHelper.decodeToken();
