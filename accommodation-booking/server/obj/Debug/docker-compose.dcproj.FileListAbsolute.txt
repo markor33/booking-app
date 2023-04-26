@@ -32,3 +32,17 @@ D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug
 D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.IdentityModel.Logging.dll
 D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.IdentityModel.Abstractions.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Web.Bff.deps.json
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Web.Bff.runtimeconfig.json
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\ocelot.json
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Web.Bff.exe
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Web.Bff.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Ocelot.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Newtonsoft.Json.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.Extensions.DiagnosticAdapter.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\FluentValidation.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.AspNetCore.MiddlewareAnalysis.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Microsoft.AspNetCore.JsonPatch.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Newtonsoft.Json.Bson.dll
+D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\bin\Debug\Web.Bff.pdb

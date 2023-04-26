@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  web.bff:
+    image: ${DOCKER_REGISTRY-}webbff
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Web.Bff/Dockerfile
+    ports:
+     - 10000:80
+
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
     build:
@@ -20,5 +28,15 @@ services:
     ports:
      - 21000:5432
 
+  reservations.api:
+    image: ${DOCKER_REGISTRY-}reservationsapi
+    build:
+      context: .
+      dockerfile: src/Services/Reservations/Reservations.API/Dockerfile
+    ports:
+     - 12000:80
+
 volumes:
   identity-data:
+
+
