@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, map } from 'rxjs';
 import { LoginRequest } from '../models/login-request';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { LoginResponse } from '../models/login-response';
+import { RegisterRequest } from '../models/register-request';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,10 @@ export class AuthService {
         return true;
       })
     );;
+  }
+
+  register(registerRequest: RegisterRequest): Observable<any> {
+    return this.httpClient.post<any>('api/identity/auth/register', registerRequest, this.httpOptions);
   }
 
   logout(): void {

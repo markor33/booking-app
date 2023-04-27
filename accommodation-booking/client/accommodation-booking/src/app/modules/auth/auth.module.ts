@@ -9,14 +9,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import { HttpClientModule } from '@angular/common/http';
+import { RegisterComponent } from './register/register.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 const routes: Routes = [
-  { path: 'auth/login', component: LoginComponent},
+  { path: 'auth/login', component: LoginComponent },
+  { path: 'auth/register', component: RegisterComponent },
 ];
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +32,9 @@ const routes: Routes = [
     MatButtonModule,
     MatSnackBarModule,
     FormsModule,
+    MatDividerModule,
+    MatCheckboxModule,
+    MatRadioModule,
     HttpClientModule,
     RouterModule.forChild(routes),
   ]
