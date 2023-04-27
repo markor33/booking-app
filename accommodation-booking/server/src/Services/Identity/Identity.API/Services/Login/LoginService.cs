@@ -33,13 +33,14 @@ namespace Identity.API.Services.Login
             if (!result)
                 return Result.Fail("Login failed");
 
-            var jwt = BuildToken(user);
+            var jwt = await BuildTokenAsync(user);
             return Result.Ok(new LoginResponse() { Jwt = jwt });
         }
 
-        private string BuildToken(ApplicationUser user)
+        private async Task<string> BuildTokenAsync(ApplicationUser user)
         {
-            Claim[] userClaims = GetUserClaims(user);
+            string role = (await _userManager.GetRolesAsync(user)).First();
+            Claim[] userClaims = GetUserClaims(user, role);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -56,12 +57,13 @@ namespace Identity.API.Services.Login
             return token;
         }
 
-        private static Claim[] GetUserClaims(ApplicationUser user)
+        private static Claim[] GetUserClaims(ApplicationUser user, string role)
         {
             Claim[] claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
             };
             return claims;

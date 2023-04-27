@@ -3,7 +3,7 @@ version: '3.4'
 services:
   identity.api:
     image: identityapi:dev
-    container_name: Identity.API_1
+    container_name: Identity.API
     build:
       target: base
       labels:
@@ -28,6 +28,34 @@ services:
       com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
       com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
     tty: true
+  reservations.api:
+    image: reservationsapi:dev
+    container_name: Reservations.API
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "Reservations.API"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server\src\Services\Reservations\Reservations.API:/app
+      - D:\Marko\FAKS\4God\Letnji\XWS\booking-app\accommodation-booking\server:/src
+      - C:\Users\Marko\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\Marko\.nuget\packages\:/root/.nuget/packages:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath /root/.nuget/packages  \"/app/bin/Debug/net6.0/Reservations.API.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
+
   web.bff:
     image: webbff:dev
     container_name: Web.Bff

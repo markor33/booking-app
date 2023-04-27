@@ -19,6 +19,9 @@ namespace Identity.API.Services.Register
             {
                 UserName = register.Username,
                 Email = register.Email,
+                FirstName = register.Firstname, 
+                LastName = register.Lastname,
+                Address = register.Address
             };
 
             var result = await _userManager.CreateAsync(user, register.Password);

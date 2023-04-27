@@ -3,7 +3,7 @@ version: '3.4'
 services:
   identity.api:
     image: identityapi:dev
-    container_name: Identity.API_1
+    container_name: Identity.API
     build:
       target: base
       labels:
