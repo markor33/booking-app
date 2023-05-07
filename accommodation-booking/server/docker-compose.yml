@@ -36,7 +36,31 @@ services:
     ports:
      - 12000:80
 
+  accomodation.api:
+    image: ${DOCKER_REGISTRY-}accomodationapi
+    build:
+      context: .
+      dockerfile: src/Services/Accomodation/Dockerfile
+    ports:
+     - 9000:80
+  
+  accomodation.db:
+    image: mysql
+    container_name: mysql
+    restart: always
+    networks:
+     - servers
+    ports:
+     - 4000:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: db_accomodation
+    volumes:
+     database-data:/var/lib/mysql
+
 volumes:
   identity-data:
+  database-data:
+    name: mysql-database
 
 
