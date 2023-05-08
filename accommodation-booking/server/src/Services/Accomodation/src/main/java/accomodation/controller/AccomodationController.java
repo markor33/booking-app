@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,13 @@ public class AccomodationController {
 	AccomodationService accomodationService;
 
 	@GetMapping(value = "/test")
-	public ResponseEntity<String> getTest() {
-		return new ResponseEntity<String>("asdasdasdasd", HttpStatus.OK);
+	@PreAuthorize("hasAuthority('HOST')")
+	public ResponseEntity<String> getTest(HttpServletRequest request) {
+		return new ResponseEntity<String>("Test", HttpStatus.OK);
 	}
 	
 	@GetMapping()
-	//@PreAuthorize("hasAuthority('host)")
+	//@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<List<AccomodationDTO>> getAllAccomodations(HttpServletRequest request){
 		List<AccomodationDTO> accomodations = new ArrayList<>();
 		for(Accomodation a : accomodationService.findAll()) {
@@ -43,13 +45,13 @@ public class AccomodationController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	//@PreAuthorize("hasAuthority('host')")
+	//@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable String id) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(UUID.fromString(id))), HttpStatus.OK);
 	}
 	
 	@PostMapping()
-	//@PreAuthorize("hasAuthority('host')")
+	//@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}

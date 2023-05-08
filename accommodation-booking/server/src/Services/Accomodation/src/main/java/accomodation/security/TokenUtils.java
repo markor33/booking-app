@@ -1,5 +1,8 @@
 package accomodation.security;
 
+import java.text.ParseException;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +11,8 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
 
 @Component
 public class TokenUtils {
@@ -29,7 +34,7 @@ public class TokenUtils {
     }
 
     public String getIdFromToken(String token) {
-        return this.getClaimFromToken(token, "id");
+        return this.getClaimFromToken(token, "sub");
     }
 
     public String getRoleFromToken(String token) {
@@ -40,7 +45,7 @@ public class TokenUtils {
         String claimValue;
 
         try {
-            final Claims claims = this.getAllClaimsFromToken(token);
+            Map<String, Object> claims = this.getClaims(token);
             claimValue = String.valueOf(claims.get(name));
         } catch (ExpiredJwtException ex) {
             throw ex;
@@ -65,6 +70,17 @@ public class TokenUtils {
         }
 
         return claims;
+    }
+    
+    private Map<String, Object> getClaims(String token) {
+    	JWT jwt;
+		try {
+			jwt = JWTParser.parse(token);
+	    	return jwt.getJWTClaimsSet().getClaims();
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Invalid JWT token", e);
+		}
+
     }
 
     public String getAuthHeaderFromHeader(HttpServletRequest request) {

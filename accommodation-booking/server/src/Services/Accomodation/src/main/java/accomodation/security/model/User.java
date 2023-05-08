@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     private UUID id;
     private Role role;
