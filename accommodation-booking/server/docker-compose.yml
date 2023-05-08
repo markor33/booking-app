@@ -56,7 +56,7 @@ services:
      MYSQL_ROOT_PASSWORD: root
      MYSQL_DATABASE: db_accomodation
     volumes:
-     database-data:/var/lib/mysql
+     - database-data:/var/lib/mysql
 
 volumes:
   identity-data:

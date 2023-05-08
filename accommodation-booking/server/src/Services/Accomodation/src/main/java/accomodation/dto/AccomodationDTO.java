@@ -1,84 +1,40 @@
-package accomodation.model;
+package accomodation.dto;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-import accomodation.dto.AccomodationDTO;
 import accomodation.enums.PriceType;
+import accomodation.model.Accomodation;
+import accomodation.model.Address;
+import accomodation.model.Benefit;
+import accomodation.model.Photo;
+import accomodation.model.PriceInterval;
 
-@Entity
-@Table(catalog = "db_accomodation", name = "accomodation") 
-public class Accomodation {
-
-	@Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
-    private UUID id;
+public class AccomodationDTO {
 	
-	@Column(name = "host_id", columnDefinition = "VARCHAR(255)")
+	private UUID id;
 	private UUID hostId;
-	
-	@Column(name = "description")
 	private String description;
-	
-	@Column(name = "min_guests")
 	private int minGuests;
-	
-	@Column(name = "max_guests")
 	private int maxGuests;
-	
-	@Column(name = "weekendIncrease")
 	private int weekendIncrease;
-	
-	@Column(name = "created")
 	private Date created = new Date();
-
-	@OneToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "location_id", referencedColumnName = "id")
 	private Address location;
-	
-	@ManyToMany
-	@JoinTable(
-			name = "accomodation_benefit",
-			joinColumns = @JoinColumn(name = "accomodation_id"),
-			inverseJoinColumns = @JoinColumn(name = "benefit_id")
-	)
 	private List<Benefit> benefits;
-	
-	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<Photo> photos;
-	
-	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<PriceInterval> priceIntervals;
-	
-	@Column(name = "price_type")
 	private PriceType priceType;
+	private boolean autoConfirmation;
 	
-	public Accomodation() {
-
+	public AccomodationDTO() {
+		super();
 	}
-	
-	public Accomodation(UUID id, UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
-			Address location, List<Benefit> benefits, List<Photo> photos,
-			List<PriceInterval> priceIntervals, PriceType priceType) {
+
+	public AccomodationDTO(UUID id, UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
+			Date created, Address location, List<Benefit> benefits, List<Photo> photos,
+			List<PriceInterval> priceIntervals, PriceType priceType, boolean autoConfirmation) {
 		super();
 		this.id = id;
 		this.hostId = hostId;
@@ -86,14 +42,16 @@ public class Accomodation {
 		this.minGuests = minGuests;
 		this.maxGuests = maxGuests;
 		this.weekendIncrease = weekendIncrease;
+		this.created = created;
 		this.location = location;
 		this.benefits = benefits;
 		this.photos = photos;
 		this.priceIntervals = priceIntervals;
 		this.priceType = priceType;
+		this.autoConfirmation = autoConfirmation;
 	}
 
-	public Accomodation(Accomodation a) {
+	public AccomodationDTO(Accomodation a) {
 		super();
 		this.id = a.getId();
 		this.hostId = a.getHostId();
@@ -106,23 +64,9 @@ public class Accomodation {
 		this.photos = a.getPhotos();
 		this.priceIntervals = a.getPriceIntervals();
 		this.priceType = a.getPriceType();
+		this.autoConfirmation = false;
 	}
 	
-	public Accomodation(AccomodationDTO dto) {
-		super();
-		this.id = dto.getId();
-		this.hostId = dto.getHostId();
-		this.description = dto.getDescription();
-		this.minGuests = dto.getMinGuests();
-		this.maxGuests = dto.getMaxGuests();
-		this.weekendIncrease = dto.getWeekendIncrease();
-		this.location = dto.getLocation();
-		this.benefits = dto.getBenefits();
-		this.photos = dto.getPhotos();
-		this.priceIntervals = dto.getPriceIntervals();
-		this.priceType = dto.getPriceType();
-	}
-
 	public UUID getId() {
 		return id;
 	}
@@ -219,9 +163,18 @@ public class Accomodation {
 		this.priceType = priceType;
 	}
 
+	public boolean isAutoConfirmation() {
+		return autoConfirmation;
+	}
+
+	public void setAutoConfirmation(boolean autoConfirmation) {
+		this.autoConfirmation = autoConfirmation;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(created, description, hostId, id, maxGuests, minGuests, weekendIncrease);
+		return Objects.hash(autoConfirmation, benefits, created, description, hostId, id, location, maxGuests,
+				minGuests, photos, priceIntervals, priceType, weekendIncrease);
 	}
 
 	@Override
@@ -232,17 +185,23 @@ public class Accomodation {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Accomodation other = (Accomodation) obj;
-		return Objects.equals(created, other.created) && Objects.equals(description, other.description)
-				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
-				&& minGuests == other.minGuests && weekendIncrease == other.weekendIncrease;
+		AccomodationDTO other = (AccomodationDTO) obj;
+		return autoConfirmation == other.autoConfirmation && Objects.equals(benefits, other.benefits)
+				&& Objects.equals(created, other.created) && Objects.equals(description, other.description)
+				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id)
+				&& Objects.equals(location, other.location) && maxGuests == other.maxGuests
+				&& minGuests == other.minGuests && Objects.equals(photos, other.photos)
+				&& Objects.equals(priceIntervals, other.priceIntervals) && priceType == other.priceType
+				&& weekendIncrease == other.weekendIncrease;
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", minGuests="
+		return "AccomodationDTO [id=" + id + ", hostId=" + hostId + ", description=" + description + ", minGuests="
 				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
-				+ created + "]";
+				+ created + ", location=" + location + ", benefits=" + benefits + ", photos=" + photos
+				+ ", priceIntervals=" + priceIntervals + ", priceType=" + priceType + ", autoConfirmation="
+				+ autoConfirmation + "]";
 	}
-	
+
 }
