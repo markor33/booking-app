@@ -33,6 +33,8 @@ services:
     build:
       context: .
       dockerfile: src/Services/Reservations/Reservations.API/Dockerfile
+    depends_on:
+     - reservations.db
     ports:
      - 12000:80
 
@@ -58,9 +60,19 @@ services:
     volumes:
      - accomodation-data:/var/lib/mysql
 
+  reservations.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - reservations-data:/var/lib/postgresql/data
+    ports:
+     - 22000:5432
+
 volumes:
   identity-data:
   accomodation-data:
     name: mysql-database
-
-
+  reservations-data:

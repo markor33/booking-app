@@ -15,11 +15,13 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{E6990323-7746-4703-B267-EF25E42D9F1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Bff", "src\ApiGateway\Web.Bff\Web.Bff.csproj", "{7F50ACDD-65CC-428F-B5B4-81B5ABA5161F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.Bff", "src\ApiGateway\Web.Bff\Web.Bff.csproj", "{7F50ACDD-65CC-428F-B5B4-81B5ABA5161F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reservations", "Reservations", "{57A2EC42-AECC-4E1E-8AE9-478CA90B765D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reservations.API", "src\Services\Reservations\Reservations.API\Reservations.API.csproj", "{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservations.API", "src\Services\Reservations\Reservations.API\Reservations.API.csproj", "{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservationsLibrary", "..\ReservationsLibrary\ReservationsLibrary.csproj", "{B2DAA8DE-1356-4E89-B2D2-97F99E622564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{7F50ACDD-65CC-428F-B5B4-81B5ABA5161F} = {E6990323-7746-4703-B267-EF25E42D9F1D}
 		{57A2EC42-AECC-4E1E-8AE9-478CA90B765D} = {FA1619D2-EEC9-4ED6-805B-23C34C1859D9}
 		{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C} = {57A2EC42-AECC-4E1E-8AE9-478CA90B765D}
+		{B2DAA8DE-1356-4E89-B2D2-97F99E622564} = {57A2EC42-AECC-4E1E-8AE9-478CA90B765D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2BE0E2-3912-425B-B820-5AFC2139821C}
