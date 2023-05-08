@@ -1,5 +1,5 @@
-from pymodm import MongoModel, fields
 import uuid
+from pymodm import MongoModel, fields
 
 class Address(MongoModel):
     country = fields.CharField()
@@ -19,6 +19,16 @@ class Benefit(MongoModel):
     id = fields.UUIDField(primary_key=True, default=uuid.uuid4)
     name = fields.CharField()
 
+class PriceType():
+    PER_GUEST = 0
+    IN_WHOLE = 1
+
+class PriceInterval(MongoModel):
+    id = fields.UUIDField(primary_key=True, default=uuid.uuid4)
+    amount = fields.FloatField()
+    interval = fields.EmbeddedDocumentField(DateRange)
+    price_type = fields.IntegerField()
+
 class Accommodation(MongoModel):
     id = fields.UUIDField(primary_key=True, default=uuid.uuid4)
     hostId = fields.CharField()
@@ -29,6 +39,7 @@ class Accommodation(MongoModel):
     photo = fields.CharField()
     benefits = fields.EmbeddedDocumentListField(Benefit)
     reservations = fields.EmbeddedDocumentListField(Reservation)
+    price_intervals = fields.EmbeddedDocumentListField(PriceInterval)
 
     class Meta:
         connection_alias = 'search_db'

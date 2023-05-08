@@ -10,8 +10,9 @@ from grpc_services import greeter_service
 from grpc_services import search_pb2, search_pb2_grpc
 from dotenv import load_dotenv
 from pymodm import connect
-from datetime import datetime
+from datetime import datetime, date
 from models.models import *
+from services.search import search_accommodations
 from  concurrent import futures
 
 load_dotenv()
@@ -19,29 +20,15 @@ connect(os.environ.get('MONGODB_URI'), alias='search_db')
 app = Flask(__name__)
 
 @app.route("/accommodation/search", methods=['POST'])
-def home():
+def search():
     data = request.json
+    country = data.get('location')['country']
+    city = data.get('location')['city']
+    num_guests = data.get('num_guests')
     start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d')
     end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
 
-    accommodations = Accommodation.objects.raw({
-        '$or': [
-            { 'location.country': data.get('location')['country'] },
-            { 'location.city': data.get('location')['city'] }
-        ],
-        'minGuests': {'$lte': data.get('num_guests')},
-        'maxGuests': {'$gte': data.get('num_guests')},
-        '$nor': [
-            {
-                '$and': [
-                    {'reservations.period.start_date': {'$lte': end_date}},
-                    {'reservations.period.end_date': {'$gte': start_date}}
-                ],
-            }
-        ]
-    }).all()
-
-    accommodation_list = [accommodation.to_son().to_dict() for accommodation in accommodations]
+    accommodation_list = search_accommodations(country, city, num_guests, start_date, end_date)
     return jsonify(accommodation_list)
 
 def serve():
