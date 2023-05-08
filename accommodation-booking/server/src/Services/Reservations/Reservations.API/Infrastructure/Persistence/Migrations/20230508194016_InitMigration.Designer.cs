@@ -9,11 +9,11 @@ using ReservationsLibrary.Data;
 
 #nullable disable
 
-namespace ReservationsLibrary.Migrations
+namespace Reservations.API.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ReservationsDbContext))]
-    [Migration("20230508154212_Initial")]
-    partial class Initial
+    [Migration("20230508194016_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,27 +43,27 @@ namespace ReservationsLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f19adfc8-f591-4610-8b47-a17c50562e31"),
+                            Id = new Guid("131111a6-34cd-46cf-9eec-281b1cc6a311"),
                             AutoConfirmation = true,
-                            HostId = new Guid("a736791d-2582-4e3f-85c5-3ba7ace7edb6")
+                            HostId = new Guid("55a7756f-a328-4ddf-bae8-0c67c63a622e")
                         },
                         new
                         {
-                            Id = new Guid("ebbe75b0-11f4-4140-95a9-42cf2fb7b8c0"),
+                            Id = new Guid("9135606b-dde1-4732-9060-24dc85f69daa"),
                             AutoConfirmation = false,
-                            HostId = new Guid("fffe2bf1-2473-4db4-bdde-0e7d1f125fb2")
+                            HostId = new Guid("69496110-94f1-442a-bec0-60d7c153a8aa")
                         },
                         new
                         {
-                            Id = new Guid("930393b4-cd6c-4106-9eef-fd4ebf03cf0e"),
+                            Id = new Guid("4548347e-9366-4f96-8663-f34d1bfad7bc"),
                             AutoConfirmation = false,
-                            HostId = new Guid("c68fed54-5220-4eaf-a944-beff9e859375")
+                            HostId = new Guid("d8741974-8d00-4d0e-8b2e-9c28e16edeee")
                         },
                         new
                         {
-                            Id = new Guid("d8ebaf2e-caf3-4566-a265-1ce7426def45"),
+                            Id = new Guid("0c0a8dec-640a-46a0-baf0-37ee9363603c"),
                             AutoConfirmation = true,
-                            HostId = new Guid("f71b8747-5b16-4f93-977c-25da98a40fd7")
+                            HostId = new Guid("cae096ba-f38b-4951-8848-d137a12d547b")
                         });
                 });
 
@@ -86,13 +86,13 @@ namespace ReservationsLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e651c085-7bb1-402b-a73d-d5f0ed71b631"),
+                            Id = new Guid("94200799-698e-4a9f-9aa7-b6acaab93b14"),
                             Amount = 250f,
                             Type = 0
                         },
                         new
                         {
-                            Id = new Guid("555a5103-1290-4c49-b7e2-e23ca36fb4b5"),
+                            Id = new Guid("5ac921d1-d75b-4656-8002-86c2e3d689e6"),
                             Amount = 350f,
                             Type = 1
                         });
@@ -160,20 +160,20 @@ namespace ReservationsLibrary.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("04a23eed-6b83-4312-a86c-149b813ea7bd"),
-                            AccommodationId = new Guid("f19adfc8-f591-4610-8b47-a17c50562e31"),
-                            GuestId = new Guid("ff36e765-8c9b-4342-afae-b19cf2650008"),
+                            Id = new Guid("d6fa6cba-9711-4db9-84e7-aa46c5619331"),
+                            AccommodationId = new Guid("131111a6-34cd-46cf-9eec-281b1cc6a311"),
+                            GuestId = new Guid("3f3a155b-3fd7-4e75-b3da-9057e1850ffc"),
                             NumOfGuests = 2,
-                            PriceId = new Guid("e651c085-7bb1-402b-a73d-d5f0ed71b631"),
+                            PriceId = new Guid("94200799-698e-4a9f-9aa7-b6acaab93b14"),
                             Status = 0
                         },
                         new
                         {
-                            Id = new Guid("2bcd34ab-76da-44c2-969d-b1491a6f5d3e"),
-                            AccommodationId = new Guid("ebbe75b0-11f4-4140-95a9-42cf2fb7b8c0"),
-                            GuestId = new Guid("f90d7f80-6e4c-47b8-b51f-d84c06157b3f"),
+                            Id = new Guid("deb4e537-bf82-446f-841a-5f89ec5d4fe5"),
+                            AccommodationId = new Guid("9135606b-dde1-4732-9060-24dc85f69daa"),
+                            GuestId = new Guid("739a3a88-1680-49f2-8d57-ba7bb720ab63"),
                             NumOfGuests = 1,
-                            PriceId = new Guid("555a5103-1290-4c49-b7e2-e23ca36fb4b5"),
+                            PriceId = new Guid("5ac921d1-d75b-4656-8002-86c2e3d689e6"),
                             Status = 0
                         });
                 });
@@ -257,13 +257,13 @@ namespace ReservationsLibrary.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    ReservationRequestId = new Guid("04a23eed-6b83-4312-a86c-149b813ea7bd"),
+                                    ReservationRequestId = new Guid("d6fa6cba-9711-4db9-84e7-aa46c5619331"),
                                     End = new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 },
                                 new
                                 {
-                                    ReservationRequestId = new Guid("2bcd34ab-76da-44c2-969d-b1491a6f5d3e"),
+                                    ReservationRequestId = new Guid("deb4e537-bf82-446f-841a-5f89ec5d4fe5"),
                                     End = new DateTime(2023, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 });

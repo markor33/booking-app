@@ -2,7 +2,7 @@
 using ReservationsLibrary.Data;
 using ReservationsLibrary.Models;
 
-namespace Reservations.API.Infrasructure
+namespace Reservations.API.Infrasructure.Persistence.Repositories
 {
     public class AccommodationRepository : EntityRepository<Accommodation>, IAccommodationRepository
     {

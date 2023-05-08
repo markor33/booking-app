@@ -5,7 +5,7 @@ using ReservationsLibrary.Enums;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Utils;
 
-namespace Reservations.API.Infrasructure
+namespace Reservations.API.Infrasructure.Persistence.Repositories
 {
     public class ReservationRequestRepository : EntityRepository<ReservationRequest>, IReservationRequestRepository
     {
@@ -16,8 +16,8 @@ namespace Reservations.API.Infrasructure
             return _dbContext.ReservationRequests
                     .Include(r => r.Accommodation)
                     .Include(p => p.Price)
-                    .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationsLibrary.Enums.ReservationRequestStatus.ON_HOLD).ToList();
- 
+                    .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
+
         }
 
         public List<ReservationRequest> GetOverLapped(DateRange range, Guid accommodationId)
