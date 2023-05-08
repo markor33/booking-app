@@ -19,6 +19,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import accomodation.dto.AccomodationDTO;
 import accomodation.enums.PriceType;
@@ -29,11 +32,12 @@ public class Accomodation {
 
 	@Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+	@Type(type="uuid-char")
     private UUID id;
 	
-	@Column(name = "host_id", columnDefinition = "VARCHAR(255)")
+	@Column(name = "host_id", columnDefinition = "VARCHAR(36)")
 	private UUID hostId;
 	
 	@Column(name = "description")
@@ -52,9 +56,10 @@ public class Accomodation {
 	private Date created = new Date();
 
 	@OneToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "location_id", referencedColumnName = "id")
+	@JoinColumn(name = "location_id", referencedColumnName = "id", columnDefinition = "VARCHAR(36)")
 	private Address location;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "accomodation_benefit",
@@ -63,9 +68,11 @@ public class Accomodation {
 	)
 	private List<Benefit> benefits;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<Photo> photos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<PriceInterval> priceIntervals;
 	

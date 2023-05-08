@@ -35,7 +35,7 @@ public class AccomodationController {
 	}
 	
 	@GetMapping()
-	//@PreAuthorize("hasAuthority('HOST')")
+	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<List<AccomodationDTO>> getAllAccomodations(HttpServletRequest request){
 		List<AccomodationDTO> accomodations = new ArrayList<>();
 		for(Accomodation a : accomodationService.findAll()) {
@@ -45,13 +45,13 @@ public class AccomodationController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	//@PreAuthorize("hasAuthority('HOST')")
+	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable String id) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(UUID.fromString(id))), HttpStatus.OK);
 	}
 	
 	@PostMapping()
-	//@PreAuthorize("hasAuthority('HOST')")
+	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}
