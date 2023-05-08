@@ -22,6 +22,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         this.tokenUtils = tokenHelper;
     }
 
+    
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -40,7 +41,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	                        authentication.setToken(authToken);
 	                        SecurityContextHolder.getContext().setAuthentication(authentication);
 	                   }
-                    */               
+                    */  
             }
 
         } catch (ExpiredJwtException ex) {

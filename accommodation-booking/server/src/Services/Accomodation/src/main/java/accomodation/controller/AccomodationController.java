@@ -26,6 +26,11 @@ public class AccomodationController {
 	
 	@Autowired
 	AccomodationService accomodationService;
+
+	@GetMapping(value = "/test")
+	public ResponseEntity<String> getTest() {
+		return new ResponseEntity<String>("asdasdasdasd", HttpStatus.OK);
+	}
 	
 	@GetMapping()
 	//@PreAuthorize("hasAuthority('host)")

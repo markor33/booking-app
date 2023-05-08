@@ -41,26 +41,26 @@ services:
     build:
       context: .
       dockerfile: src/Services/Accomodation/Dockerfile
+    depends_on:
+      - accomodation.db
     ports:
-     - 9000:80
+     - 9000:8080
   
   accomodation.db:
     image: mysql
     container_name: mysql
     restart: always
-    networks:
-     - servers
     ports:
      - 4000:3306
     environment:
      MYSQL_ROOT_PASSWORD: root
      MYSQL_DATABASE: db_accomodation
     volumes:
-     - database-data:/var/lib/mysql
+     - accomodation-data:/var/lib/mysql
 
 volumes:
   identity-data:
-  database-data:
+  accomodation-data:
     name: mysql-database
 
 

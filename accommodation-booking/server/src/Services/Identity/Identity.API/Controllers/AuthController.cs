@@ -1,5 +1,6 @@
 ﻿using Identity.API.Services.Login;
 using Identity.API.Services.Register;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Identity.API.Controllers
@@ -32,6 +33,13 @@ namespace Identity.API.Controllers
             var result = await _registerService.RegisterAsync(register);
             if (result.IsFailed)
                 return BadRequest();
+            return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("validate")]
+        public IActionResult Validate()
+        {
             return Ok();
         }
 
