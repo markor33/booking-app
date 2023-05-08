@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Reservations.API.DTO;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReservationsLibrary.Services;
 
 namespace Reservations.API.Controllers
@@ -15,11 +15,13 @@ namespace Reservations.API.Controllers
             _reservationService = reservationService;
         }
 
+        [Authorize(Roles = "Host")]
         [HttpGet("canceled/reservations")]
         public ActionResult<int> NumberOfCancelByGuest(Guid guestId)
         {
             return Ok(_reservationService.NumOfCanceledReservationForGuest(guestId));
         }
+        [Authorize(Roles = "Guest")]
         [HttpDelete]
         public ActionResult CancelReservation(Guid reservationId)
         {
