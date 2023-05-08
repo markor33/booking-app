@@ -5,7 +5,7 @@ FROM python:3.11-slim as builder
 WORKDIR /app
 
 # Copy requirements.txt into the container
-COPY requirements.txt ./
+COPY ./src/Services/Search/requirements.txt ./
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --trusted-host pypi.python.org --no-cache-dir --upgrade pip && \
@@ -24,10 +24,11 @@ COPY --from=builder /root/.local /root/.local
 ENV PATH=/root/.local/bin:$PATH
 
 # Copy application code into the container
-COPY . .
+COPY ./src/Services/Search .
 
 # Expose the port the app runs on
 EXPOSE 5000
+EXPOSE 5001
 
 # Start the Flask app
 CMD [ "python", "./app.py" ]
