@@ -13,7 +13,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import accomodation.security.model.Role;
@@ -27,30 +32,22 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         this.tokenUtils = tokenHelper;
     }
     
-    public boolean validate(String value) {
-    	System.out.println("->");
-    	System.out.println(value);
-    	HttpClient client = HttpClient.newHttpClient();
-		HttpRequest req = HttpRequest.newBuilder()
-				.uri(URI.create("http://localhost:10000/api/identity/auth/validate"))
-				.header("Authorization", value)
-				.build();
-		HttpResponse<String> resp;
+    public boolean validate(String authHeader) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = "http://host.docker.internal:10000/api/identity/auth/validate";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", authHeader);
+
+		HttpEntity<String> requestEntity = new HttpEntity<>(headers);
 		try {
-			resp = client.send(req, BodyHandlers.ofString());
-			System.out.println(resp);
-			System.out.println(resp.statusCode());
-			if(resp.statusCode() == 200) {
-				return true;
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+			return true;
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		return false;
+			return false;
+		}
     }
     
     @Override
@@ -64,7 +61,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             		String role = tokenUtils.getRoleFromToken(authToken);
             		System.out.println("User id: " + id + ", Role: " + role);
             		User u = new User(UUID.fromString(id), new Role(UUID.randomUUID(), role));
-            		System.out.println("testtest");
             		if(validate(value)) {
             			TokenBasedAuthentication authentication = new TokenBasedAuthentication(u);
                         authentication.setToken(authToken);
