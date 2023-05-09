@@ -59,6 +59,7 @@ public class AccomodationController {
 	@PostMapping()
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
+		//grpc posalji accomodationDTO.autoConfirmation reservation.api 
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}
 	

@@ -83,7 +83,7 @@ public class Accomodation {
 
 	}
 	
-	public Accomodation(UUID id, UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
+	public Accomodation(UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
 			Address location, List<Benefit> benefits, List<Photo> photos,
 			List<PriceInterval> priceIntervals, PriceType priceType) {
 		super();
@@ -117,7 +117,6 @@ public class Accomodation {
 	
 	public Accomodation(AccomodationDTO dto) {
 		super();
-		this.id = dto.getId();
 		this.hostId = dto.getHostId();
 		this.description = dto.getDescription();
 		this.minGuests = dto.getMinGuests();

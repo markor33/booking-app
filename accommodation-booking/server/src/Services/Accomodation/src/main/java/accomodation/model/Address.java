@@ -36,7 +36,7 @@ public class Address {
 	private String number;
 	
 	public Address() {
-		
+
 	}
 
 	public Address(UUID id, String country, String city, String street, String number) {
