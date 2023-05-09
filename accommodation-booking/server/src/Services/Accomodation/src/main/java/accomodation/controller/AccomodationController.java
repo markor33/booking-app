@@ -54,6 +54,16 @@ public class AccomodationController {
 		return new ResponseEntity<List<AccomodationDTO>>(accomodations, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/host/{hostId}")
+	@PreAuthorize("hasAuthority('HOST')")
+	public ResponseEntity<List<AccomodationDTO>> getAllAccomodationsForHost(HttpServletRequest request, @PathVariable UUID hostId){
+		List<AccomodationDTO> accomodations = new ArrayList<>();
+		for(Accomodation a : accomodationService.findByHostId(hostId)) {
+			accomodations.add(new AccomodationDTO(a));
+		}
+		return new ResponseEntity<List<AccomodationDTO>>(accomodations, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable UUID id) {

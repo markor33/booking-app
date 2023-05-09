@@ -39,6 +39,10 @@ public class AccomodationService {
 		return accomodationRepository.findAll();
 	}
 	
+	public List<Accomodation> findByHostId(UUID hostId) {
+		return accomodationRepository.findByHostId(hostId);
+	}
+	
 	public Accomodation findById(UUID id) {
 		return accomodationRepository.findById(id).orElseGet(null);
 	}
