@@ -4,11 +4,13 @@ WORKDIR /app
 
 # Copy the pom.xml file and download dependencies
 COPY ./src/Services/Accomodation/pom.xml ./pom.xml
-RUN mvn dependency:go-offline
+RUN mvn dependency:tree
 
 # Copy the src folder and build the project
 COPY ./src/Services/Accomodation/src ./src
-RUN mvn package -DskipTests
+
+# Build the project
+RUN mvn clean install -DskipTests
 
 # Use an OpenJDK image for running the application
 FROM openjdk:11-jre-slim

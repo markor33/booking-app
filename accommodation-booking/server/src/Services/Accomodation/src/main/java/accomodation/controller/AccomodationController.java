@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import accomodation.grpc.GreeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,14 @@ public class AccomodationController {
 	@Autowired
 	AccomodationService accomodationService;
 
+	@Autowired
+	GreeterService greeterService;
+
 	@GetMapping(value = "/test")
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<String> getTest(HttpServletRequest request) {
+		String res = this.greeterService.receiveGreeting("ALOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		System.out.println(res);
 		return new ResponseEntity<String>("Test", HttpStatus.OK);
 	}
 	
