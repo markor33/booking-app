@@ -41,6 +41,9 @@ public class Accomodation {
 	@Type(type="uuid-char")
 	private UUID hostId;
 	
+	@Column(name = "name")
+	private String name;
+	
 	@Column(name = "description")
 	private String description;
 	
@@ -84,12 +87,13 @@ public class Accomodation {
 
 	}
 	
-	public Accomodation(UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
+	public Accomodation(UUID id, UUID hostId, String name, String description, int minGuests, int maxGuests, int weekendIncrease,
 			Address location, List<Benefit> benefits, List<Photo> photos,
 			List<PriceInterval> priceIntervals, PriceType priceType) {
 		super();
 		this.id = id;
 		this.hostId = hostId;
+		this.name = name;
 		this.description = description;
 		this.minGuests = minGuests;
 		this.maxGuests = maxGuests;
@@ -105,6 +109,7 @@ public class Accomodation {
 		super();
 		this.id = a.getId();
 		this.hostId = a.getHostId();
+		this.name = a.getName();
 		this.description = a.getDescription();
 		this.minGuests = a.getMinGuests();
 		this.maxGuests = a.getMaxGuests();
@@ -119,6 +124,7 @@ public class Accomodation {
 	public Accomodation(AccomodationDTO dto) {
 		super();
 		this.hostId = dto.getHostId();
+		this.name = dto.getName();
 		this.description = dto.getDescription();
 		this.minGuests = dto.getMinGuests();
 		this.maxGuests = dto.getMaxGuests();
@@ -144,6 +150,14 @@ public class Accomodation {
 
 	public void setHostId(UUID hostId) {
 		this.hostId = hostId;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -228,7 +242,7 @@ public class Accomodation {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(created, description, hostId, id, maxGuests, minGuests, weekendIncrease);
+		return Objects.hash(created, description, hostId, id, name, maxGuests, minGuests, weekendIncrease);
 	}
 
 	@Override
@@ -241,13 +255,13 @@ public class Accomodation {
 			return false;
 		Accomodation other = (Accomodation) obj;
 		return Objects.equals(created, other.created) && Objects.equals(description, other.description)
-				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
+				&& Objects.equals(name, other.name) && Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
 				&& minGuests == other.minGuests && weekendIncrease == other.weekendIncrease;
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", minGuests="
+		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", name=" + name + ", minGuests="
 				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
 				+ created + "]";
 	}

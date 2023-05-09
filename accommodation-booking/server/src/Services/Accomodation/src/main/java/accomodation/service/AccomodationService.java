@@ -1,7 +1,7 @@
 package accomodation.service;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 import accomodation.dto.AccomodationDTO;
 import accomodation.model.Accomodation;
 import accomodation.model.Address;
-import accomodation.model.Benefit;
 import accomodation.model.Photo;
-import accomodation.model.PriceInterval;
 import accomodation.repository.AccomodationRepository;
 import accomodation.repository.AddressRepository;
 import accomodation.repository.BenefitRepository;

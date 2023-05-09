@@ -56,18 +56,15 @@ public class AccomodationController {
 	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAuthority('HOST')")
-	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable String id) {
-		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(UUID.fromString(id))), HttpStatus.OK);
+	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable UUID id) {
+		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(id)), HttpStatus.OK);
 	}
 	
 	@PostMapping()
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
 		//grpc posalji accomodationDTO.autoConfirmation reservation.api 
-		System.out.println(tokenUtils.getToken(request));
-		System.out.println(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
 		UUID str = UUID.fromString(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
-		System.out.println(str);
 		accomodationDTO.setHostId(str);
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}
