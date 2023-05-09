@@ -1,7 +1,6 @@
 ﻿using Identity.API.Extensions;
 using Identity.API.Models;
 using Identity.API.Services;
-using Identity.API.Services.Register;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,11 +47,13 @@ namespace Identity.API.Controllers
                 return BadRequest();
             return Ok();
         }
+
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserProfile>> GetUserInfo()
         {
             return Ok(await _userService.GetUserProfile(User.UserEmail()));
         }
+
     }
 }

@@ -1,16 +1,19 @@
 ﻿using FluentResults;
+using GrpcReservations;
 using Identity.API.Models;
-using Identity.API.Services.Register;
 using Microsoft.AspNetCore.Identity;
-using System.Net;
 
 namespace Identity.API.Services
 {
     public class ApplicationUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly Reservations.ReservationsClient _reservationsClient;
 
-        public ApplicationUserService(UserManager<ApplicationUser> userManager) { _userManager = userManager; }
+        public ApplicationUserService(UserManager<ApplicationUser> userManager, Reservations.ReservationsClient reservationsClient = null)
+        {
+            _userManager = userManager; _reservationsClient = reservationsClient;
+        }
 
         public async Task<Result> EditProfileAsync(UserProfile user)
         {

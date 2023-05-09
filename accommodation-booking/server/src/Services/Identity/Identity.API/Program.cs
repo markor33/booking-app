@@ -1,3 +1,4 @@
+using GrpcReservations;
 using Identity.API.Data;
 using Identity.API.Models;
 using Identity.API.Options;
@@ -67,6 +68,11 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 builder.Services.AddTransient<LoginService>();
 builder.Services.AddTransient<RegisterService>();
 builder.Services.AddTransient<ApplicationUserService>();
+
+builder.Services.AddGrpcClient<Reservations.ReservationsClient>((services, options) =>
+{
+    options.Address = new Uri("http://host.docker.internal:12001");
+});
 
 var app = builder.Build();
 
