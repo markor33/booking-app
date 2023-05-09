@@ -20,7 +20,7 @@ namespace Identity.API.Controllers
 
         [Authorize]
         [HttpPut("edit/profile")]
-        public async Task<ActionResult> EditProfile(RegisterViewModel user)
+        public async Task<ActionResult> EditProfile(UserProfile user)
         {
             user.Email = User.UserEmail();
             var res = await _userService.EditProfileAsync(user);
@@ -47,6 +47,12 @@ namespace Identity.API.Controllers
             if (res.IsFailed)
                 return BadRequest();
             return Ok();
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserProfile>> GetUserInfo()
+        {
+            return Ok(await _userService.GetUserProfile(User.UserEmail()));
         }
     }
 }

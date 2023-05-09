@@ -12,7 +12,7 @@ namespace Identity.API.Services
 
         public ApplicationUserService(UserManager<ApplicationUser> userManager) { _userManager = userManager; }
 
-        public async Task<Result> EditProfileAsync(RegisterViewModel user)
+        public async Task<Result> EditProfileAsync(UserProfile user)
         {
             var userToUpdate = await _userManager.FindByEmailAsync(user.Email);
             userToUpdate.Address = user.Address;
@@ -50,6 +50,18 @@ namespace Identity.API.Services
             }
             return Result.Fail("Failed to delete profile");
             
+        }
+
+        public async Task<Result<UserProfile>> GetUserProfile(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var userProfile = new UserProfile
+            {
+                Firstname = user.FirstName,
+                Lastname = user.LastName,
+                Address = user.Address
+            };
+            return Result.Ok(userProfile);
         }
 
         public async Task<bool> CheckCanDelete(string userId, string role)

@@ -24,4 +24,7 @@ export class ApplicationUserService {
   editProfile(userProfile: UserProfile): Observable<boolean>{
     return this.httpClient.put<boolean>('api/identity/applicationuser/edit/profile', userProfile, this.httpOptions)
   }
+  getUserProfile(): Observable<UserProfile>{
+    return this.httpClient.get<UserProfile>('api/identity/applicationuser', this.httpOptions);
+  }
 }

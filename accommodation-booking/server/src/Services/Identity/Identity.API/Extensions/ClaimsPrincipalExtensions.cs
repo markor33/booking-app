@@ -1,4 +1,4 @@
-﻿using Identity.API.Services.Register;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Identity.API.Extensions
@@ -7,15 +7,15 @@ namespace Identity.API.Extensions
     {
         public static string UserEmail(this ClaimsPrincipal User)
         {
-            return User.Claims.First(c => c.Type == "Email").Value;
+            return User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
         }
         public static string UserRole(this ClaimsPrincipal User)
         {
-            return User.Claims.First(c => c.Type == "Role").Value;
+            return User.Claims.First(c => c.Type == ClaimTypes.Role).Value;
         }
         public static string UserId(this ClaimsPrincipal User)
         {
-            return User.Claims.First(c => c.Type == "Sub").Value;
+            return User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
         }
     }
 }
