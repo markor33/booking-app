@@ -8,6 +8,8 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserModule } from './modules/user/user.module';
+import { ReservationModule } from './modules/reservation/reservation.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     LayoutModule,
     AuthModule,
     BrowserAnimationsModule,
+    UserModule,
+    ReservationModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')

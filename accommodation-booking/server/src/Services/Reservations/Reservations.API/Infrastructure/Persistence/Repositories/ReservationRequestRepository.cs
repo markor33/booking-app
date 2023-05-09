@@ -13,11 +13,8 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public List<ReservationRequest> GetByHost(Guid hostId)
         {
-            return _dbContext.ReservationRequests
-                    .Include(r => r.Accommodation)
-                    .Include(p => p.Price)
-                    .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
-
+            return _dbContext.ReservationRequests.Include(r => r.Accommodation).Include(p => p.Price)
+                                                .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
 
         public List<ReservationRequest> GetOverLapped(DateRange range, Guid accommodationId)

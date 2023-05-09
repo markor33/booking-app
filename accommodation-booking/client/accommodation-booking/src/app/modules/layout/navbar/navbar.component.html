@@ -24,6 +24,12 @@
               <span matLine>Home</span>
             </div>
           </a>
+          <a mat-list-item routerLink="/profile" *ngIf="userRole == 'HOST' || userRole == 'GUEST'">
+            <div>
+              <mat-icon fontIcon="perm_identity"></mat-icon>
+              <span matLine>Profile</span>
+            </div>
+          </a>
         </mat-nav-list>
       </mat-sidenav>
       <mat-sidenav-content>
