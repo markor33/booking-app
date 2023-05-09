@@ -38,6 +38,7 @@ public class Accomodation {
     private UUID id;
 	
 	@Column(name = "host_id", columnDefinition = "VARCHAR(36)")
+	@Type(type="uuid-char")
 	private UUID hostId;
 	
 	@Column(name = "description")

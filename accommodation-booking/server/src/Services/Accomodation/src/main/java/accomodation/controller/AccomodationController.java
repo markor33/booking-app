@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import accomodation.dto.AccomodationDTO;
 import accomodation.model.Accomodation;
+import accomodation.security.TokenUtils;
 import accomodation.service.AccomodationService;
 
 @RestController
@@ -31,6 +32,9 @@ public class AccomodationController {
 
 	@Autowired
 	GreeterService greeterService;
+	
+	@Autowired
+	TokenUtils tokenUtils;
 
 	@GetMapping(value = "/test")
 	@PreAuthorize("hasAuthority('HOST')")
@@ -60,6 +64,11 @@ public class AccomodationController {
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
 		//grpc posalji accomodationDTO.autoConfirmation reservation.api 
+		System.out.println(tokenUtils.getToken(request));
+		System.out.println(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
+		UUID str = UUID.fromString(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
+		System.out.println(str);
+		accomodationDTO.setHostId(str);
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}
 	

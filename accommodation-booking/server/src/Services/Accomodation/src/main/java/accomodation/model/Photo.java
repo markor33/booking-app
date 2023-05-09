@@ -27,6 +27,7 @@ public class Photo {
 	@Type(type="uuid-char")
     private UUID id;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "accomodation_id")
 	private Accomodation accomodation;

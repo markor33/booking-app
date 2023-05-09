@@ -27,6 +27,7 @@ public class Benefit {
 	@Type(type="uuid-char")
     private UUID id;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "benefits")
 	private List<Accomodation> accomodations;
 	

@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import accomodation.model.Address;
+import accomodation.model.PriceInterval;
 
 @Repository
-public interface AddressRepository extends JpaRepository<Address, UUID>{
+public interface PriceIntervalRepository extends JpaRepository<PriceInterval, UUID>{
 
 }
