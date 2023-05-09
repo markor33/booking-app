@@ -3,8 +3,11 @@ using Identity.API.Models;
 using Identity.API.Options;
 using Identity.API.Services.Login;
 using Identity.API.Services.Register;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,16 +32,25 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+builder.Services.AddAuthentication(options =>
 {
-    builder
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials()
-    .SetIsOriginAllowed((host) => true)
-    .WithOrigins("http://localhost:4200/");
-
-}));
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
+    };
+});
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 builder.Services.AddTransient<LoginService>();
 builder.Services.AddTransient<RegisterService>();
@@ -52,8 +64,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();

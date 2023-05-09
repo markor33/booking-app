@@ -33,8 +33,32 @@ services:
     build:
       context: .
       dockerfile: src/Services/Reservations/Reservations.API/Dockerfile
+    depends_on:
+     - reservations.db
     ports:
      - 12000:80
+
+  accomodation.api:
+    image: ${DOCKER_REGISTRY-}accomodationapi
+    build:
+      context: .
+      dockerfile: src/Services/Accomodation/Dockerfile
+    depends_on:
+      - accomodation.db
+    ports:
+     - 9000:8080
+  
+  accomodation.db:
+    image: mysql
+    container_name: mysql
+    restart: always
+    ports:
+     - 4000:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: db_accomodation
+    volumes:
+     - accomodation-data:/var/lib/mysql
 
   reservations.db:
     image: postgres:alpine
@@ -49,6 +73,6 @@ services:
 
 volumes:
   identity-data:
+  accomodation-data:
+    name: mysql-database
   reservations-data:
-
-

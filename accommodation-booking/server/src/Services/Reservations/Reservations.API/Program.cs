@@ -3,8 +3,10 @@ using Microsoft.OpenApi.Models;
 using Reservations.API.Infrasructure;
 using ReservationsLibrary.Data;
 using ReservationsLibrary.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Reservations.API.DTO;
+using Microsoft.AspNetCore.Authentication;
+using Reservations.API.Security;
+using Reservations.API.Infrasructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,10 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReservationAPI", Version = "v1" });
 });
+
+builder.Services.AddAuthentication("Default")
+                .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
+builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<ReservationsDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Reservations")));
 builder.Services.AddScoped(typeof(IAccommodationRepository), typeof(AccommodationRepository));
@@ -25,6 +31,8 @@ builder.Services.AddScoped(typeof(IAccommodationService), typeof(AccommodationSe
 builder.Services.AddScoped(typeof(IReservationRequestService), typeof(ReservationRequestService));
 builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationService));
 
+builder.Services.AddScoped<IHospitalAPIClient, HospitalAPIClient>();
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
@@ -35,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
