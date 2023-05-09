@@ -52,6 +52,17 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+{
+    builder
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()
+    .SetIsOriginAllowed((host) => true)
+    .WithOrigins("http://localhost:4200/");
+
+}));
+
 builder.Services.AddTransient<LoginService>();
 builder.Services.AddTransient<RegisterService>();
 
@@ -64,6 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
