@@ -55,17 +55,17 @@ public class AccomodationService {
 		Accomodation accomodation = new Accomodation(accomodationDTO);
 		accomodation.setId(accomodationUUID);
 				
-		/*
-		 * List<Photo> newPhotos = new ArrayList<Photo>(); for(Photo p :
-		 * accomodationDTO.getPhotos()) { p.setId(UUID.randomUUID());
-		 * newPhotos.add(photoRepository.save(p)); }
-		 * 
-		 * Accomodation createdAccomodation = accomodationRepository.save(accomodation);
-		 * for(Photo p : newPhotos) { p.setAccomodation(createdAccomodation); }
-		 * createdAccomodation.setPhotos(newPhotos);
-		 */
+		Accomodation createdAccomodation = accomodationRepository.save(accomodation);
+		
+		List<Photo> newPhotos = new ArrayList<Photo>(); 
+		for(Photo p : accomodationDTO.getPhotos()) { 
+			p.setId(UUID.randomUUID());
+			p.setAccomodation(createdAccomodation);
+			newPhotos.add(p); 
+		}
+		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
 				
-		return accomodationRepository.save(accomodation);
+		return createdAccomodation;
 	}
 	
 }
