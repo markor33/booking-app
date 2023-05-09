@@ -14,9 +14,8 @@ namespace Reservations.API.Infrasructure
         public List<ReservationRequest> GetByHost(Guid hostId)
         {
             return _dbContext.ReservationRequests
-                    .Include(r => r.Accommodation)
-                    .Include(p => p.Price)
-                    .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationsLibrary.Enums.ReservationRequestStatus.ON_HOLD).ToList();
+                    .Include(r => r.Accommodation).Include(p => p.Price)
+                    .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
  
         }
 

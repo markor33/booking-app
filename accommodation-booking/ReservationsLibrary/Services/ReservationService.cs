@@ -25,5 +25,15 @@ namespace ReservationsLibrary.Services
                 res.Canceled = true;
             _reservationRepository.Update(res);
         }
+
+        public bool ActiveGuestReservations(Guid guestId)
+        {
+            return _reservationRepository.ActiveGuestReservations(guestId);
+        }
+
+        public bool ActiveHostReservations(Guid guestId)
+        {
+            return _reservationRepository.ActiveHostReservations(guestId);
+        }
     }
 }
