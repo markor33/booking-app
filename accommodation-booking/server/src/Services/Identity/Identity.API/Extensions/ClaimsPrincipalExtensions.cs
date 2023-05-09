@@ -15,7 +15,7 @@ namespace Identity.API.Extensions
         }
         public static string UserId(this ClaimsPrincipal User)
         {
-            return User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value;
+            return User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
         }
     }
 }

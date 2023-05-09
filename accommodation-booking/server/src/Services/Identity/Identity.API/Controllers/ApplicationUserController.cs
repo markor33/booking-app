@@ -3,6 +3,8 @@ using Identity.API.Models;
 using Identity.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Identity.API.Controllers
 {
