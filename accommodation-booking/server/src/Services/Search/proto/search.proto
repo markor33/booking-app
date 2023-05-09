@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package search;
+package grpc_accommodation_search;
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloResponse) {}
