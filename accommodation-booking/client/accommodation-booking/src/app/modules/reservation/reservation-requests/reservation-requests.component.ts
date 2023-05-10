@@ -29,5 +29,8 @@ export class ReservationRequestsComponent implements OnInit {
       console.log(res)
     });
   }
+  deleteRequest(id: string){
+    this.reservationRequestService.deleteRequest(id).subscribe();
+  }
 
 }
