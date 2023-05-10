@@ -35,5 +35,10 @@ namespace ReservationsLibrary.Services
         {
             return _reservationRepository.ActiveHostReservations(guestId);
         }
+        
+        public void DeleteAllReservationsByGuest(Guid guestId)
+        {
+            _reservationRepository.DeleteAllReservationsByGuest(guestId);
+        }
     }
 }

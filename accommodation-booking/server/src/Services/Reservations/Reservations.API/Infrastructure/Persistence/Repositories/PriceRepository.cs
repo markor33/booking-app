@@ -1,6 +1,7 @@
 ﻿using Reservations.API.Infrasructure.Base;
 using ReservationsLibrary.Data;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Repository;
 
 namespace Reservations.API.Infrasructure.Persistence.Repositories
 {

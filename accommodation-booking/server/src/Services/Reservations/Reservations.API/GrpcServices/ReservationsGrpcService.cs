@@ -9,11 +9,17 @@ namespace Reservations.API.GrpcServices
     {
         private readonly IAccommodationService _accommodationService;
         private readonly IReservationService _reservationService;
+        private readonly IReservationRequestService _reservationRequestService;
 
-        public ReservationsGrpcService(IReservationService reservationService, IAccommodationService accommodationService)
+        public ReservationsGrpcService(
+            IReservationService reservationService, 
+            IAccommodationService accommodationService,
+            IReservationRequestService reservationRequestService
+            )
         {
             _reservationService = reservationService;
             _accommodationService = accommodationService;
+            _reservationRequestService = reservationRequestService;
         }
 
         public override async Task<AddAccommodationResponse> AddAccommodation(AddAccommodationRequest request, ServerCallContext context)
@@ -40,5 +46,13 @@ namespace Reservations.API.GrpcServices
                 HasActive = result
             };
         }
+
+        public async override Task<DeleteRequestAndReservationsResponse> DeleteRequestAndReservations(DeleteRequestAndReservationsRequest request, ServerCallContext context)
+        {
+            _reservationRequestService.DeleteAllRequestsByGuest(Guid.Parse(request.GuestId));
+            _reservationService.DeleteAllReservationsByGuest(Guid.Parse(request.GuestId));
+            return new DeleteRequestAndReservationsResponse();
+        }
+
     }
 }
