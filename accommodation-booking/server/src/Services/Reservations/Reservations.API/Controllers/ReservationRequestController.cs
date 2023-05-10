@@ -26,9 +26,7 @@ namespace Reservations.API.Controllers
         [HttpGet("user")]
         public ActionResult<List<ReservationRequest>> GetByUser()
         {
-            return _reservationRequestService.GetByUser(Guid.Parse("fffe2bf1-2473-4db4-bdde-0e7d1f125fb2"), "HOST");
-            //return _reservationRequestService.GetByUser(Guid.Parse("f90d7f80-6e4c-47b8-b51f-d84c06157b3f"), "GUEST");
-            //return _reservationRequestService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
+            return _reservationRequestService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
         }
 
         [Authorize(Roles = "HOST")]
