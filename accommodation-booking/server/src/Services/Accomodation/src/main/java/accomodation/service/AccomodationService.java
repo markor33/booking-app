@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import accomodation.grpc.AccommodationSearchGrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ import accomodation.repository.PriceIntervalRepository;
 
 @Service
 public class AccomodationService {
+
+	@Autowired
+	AccommodationSearchGrpcService accommodationSearchGrpcService;
 
 	@Autowired
 	AccomodationRepository accomodationRepository;
@@ -62,7 +66,8 @@ public class AccomodationService {
 			newPhotos.add(p); 
 		}
 		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
-				
+
+		this.accommodationSearchGrpcService.AddAccommodation(createdAccomodation);
 		return createdAccomodation;
 	}
 	

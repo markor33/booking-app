@@ -4,7 +4,7 @@ insert into benefit (id, name) values ('ee7586da-2b02-4cf8-8bf9-23383dd70730', '
 
 insert into address (id, country, city, number, street) values ('011131b3-632d-4d68-a279-8e8258a4d4ed', 'Serbia', 'Novi Sad', 'Novosadski put', '116');
 
-insert into accomodation (id, host_id, name, location_id, description, min_guests, max_guests, price_type, weekend_increase, created) values ('2bd1cc97-96a4-4665-b6e2-6a9231cb7eef', '7488610c-df65-4608-9c59-f0c78ab24352', 'Smestaj Baljinac', '011131b3-632d-4d68-a279-8e8258a4d4ed', 'Fin smestaj.', 1, 4, 0, 10, '2023-10-01 10:00:00');
+insert into accomodation (id, host_id, name, location_id, description, min_guests, max_guests, general_price, price_type, weekend_increase, created) values ('2bd1cc97-96a4-4665-b6e2-6a9231cb7eef', '7488610c-df65-4608-9c59-f0c78ab24352', 'Smestaj Baljinac', '011131b3-632d-4d68-a279-8e8258a4d4ed', 'Fin smestaj.', 1, 4, 50, 0, 10, '2023-10-01 10:00:00');
 
 insert into accomodation_benefit (accomodation_id, benefit_id) values ('2bd1cc97-96a4-4665-b6e2-6a9231cb7eef','e0a13754-021e-4f61-9d2a-169882622f9b');
 insert into accomodation_benefit (accomodation_id, benefit_id) values ('2bd1cc97-96a4-4665-b6e2-6a9231cb7eef','0e447911-5d5f-4412-8ec8-68c21ab3f432');

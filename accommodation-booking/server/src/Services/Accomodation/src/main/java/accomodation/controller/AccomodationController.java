@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import accomodation.grpc.GreeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +28,9 @@ public class AccomodationController {
 	
 	@Autowired
 	AccomodationService accomodationService;
-
-	@Autowired
-	GreeterService greeterService;
 	
 	@Autowired
 	TokenUtils tokenUtils;
-
-	@GetMapping(value = "/test")
-	@PreAuthorize("hasAuthority('HOST')")
-	public ResponseEntity<String> getTest(HttpServletRequest request) {
-		String res = this.greeterService.receiveGreeting("ALOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		System.out.println(res);
-		return new ResponseEntity<String>("Test", HttpStatus.OK);
-	}
 	
 	@GetMapping()
 	@PreAuthorize("hasAuthority('HOST')")
@@ -63,7 +51,7 @@ public class AccomodationController {
 	@PostMapping()
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
-		//grpc posalji accomodationDTO.autoConfirmation reservation.api 
+		//grpc posalji accomodationDTO.autoConfirmation reservation.api
 		UUID str = UUID.fromString(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
 		accomodationDTO.setHostId(str);
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);

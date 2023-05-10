@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package grpc_accommodation_search;
+
+service AccommodationSearch {
+  rpc CreateAccommodation (AccommodationDTO) returns (CreateAccommodationResponse);
+}
+
+message AccommodationDTO {
+  string id = 1;
+  string hostId = 2;
+  string name = 3;
+  string description = 4;
+  int32 minGuests = 5;
+  int32 maxGuests = 6;
+  int32 weekendIncrease = 7;
+  Address location = 8;
+  string photo = 9;
+  PriceType priceType = 10;
+  repeated Benefit benefits = 11;
+  float generalPrice = 12;
+}
+
+message Benefit {
+  string id = 1;
+  string name = 2;
+}
+
+message Address {
+  string country = 1;
+  string city = 2;
+  string street = 3;
+  string number = 4;
+}
+
+enum PriceType {
+  PER_GUEST = 0;
+  IN_WHOLE = 1;
+}
+
+message CreateAccommodationResponse {
+
+}

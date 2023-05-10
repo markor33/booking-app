@@ -75,6 +75,9 @@ public class Accomodation {
 	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<Photo> photos;
+
+	@Column(name = "general_price")
+	private float generalPrice;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
@@ -133,6 +136,7 @@ public class Accomodation {
 		this.benefits = dto.getBenefits();
 		this.photos = dto.getPhotos();
 		this.priceIntervals = dto.getPriceIntervals();
+		this.generalPrice = dto.getGeneralPrice();
 		this.priceType = dto.getPriceType();
 	}
 
@@ -239,6 +243,10 @@ public class Accomodation {
 	public void setPriceType(PriceType priceType) {
 		this.priceType = priceType;
 	}
+
+	public float getGeneralPrice() {return generalPrice; }
+
+	public void setGeneralPrice(float generalPrice) { this.generalPrice = generalPrice; }
 
 	@Override
 	public int hashCode() {
