@@ -1,4 +1,5 @@
 ﻿using Reservations.API.Infrasructure;
+using ReservationsLibrary.Models;
 
 namespace ReservationsLibrary.Services
 {
@@ -19,8 +20,20 @@ namespace ReservationsLibrary.Services
         public void CancelReservation(Guid reservationId)
         {
             var res = _reservationRepository.GetById(reservationId);
-            res.Canceled = true;
+            var cancellationDeadline = res.Period.Start.AddHours(-24);
+            if (DateTime.Now < cancellationDeadline)
+                res.Canceled = true;
             _reservationRepository.Update(res);
+        }
+
+        public bool ActiveGuestReservations(Guid guestId)
+        {
+            return _reservationRepository.ActiveGuestReservations(guestId);
+        }
+
+        public bool ActiveHostReservations(Guid guestId)
+        {
+            return _reservationRepository.ActiveHostReservations(guestId);
         }
     }
 }

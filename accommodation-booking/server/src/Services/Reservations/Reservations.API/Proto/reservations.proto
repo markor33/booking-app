@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "GrpcReservations";
+
+service Reservations {
+	rpc CheckActiveReservations(CheckActiveReservationsRequest) returns (CheckActiveReservationsResponse);
+	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
+}
+
+message CheckActiveReservationsRequest {
+	string userId = 1;
+	string role = 2;
+}
+
+message CheckActiveReservationsResponse {
+	bool hasActive = 1;
+}
+
+message AddAccommodationRequest {
+	string accommodationId = 1;
+	string hostId = 2;
+	bool autoConfirmation = 3;
+}
+
+message AddAccommodationResponse {
+
+}
+

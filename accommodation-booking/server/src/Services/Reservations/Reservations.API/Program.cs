@@ -7,6 +7,9 @@ using Reservations.API.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Reservations.API.Security;
 using Reservations.API.Infrasructure.Persistence.Repositories;
+using Reservations.API.GrpcServices;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +38,21 @@ builder.Services.AddScoped<IHospitalAPIClient, HospitalAPIClient>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+
+builder.WebHost.UseKestrel(options => {
+    options.Listen(IPAddress.Any, 80, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
+
+    options.Listen(IPAddress.Any, 5000, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -47,5 +65,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<ReservationsGrpcService>();
 
 app.Run();

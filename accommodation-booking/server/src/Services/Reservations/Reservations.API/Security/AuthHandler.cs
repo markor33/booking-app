@@ -31,8 +31,18 @@ namespace Reservations.API.Security
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwt = tokenHandler.ReadJwtToken(authorizationHeader.Replace("Bearer ", ""));
-            var identity = new ClaimsPrincipal(new ClaimsIdentity(jwt.Claims, Scheme.Name));
-            var authTicket = new AuthenticationTicket(identity, Scheme.Name);
+            var identity = new ClaimsIdentity(jwt.Claims, Scheme.Name);
+
+            var roleClaimValue = jwt.Claims.First(c => c.Type == "role").Value;
+            var idClaimValue = jwt.Claims.First(c => c.Type == "sub").Value;
+            var emailClaimValue = jwt.Claims.First(c => c.Type == "email").Value;
+
+            identity.AddClaim(new Claim(ClaimTypes.Role, roleClaimValue));
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, idClaimValue));
+            identity.AddClaim(new Claim(ClaimTypes.Email, emailClaimValue));
+
+            var principial = new ClaimsPrincipal(identity);
+            var authTicket = new AuthenticationTicket(principial, Scheme.Name);
             return AuthenticateResult.Success(authTicket);
         }
 

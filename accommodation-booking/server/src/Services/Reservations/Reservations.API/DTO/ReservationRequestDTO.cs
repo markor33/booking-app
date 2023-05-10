@@ -6,6 +6,7 @@ namespace Reservations.API.DTO
 {
     public class ReservationRequestDTO
     {
+        public Guid Id { get; set; }
         public Guid AccommodationId { get; set; }
         public Guid? GuestId { get; set; }
         public DateRange? Period { get; set; }
