@@ -4,9 +4,14 @@ import { ReservationRequestsComponent } from './reservation-requests/reservation
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/helpers/auth.guard';
 import { RoleGuard } from '../auth/helpers/role.guard';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 const routes: Routes = [
-  {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST']}}
+  {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}}
 ];
 
 @NgModule({
@@ -15,6 +20,12 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatTableModule,
     RouterModule.forChild(routes),
   ]
 })

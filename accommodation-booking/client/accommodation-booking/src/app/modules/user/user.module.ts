@@ -4,6 +4,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/helpers/auth.guard';
 import { RoleGuard } from '../auth/helpers/role.guard';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST', 'GUEST']}}
@@ -15,6 +20,11 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatCardModule,
+    MatButtonModule,
     RouterModule.forChild(routes),
   ]
 })

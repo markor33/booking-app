@@ -19,8 +19,8 @@ namespace Identity.API.Services
         {
             var userToUpdate = await _userManager.FindByEmailAsync(user.Email);
             userToUpdate.Address = user.Address;
-            userToUpdate.FirstName = user.Firstname;
-            userToUpdate.LastName = user.Lastname;
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
             var result = await _userManager.UpdateAsync(userToUpdate);
 
             if(!result.Succeeded)
@@ -49,11 +49,11 @@ namespace Identity.API.Services
             var response = await _reservationsClient.CheckActiveReservationsAsync(new CheckActiveReservationsRequest
             {
                 Role = role,
-                UserId = "ff36e765-8c9b-4342-afae-b19cf2650008",
+                UserId = userId,
             });
             if (!response.HasActive)
             {
-                //await _userManager.DeleteAsync(user);
+                await _userManager.DeleteAsync(user);
                 return Result.Ok();
             }
             return Result.Fail("Failed to delete profile");
@@ -64,11 +64,23 @@ namespace Identity.API.Services
             var user = await _userManager.FindByEmailAsync(email);
             var userProfile = new UserProfile
             {
-                Firstname = user.FirstName,
-                Lastname = user.LastName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Address = user.Address
             };
             return Result.Ok(userProfile);
+        }
+
+        public async Task<Result<GuestUser>> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var guestUser = new GuestUser
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+            return guestUser;
         }
     }
 }

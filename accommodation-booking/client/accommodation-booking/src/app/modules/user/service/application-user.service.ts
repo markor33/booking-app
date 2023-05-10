@@ -27,4 +27,7 @@ export class ApplicationUserService {
   getUserProfile(): Observable<UserProfile>{
     return this.httpClient.get<UserProfile>('api/identity/applicationuser', this.httpOptions);
   }
+  getById(id: string): Observable<UserProfile>{
+    return this.httpClient.get<UserProfile>('api/identity/applicationuser/' + id, this.httpOptions);
+  }
 }

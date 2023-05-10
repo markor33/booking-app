@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .form-container {
+    flex: 1;
+    margin-right: 20px;
+    width: 48%;;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .form-container {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  }
+mat-card {
+    max-width: 60%;
+    margin: 10em auto;
+    text-align: center;
+}
+
+mat-card-content {
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card-actions button {
+    margin-left: 10px;
+    margin-right: 10px;
+}

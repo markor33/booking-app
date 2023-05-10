@@ -54,7 +54,15 @@ namespace Identity.API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserProfile>> GetUserInfo()
         {
-            return Ok(await _userService.GetUserProfile(User.UserEmail()));
+            var userInfo = await _userService.GetUserProfile(User.UserEmail());
+            return Ok(userInfo.Value);
+        }
+        [Authorize(Roles = "HOST")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GuestUser>> GetUserById([FromRoute] string id)
+        {
+            var guest = await _userService.GetUserById(id);
+            return Ok(guest.Value);
         }
 
     }

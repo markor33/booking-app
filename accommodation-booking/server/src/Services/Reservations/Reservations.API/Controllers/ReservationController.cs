@@ -15,13 +15,13 @@ namespace Reservations.API.Controllers
             _reservationService = reservationService;
         }
 
-        [Authorize(Roles = "Host")]
-        [HttpGet("canceled/reservations")]
-        public ActionResult<int> NumberOfCancelByGuest(Guid guestId)
+        [Authorize(Roles = "HOST")]
+        [HttpGet("canceled/reservations/{id}")]
+        public ActionResult<int> NumberOfCancelByGuest([FromRoute] Guid id)
         {
-            return Ok(_reservationService.NumOfCanceledReservationForGuest(guestId));
+            return Ok(_reservationService.NumOfCanceledReservationForGuest(id));
         }
-        [Authorize(Roles = "Guest")]
+        [Authorize(Roles = "GUEST")]
         [HttpDelete]
         public ActionResult CancelReservation(Guid reservationId)
         {

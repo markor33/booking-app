@@ -12,7 +12,6 @@ export class UserProfile {
         this.lastName = userInter.lastName
         this.address = userInter.address
     }
-
 }
 
 interface UserProfileInterface{
