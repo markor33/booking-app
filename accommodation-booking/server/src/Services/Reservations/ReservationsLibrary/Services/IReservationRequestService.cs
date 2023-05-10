@@ -13,5 +13,6 @@ namespace ReservationsLibrary.Services
         public void DeclineOverLapped(DateRange range, Guid accommodationId);
         public List<ReservationRequest> GetByUser(Guid userId, string role);
         public void DeleteRequest(Guid requestId);
+        public void DeleteAllRequestsByGuest(Guid guestId);
     }
 }

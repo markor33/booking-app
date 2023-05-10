@@ -5,6 +5,8 @@ option csharp_namespace = "GrpcReservations";
 service Reservations {
 	rpc CheckActiveReservations(CheckActiveReservationsRequest) returns (CheckActiveReservationsResponse);
 	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
+	rpc DeleteRequestAndReservations(DeleteRequestAndReservationsRequest) returns (DeleteRequestAndReservationsResponse);
+
 }
 
 message CheckActiveReservationsRequest {
@@ -25,4 +27,10 @@ message AddAccommodationRequest {
 message AddAccommodationResponse {
 
 }
+message DeleteRequestAndReservationsRequest{
+	string guestId = 1;
+}
 
+message DeleteRequestAndReservationsResponse{
+	
+}

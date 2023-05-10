@@ -28,5 +28,13 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
                                             && e.AccommodationId == accommodationId && e.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
         public ReservationRequest GetById(Guid requestId) => _dbContext.ReservationRequests.Include(a => a.Accommodation).Include(f => f.Price).FirstOrDefault(r => r.Id == requestId);
+
+        public void DeleteAllRequestsByGuest(Guid guestId)
+        {
+            var itemsToDelete = _dbContext.ReservationRequests.Where(e => e.GuestId == guestId);
+
+            _dbContext.ReservationRequests.RemoveRange(itemsToDelete);
+            _dbContext.SaveChanges();
+        }
     }
 }
