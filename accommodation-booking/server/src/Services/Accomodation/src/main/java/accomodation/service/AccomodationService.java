@@ -1,20 +1,43 @@
 package accomodation.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import accomodation.grpc.AccommodationSearchGrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import accomodation.dto.AccomodationDTO;
 import accomodation.model.Accomodation;
+import accomodation.model.Address;
+import accomodation.model.Photo;
 import accomodation.repository.AccomodationRepository;
+import accomodation.repository.AddressRepository;
+import accomodation.repository.BenefitRepository;
+import accomodation.repository.PhotoRepository;
+import accomodation.repository.PriceIntervalRepository;
 
 @Service
 public class AccomodationService {
 
 	@Autowired
+	AccommodationSearchGrpcService accommodationSearchGrpcService;
+
+	@Autowired
 	AccomodationRepository accomodationRepository;
+	
+	@Autowired
+	AddressRepository addressRepository;
+	
+	@Autowired
+	BenefitRepository benefitRepository;
+	
+	@Autowired
+	PhotoRepository photoRepository;
+	
+	@Autowired
+	PriceIntervalRepository priceIntervalRepository;
 	
 	public List<Accomodation> findAll() {
 		return accomodationRepository.findAll();
@@ -25,8 +48,27 @@ public class AccomodationService {
 	}
 	
 	public Accomodation createAccomodation(AccomodationDTO accomodationDTO) {
+		UUID accomodationUUID = UUID.randomUUID();
+		
+		Address a = accomodationDTO.getLocation();
+		a.setId(UUID.randomUUID());
+		accomodationDTO.setLocation(addressRepository.save(a));
+		
 		Accomodation accomodation = new Accomodation(accomodationDTO);
-		return accomodationRepository.save(accomodation);
+		accomodation.setId(accomodationUUID);
+				
+		Accomodation createdAccomodation = accomodationRepository.save(accomodation);
+		
+		List<Photo> newPhotos = new ArrayList<Photo>(); 
+		for(Photo p : accomodationDTO.getPhotos()) { 
+			p.setId(UUID.randomUUID());
+			p.setAccomodation(createdAccomodation);
+			newPhotos.add(p); 
+		}
+		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
+
+		this.accommodationSearchGrpcService.AddAccommodation(createdAccomodation);
+		return createdAccomodation;
 	}
 	
 }

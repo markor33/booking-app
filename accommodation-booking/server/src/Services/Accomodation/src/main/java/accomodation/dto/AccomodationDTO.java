@@ -16,6 +16,7 @@ public class AccomodationDTO {
 	
 	private UUID id;
 	private UUID hostId;
+	private String name;
 	private String description;
 	private int minGuests;
 	private int maxGuests;
@@ -25,6 +26,7 @@ public class AccomodationDTO {
 	private List<Benefit> benefits;
 	private List<Photo> photos;
 	private List<PriceInterval> priceIntervals;
+	private float generalPrice;
 	private PriceType priceType;
 	private boolean autoConfirmation;
 	
@@ -32,12 +34,13 @@ public class AccomodationDTO {
 		super();
 	}
 
-	public AccomodationDTO(UUID id, UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
+	public AccomodationDTO(UUID id, UUID hostId, String name, String description, int minGuests, int maxGuests, int weekendIncrease,
 			Date created, Address location, List<Benefit> benefits, List<Photo> photos,
-			List<PriceInterval> priceIntervals, PriceType priceType, boolean autoConfirmation) {
+			List<PriceInterval> priceIntervals, float generalPrice, PriceType priceType, boolean autoConfirmation) {
 		super();
 		this.id = id;
 		this.hostId = hostId;
+		this.name = name;
 		this.description = description;
 		this.minGuests = minGuests;
 		this.maxGuests = maxGuests;
@@ -47,6 +50,7 @@ public class AccomodationDTO {
 		this.benefits = benefits;
 		this.photos = photos;
 		this.priceIntervals = priceIntervals;
+		this.generalPrice = generalPrice;
 		this.priceType = priceType;
 		this.autoConfirmation = autoConfirmation;
 	}
@@ -55,6 +59,7 @@ public class AccomodationDTO {
 		super();
 		this.id = a.getId();
 		this.hostId = a.getHostId();
+		this.name = a.getName();
 		this.description = a.getDescription();
 		this.minGuests = a.getMinGuests();
 		this.maxGuests = a.getMaxGuests();
@@ -81,6 +86,14 @@ public class AccomodationDTO {
 
 	public void setHostId(UUID hostId) {
 		this.hostId = hostId;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -171,9 +184,13 @@ public class AccomodationDTO {
 		this.autoConfirmation = autoConfirmation;
 	}
 
+	public float getGeneralPrice() {return generalPrice;}
+
+	public void setGeneralPrice(float generalPrice) {this.generalPrice = generalPrice;}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(autoConfirmation, benefits, created, description, hostId, id, location, maxGuests,
+		return Objects.hash(autoConfirmation, benefits, created, description, hostId, id, name, location, maxGuests,
 				minGuests, photos, priceIntervals, priceType, weekendIncrease);
 	}
 
@@ -187,6 +204,7 @@ public class AccomodationDTO {
 			return false;
 		AccomodationDTO other = (AccomodationDTO) obj;
 		return autoConfirmation == other.autoConfirmation && Objects.equals(benefits, other.benefits)
+				&& Objects.equals(name, other.name)
 				&& Objects.equals(created, other.created) && Objects.equals(description, other.description)
 				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id)
 				&& Objects.equals(location, other.location) && maxGuests == other.maxGuests
@@ -197,7 +215,7 @@ public class AccomodationDTO {
 
 	@Override
 	public String toString() {
-		return "AccomodationDTO [id=" + id + ", hostId=" + hostId + ", description=" + description + ", minGuests="
+		return "AccomodationDTO [id=" + id + ", hostId=" + hostId + ", description=" + description + ", name=" + name + ", minGuests="
 				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
 				+ created + ", location=" + location + ", benefits=" + benefits + ", photos=" + photos
 				+ ", priceIntervals=" + priceIntervals + ", priceType=" + priceType + ", autoConfirmation="

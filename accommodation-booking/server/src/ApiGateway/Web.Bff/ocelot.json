@@ -18,6 +18,18 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
+          "Host": "accommodation-search.api",
+          "Port": 5000
+        }
+      ],
+      "UpstreamPathTemplate": "/api/accommodation-search/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
           "Host": "accomodation.api",
           "Port": 8080
         }

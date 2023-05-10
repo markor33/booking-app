@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,6 +9,8 @@ import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserModule } from './modules/user/user.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
+import { SearchModule } from './modules/search/search.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { ReservationModule } from './modules/reservation/reservation.module';
     AppRoutingModule,
     LayoutModule,
     AuthModule,
+    SearchModule,
+    SharedModule,
     BrowserAnimationsModule,
     UserModule,
     ReservationModule,

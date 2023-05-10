@@ -72,6 +72,17 @@ services:
     ports:
      - 22000:5432
 
+  accommodation-search.api:
+    image: accommodation-search.api
+    build:
+      context: .
+      dockerfile: src/Services/Search/Dockerfile
+    environment:
+      - MONGODB_URI=mongodb+srv://addm2019:Z522zXN2eBo7xDzM@cluster0.23ppwpl.mongodb.net/search_db?retryWrites=true&w=majority
+    ports:
+      - 13000:5000
+      - 13001:5001
+
 volumes:
   identity-data:
   accomodation-data:

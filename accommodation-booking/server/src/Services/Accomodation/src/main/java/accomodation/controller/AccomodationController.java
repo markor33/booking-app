@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import accomodation.dto.AccomodationDTO;
 import accomodation.model.Accomodation;
+import accomodation.security.TokenUtils;
 import accomodation.service.AccomodationService;
 
 @RestController
@@ -27,15 +28,12 @@ public class AccomodationController {
 	
 	@Autowired
 	AccomodationService accomodationService;
-
-	@GetMapping(value = "/test")
-	@PreAuthorize("hasAuthority('HOST')")
-	public ResponseEntity<String> getTest(HttpServletRequest request) {
-		return new ResponseEntity<String>("Test", HttpStatus.OK);
-	}
+	
+	@Autowired
+	TokenUtils tokenUtils;
 	
 	@GetMapping()
-	//@PreAuthorize("hasAuthority('HOST')")
+	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<List<AccomodationDTO>> getAllAccomodations(HttpServletRequest request){
 		List<AccomodationDTO> accomodations = new ArrayList<>();
 		for(Accomodation a : accomodationService.findAll()) {
@@ -45,14 +43,17 @@ public class AccomodationController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	//@PreAuthorize("hasAuthority('HOST')")
-	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable String id) {
-		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(UUID.fromString(id))), HttpStatus.OK);
+	@PreAuthorize("hasAuthority('HOST')")
+	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable UUID id) {
+		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(id)), HttpStatus.OK);
 	}
 	
 	@PostMapping()
-	//@PreAuthorize("hasAuthority('HOST')")
+	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> createAccomodation(HttpServletRequest request, @RequestBody AccomodationDTO accomodationDTO) {
+		//grpc posalji accomodationDTO.autoConfirmation reservation.api
+		UUID str = UUID.fromString(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
+		accomodationDTO.setHostId(str);
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}
 	

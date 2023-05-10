@@ -19,6 +19,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import accomodation.dto.AccomodationDTO;
 import accomodation.enums.PriceType;
@@ -29,12 +32,17 @@ public class Accomodation {
 
 	@Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+	@Type(type="uuid-char")
     private UUID id;
 	
-	@Column(name = "host_id", columnDefinition = "VARCHAR(255)")
+	@Column(name = "host_id", columnDefinition = "VARCHAR(36)")
+	@Type(type="uuid-char")
 	private UUID hostId;
+	
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "description")
 	private String description;
@@ -52,9 +60,10 @@ public class Accomodation {
 	private Date created = new Date();
 
 	@OneToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "location_id", referencedColumnName = "id")
+	@JoinColumn(name = "location_id", referencedColumnName = "id", columnDefinition = "VARCHAR(36)")
 	private Address location;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "accomodation_benefit",
@@ -63,9 +72,14 @@ public class Accomodation {
 	)
 	private List<Benefit> benefits;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<Photo> photos;
+
+	@Column(name = "general_price")
+	private float generalPrice;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accomodation", fetch = FetchType.LAZY)
 	private List<PriceInterval> priceIntervals;
 	
@@ -76,12 +90,13 @@ public class Accomodation {
 
 	}
 	
-	public Accomodation(UUID id, UUID hostId, String description, int minGuests, int maxGuests, int weekendIncrease,
+	public Accomodation(UUID id, UUID hostId, String name, String description, int minGuests, int maxGuests, int weekendIncrease,
 			Address location, List<Benefit> benefits, List<Photo> photos,
 			List<PriceInterval> priceIntervals, PriceType priceType) {
 		super();
 		this.id = id;
 		this.hostId = hostId;
+		this.name = name;
 		this.description = description;
 		this.minGuests = minGuests;
 		this.maxGuests = maxGuests;
@@ -97,6 +112,7 @@ public class Accomodation {
 		super();
 		this.id = a.getId();
 		this.hostId = a.getHostId();
+		this.name = a.getName();
 		this.description = a.getDescription();
 		this.minGuests = a.getMinGuests();
 		this.maxGuests = a.getMaxGuests();
@@ -110,8 +126,8 @@ public class Accomodation {
 	
 	public Accomodation(AccomodationDTO dto) {
 		super();
-		this.id = dto.getId();
 		this.hostId = dto.getHostId();
+		this.name = dto.getName();
 		this.description = dto.getDescription();
 		this.minGuests = dto.getMinGuests();
 		this.maxGuests = dto.getMaxGuests();
@@ -120,6 +136,7 @@ public class Accomodation {
 		this.benefits = dto.getBenefits();
 		this.photos = dto.getPhotos();
 		this.priceIntervals = dto.getPriceIntervals();
+		this.generalPrice = dto.getGeneralPrice();
 		this.priceType = dto.getPriceType();
 	}
 
@@ -137,6 +154,14 @@ public class Accomodation {
 
 	public void setHostId(UUID hostId) {
 		this.hostId = hostId;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -219,9 +244,13 @@ public class Accomodation {
 		this.priceType = priceType;
 	}
 
+	public float getGeneralPrice() {return generalPrice; }
+
+	public void setGeneralPrice(float generalPrice) { this.generalPrice = generalPrice; }
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(created, description, hostId, id, maxGuests, minGuests, weekendIncrease);
+		return Objects.hash(created, description, hostId, id, name, maxGuests, minGuests, weekendIncrease);
 	}
 
 	@Override
@@ -234,13 +263,13 @@ public class Accomodation {
 			return false;
 		Accomodation other = (Accomodation) obj;
 		return Objects.equals(created, other.created) && Objects.equals(description, other.description)
-				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
+				&& Objects.equals(name, other.name) && Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
 				&& minGuests == other.minGuests && weekendIncrease == other.weekendIncrease;
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", minGuests="
+		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", name=" + name + ", minGuests="
 				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
 				+ created + "]";
 	}

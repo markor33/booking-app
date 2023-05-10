@@ -12,6 +12,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(catalog = "db_accomodation", name = "benefit") 
@@ -19,10 +22,12 @@ public class Benefit {
 
 	@Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+	@Type(type="uuid-char")
     private UUID id;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "benefits")
 	private List<Accomodation> accomodations;
 	

@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import accomodation.util.DateTimeRange;
 
@@ -24,10 +27,12 @@ public class PriceInterval {
 
 	@Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "VARCHAR(255)", updatable = false, nullable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+	@Type(type="uuid-char")
     private UUID id;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "accomodation_id")
 	private Accomodation accomodation;
