@@ -8,6 +8,8 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { SearchModule } from './modules/search/search.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     AppRoutingModule,
     LayoutModule,
     AuthModule,
+    SearchModule,
+    SharedModule,
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
