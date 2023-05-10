@@ -23,7 +23,12 @@ namespace ReservationsLibrary.Services
             _accommodationRepository = accommodationRepository;
         }
 
-        public List<ReservationRequest> GetByHost(Guid hostId) => _reservationRequestRepository.GetByHost(hostId);
+        public List<ReservationRequest> GetByUser(Guid userId, string role)
+        {
+            if(role == "HOST")
+                return _reservationRequestRepository.GetByHost(userId);
+            return _reservationRequestRepository.GetByGuest(userId);
+        } 
 
         public void ApproveRequest(Guid requestId)
         {
