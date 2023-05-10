@@ -9,5 +9,6 @@ namespace Reservations.API.Infrasructure
         public int NumOfCanceledReservationForGuest(Guid guestId);
         public bool ActiveGuestReservations(Guid guestId);
         public bool ActiveHostReservations(Guid hostId);
+        public void DeleteAllReservationsByGuest(Guid guestId);
     }
 }

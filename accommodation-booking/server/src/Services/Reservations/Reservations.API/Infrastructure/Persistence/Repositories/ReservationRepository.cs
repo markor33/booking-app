@@ -25,5 +25,13 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
                         .Where(r => r.Accommodation.HostId == hostId && r.Canceled == false && r.Period.Start > DateTime.Now).GroupBy(r => r.Accommodation.HostId).Count();
             return number != 0;
         }
+
+        public void DeleteAllReservationsByGuest(Guid guestId)
+        {
+            var itemsToDelete = _dbContext.Reservations.Where(e => e.GuestId == guestId);
+
+            _dbContext.Reservations.RemoveRange(itemsToDelete);
+            _dbContext.SaveChanges();
+        }
     }
 }

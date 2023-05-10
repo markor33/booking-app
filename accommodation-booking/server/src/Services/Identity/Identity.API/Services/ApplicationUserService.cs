@@ -54,6 +54,13 @@ namespace Identity.API.Services
             if (!response.HasActive)
             {
                 await _userManager.DeleteAsync(user);
+                if (role == "GUEST")
+                    await _reservationsClient.DeleteRequestAndReservationsAsync(new DeleteRequestAndReservationsRequest
+                    {
+                        GuestId = userId
+                    });
+
+                
                 return Result.Ok();
             }
             return Result.Fail("Failed to delete profile");
