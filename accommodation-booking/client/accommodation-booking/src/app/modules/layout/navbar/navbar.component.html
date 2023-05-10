@@ -24,6 +24,12 @@
               <span matLine>Home</span>
             </div>
           </a>
+          <a mat-list-item routerLink="/accomodation" *ngIf="userRole == 'HOST'">
+            <div>
+              <mat-icon fontIcon="bed"></mat-icon>
+              <span matLine>My Accomodations</span>
+            </div>
+          </a>
         </mat-nav-list>
       </mat-sidenav>
       <mat-sidenav-content>

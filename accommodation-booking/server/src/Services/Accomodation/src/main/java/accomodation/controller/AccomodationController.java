@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import accomodation.dto.AccomodationCardDTO;
 import accomodation.dto.AccomodationDTO;
 import accomodation.model.Accomodation;
 import accomodation.security.TokenUtils;
@@ -68,6 +69,12 @@ public class AccomodationController {
 	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable UUID id) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(id)), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/cover/{id}")
+	@PreAuthorize("hasAuthority('HOST')")
+	public ResponseEntity<AccomodationCardDTO> getAccomodationNameAndCoverPhoto(HttpServletRequest request, @PathVariable UUID id) {
+		return new ResponseEntity<AccomodationCardDTO>(new AccomodationCardDTO(accomodationService.findById(id)), HttpStatus.OK);
 	}
 	
 	@PostMapping()
