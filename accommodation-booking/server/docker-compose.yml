@@ -33,10 +33,57 @@ services:
     build:
       context: .
       dockerfile: src/Services/Reservations/Reservations.API/Dockerfile
+    depends_on:
+     - reservations.db
     ports:
      - 12000:80
 
+  accomodation.api:
+    image: ${DOCKER_REGISTRY-}accomodationapi
+    build:
+      context: .
+      dockerfile: src/Services/Accomodation/Dockerfile
+    depends_on:
+      - accomodation.db
+    ports:
+     - 9000:8080
+  
+  accomodation.db:
+    image: mysql
+    container_name: mysql
+    restart: always
+    ports:
+     - 4000:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: db_accomodation
+    volumes:
+     - accomodation-data:/var/lib/mysql
+
+  reservations.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - reservations-data:/var/lib/postgresql/data
+    ports:
+     - 22000:5432
+
+  accommodation-search.api:
+    image: accommodation-search.api
+    build:
+      context: .
+      dockerfile: src/Services/Search/Dockerfile
+    environment:
+      - MONGODB_URI=mongodb+srv://addm2019:Z522zXN2eBo7xDzM@cluster0.23ppwpl.mongodb.net/search_db?retryWrites=true&w=majority
+    ports:
+      - 13000:5000
+      - 13001:5001
+
 volumes:
   identity-data:
-
-
+  accomodation-data:
+    name: mysql-database
+  reservations-data:
