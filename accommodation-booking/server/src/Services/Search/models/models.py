@@ -42,7 +42,6 @@ class PriceInterval(MongoModel):
     id = fields.UUIDField(primary_key=True, default=uuid.uuid4)
     amount = fields.FloatField()
     interval = fields.EmbeddedDocumentField(DateRange)
-    price_type = fields.IntegerField()
 
 class Accommodation(MongoModel):
     id = fields.UUIDField(primary_key=True, default=uuid.uuid4)

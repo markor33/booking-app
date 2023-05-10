@@ -2,8 +2,23 @@ syntax = "proto3";
 
 package grpc_accommodation_search;
 
+import "google/protobuf/timestamp.proto";
+
 service AccommodationSearch {
   rpc CreateAccommodation (AccommodationDTO) returns (CreateAccommodationResponse);
+  rpc CreatePriceInterval (CreatePriceIntervalRequest) returns (CreatePriceIntervalResponse);
+}
+
+message CreatePriceIntervalRequest {
+  string id = 1;
+  string accommodationId = 2;
+  float amount = 3;
+  google.protobuf.Timestamp startDate = 4;
+  google.protobuf.Timestamp endDate = 5;
+}
+
+message CreatePriceIntervalResponse {
+
 }
 
 message AccommodationDTO {

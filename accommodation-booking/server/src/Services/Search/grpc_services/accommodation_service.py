@@ -1,6 +1,8 @@
+import uuid
+from datetime import datetime
 from . import accommodation_search_pb2
 from . import accommodation_search_pb2_grpc
-from models import Accommodation, Address, Benefit
+from models import Accommodation, Address, Benefit, PriceInterval, DateRange
 
 class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServicer):
     def CreateAccommodation(self, request, context):
@@ -29,4 +31,19 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
             ))
         accommodation.save()
         response = accommodation_search_pb2.CreateAccommodationResponse()
+        return response
+
+    def CreatePriceInterval(self, request, context):
+        accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
+        price_interval = PriceInterval(
+            id = request.id,
+            amount = request.amount,
+            interval = DateRange(
+                start_date = datetime.fromtimestamp(request.startDate.seconds),
+                end_date = datetime.fromtimestamp(request.endDate.seconds)
+            )
+        )
+        accommodation.price_intervals.append(price_interval)
+        accommodation.save()
+        response = accommodation_search_pb2.CreatePriceIntervalResponse()
         return response
