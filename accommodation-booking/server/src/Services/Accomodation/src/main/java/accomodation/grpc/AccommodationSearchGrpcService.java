@@ -4,12 +4,15 @@ import accomodation.dto.AccomodationDTO;
 import accomodation.enums.PriceType;
 import accomodation.model.Accomodation;
 import accomodation.model.Benefit;
+import accomodation.model.PriceInterval;
+import com.google.protobuf.Timestamp;
 import grpc_accommodation_search.AccommodationSearchGrpc;
 import grpc_accommodation_search.AccommodationSearchOuterClass;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -59,6 +62,33 @@ public class AccommodationSearchGrpcService {
         }
         catch (Exception e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean AddPriceInterval(PriceInterval priceInterval) {
+        AccommodationSearchOuterClass.CreatePriceIntervalRequest createPriceIntervalRequest = AccommodationSearchOuterClass.CreatePriceIntervalRequest
+                .newBuilder()
+                .setId(priceInterval.getId().toString())
+                .setAccommodationId(priceInterval.getAccomodation().getId().toString())
+                .setAmount(priceInterval.getAmount())
+                .setStartDate(Timestamp
+                        .newBuilder()
+                        .setSeconds(priceInterval.getInterval().getStart().toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(priceInterval.getInterval().getStart().getNano())
+                        .build())
+                .setEndDate(Timestamp
+                        .newBuilder()
+                        .setSeconds(priceInterval.getInterval().getEnd().toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(priceInterval.getInterval().getEnd().getNano())
+                        .build())
+                .build();
+        try {
+            this.accommodationSearchClient.createPriceInterval(createPriceIntervalRequest);
+            return true;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
     }
