@@ -1,19 +1,37 @@
 ﻿using Grpc.Core;
 using GrpcReservations;
+using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
-using System.Runtime.CompilerServices;
 
 namespace Reservations.API.GrpcServices
 {
     public class ReservationsGrpcService : GrpcReservations.Reservations.ReservationsBase
     {
+        private readonly IAccommodationService _accommodationService;
         private readonly IReservationService _reservationService;
         private readonly IReservationRequestService _reservationRequestService;
 
-        public ReservationsGrpcService(IReservationService reservationService, IReservationRequestService reservationRequestService)
+        public ReservationsGrpcService(
+            IReservationService reservationService, 
+            IAccommodationService accommodationService,
+            IReservationRequestService reservationRequestService
+            )
         {
             _reservationService = reservationService;
+            _accommodationService = accommodationService;
             _reservationRequestService = reservationRequestService;
+        }
+
+        public override async Task<AddAccommodationResponse> AddAccommodation(AddAccommodationRequest request, ServerCallContext context)
+        {
+            var accommodation = new Accommodation()
+            {
+                Id = Guid.Parse(request.AccommodationId),
+                HostId = Guid.Parse(request.HostId),
+                AutoConfirmation = request.AutoConfirmation,
+            };
+            _accommodationService.Create(accommodation);
+            return new AddAccommodationResponse();
         }
 
         public async override Task<CheckActiveReservationsResponse> CheckActiveReservations(CheckActiveReservationsRequest request, ServerCallContext context)
@@ -28,11 +46,13 @@ namespace Reservations.API.GrpcServices
                 HasActive = result
             };
         }
+
         public async override Task<DeleteRequestAndReservationsResponse> DeleteRequestAndReservations(DeleteRequestAndReservationsRequest request, ServerCallContext context)
         {
             _reservationRequestService.DeleteAllRequestsByGuest(Guid.Parse(request.GuestId));
             _reservationService.DeleteAllReservationsByGuest(Guid.Parse(request.GuestId));
             return new DeleteRequestAndReservationsResponse();
         }
+
     }
 }
