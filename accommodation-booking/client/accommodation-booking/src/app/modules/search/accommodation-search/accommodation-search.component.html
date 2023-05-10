@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="search-query">
+        <form (ngSubmit)="search()">
+            <mat-form-field>
+                <mat-label>Location</mat-label>
+                <input matInput type="text" [(ngModel)]="searchQuery.location" name="location">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Number of guests</mat-label>
+                <input matInput type="number" [(ngModel)]="searchQuery.numGuests" name="numGuests">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="searchQuery.startDate" name="startDate">
+                  <input matEndDate placeholder="End date" [(ngModel)]="searchQuery.endDate" name="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="search-result">
+        <div class="accommodation" *ngFor="let accommodation of accommodations">
+            <img [src]="accommodation.photo">
+            <div class="general-info">
+                <h2>{{accommodation.name}}</h2>
+                <span class="icon-text-align location">
+                    <mat-icon color="primary">location_on</mat-icon>
+                    {{accommodation.location.street + ' ' + accommodation.location.number + ', ' + accommodation.location.city + ' ' + accommodation.location.country}}
+                </span>
+            </div>
+            <mat-divider vertical></mat-divider>
+            <div class="reservation">
+                <h3>{{numOfNights}} nights, {{searchQuery.numGuests}} guests</h3>
+                <div class="price">
+                    <span class="icon-text-align">
+                        <mat-icon>euro</mat-icon>
+                        <b>{{accommodation.price}}</b>
+                    </span>
+                </div>
+                <button mat-raised-button color="primary">Reserve</button>
+            </div>
+        </div>
+    </div>
+</div>

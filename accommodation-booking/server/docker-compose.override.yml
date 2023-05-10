@@ -20,3 +20,7 @@ services:
     ports:
       - "80"
 
+  accomodation.api:
+    ports:
+      - "80"
+
