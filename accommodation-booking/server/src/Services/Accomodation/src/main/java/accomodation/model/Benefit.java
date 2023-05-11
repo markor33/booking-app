@@ -1,6 +1,7 @@
 package accomodation.model;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import accomodation.dto.BenefitDTO;
 
 @Entity
 @Table(catalog = "db_accomodation", name = "benefit") 
@@ -43,6 +46,13 @@ public class Benefit {
 		this.id = id;
 		this.accomodations = accomodations;
 		this.name = name;
+	}
+	
+	public Benefit(BenefitDTO dto) {
+		super();
+		this.id = dto.getId();
+		this.accomodations = new ArrayList<Accomodation>();
+		this.name = dto.getName();
 	}
 
 	public Benefit(Benefit b) {

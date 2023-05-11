@@ -1,0 +1,17 @@
+<mat-card [ngStyle]="{'background-image': 'url(' + imageUrl + ')', 'background-size': 'cover'}">
+    <div class="card-content">
+        <mat-card-header>
+            <mat-card-title>{{accomodation.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{accomodation.location.country}}, {{accomodation.location.city}}, {{accomodation.location.street}} {{accomodation.location.number}}</p>
+            <p>{{accomodation.description}}</p>
+            <p>Guests: {{accomodation.minGuests}} - {{accomodation.maxGuests}}</p>
+            <p>Price: {{accomodation.generalPrice}} EUR, {{accomodation.priceType}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-flat-button color="primary">View Details</button>
+        </mat-card-actions>
+    </div>
+</mat-card>
+

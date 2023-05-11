@@ -250,7 +250,8 @@ public class Accomodation {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(created, description, hostId, id, name, maxGuests, minGuests, weekendIncrease);
+		return Objects.hash(benefits, created, description, generalPrice, hostId, id, location, maxGuests, minGuests,
+				name, photos, priceIntervals, priceType, weekendIncrease);
 	}
 
 	@Override
@@ -262,16 +263,23 @@ public class Accomodation {
 		if (getClass() != obj.getClass())
 			return false;
 		Accomodation other = (Accomodation) obj;
-		return Objects.equals(created, other.created) && Objects.equals(description, other.description)
-				&& Objects.equals(name, other.name) && Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id) && maxGuests == other.maxGuests
-				&& minGuests == other.minGuests && weekendIncrease == other.weekendIncrease;
+		return Objects.equals(benefits, other.benefits) && Objects.equals(created, other.created)
+				&& Objects.equals(description, other.description)
+				&& Float.floatToIntBits(generalPrice) == Float.floatToIntBits(other.generalPrice)
+				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id)
+				&& Objects.equals(location, other.location) && maxGuests == other.maxGuests
+				&& minGuests == other.minGuests && Objects.equals(name, other.name)
+				&& Objects.equals(photos, other.photos) && Objects.equals(priceIntervals, other.priceIntervals)
+				&& priceType == other.priceType && weekendIncrease == other.weekendIncrease;
 	}
 
 	@Override
 	public String toString() {
-		return "Accomodation [id=" + id + ", hostId=" + hostId + ", description=" + description + ", name=" + name + ", minGuests="
-				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
-				+ created + "]";
+		return "Accomodation [id=" + id + ", hostId=" + hostId + ", name=" + name + ", description=" + description
+				+ ", minGuests=" + minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease
+				+ ", created=" + created + ", location=" + location + ", benefits=" + benefits + ", photos=" + photos
+				+ ", generalPrice=" + generalPrice + ", priceIntervals=" + priceIntervals + ", priceType=" + priceType
+				+ "]";
 	}
 	
 }

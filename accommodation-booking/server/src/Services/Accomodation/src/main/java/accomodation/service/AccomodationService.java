@@ -18,6 +18,7 @@ import accomodation.repository.AddressRepository;
 import accomodation.repository.BenefitRepository;
 import accomodation.repository.PhotoRepository;
 import accomodation.repository.PriceIntervalRepository;
+import accomodation.util.PhotoUploader;
 
 @Service
 public class AccomodationService {
@@ -43,8 +44,15 @@ public class AccomodationService {
 	@Autowired
 	PriceIntervalRepository priceIntervalRepository;
 	
+	@Autowired
+	PhotoUploader photoUploader;
+	
 	public List<Accomodation> findAll() {
 		return accomodationRepository.findAll();
+	}
+	
+	public List<Accomodation> findByHostId(UUID hostId) {
+		return accomodationRepository.findByHostId(hostId);
 	}
 	
 	public Accomodation findById(UUID id) {
@@ -62,11 +70,12 @@ public class AccomodationService {
 		accomodation.setId(accomodationUUID);
 				
 		Accomodation createdAccomodation = accomodationRepository.save(accomodation);
-		
+				
 		List<Photo> newPhotos = new ArrayList<Photo>(); 
 		for(Photo p : accomodationDTO.getPhotos()) { 
 			p.setId(UUID.randomUUID());
 			p.setAccomodation(createdAccomodation);
+			p.setUrl(photoUploader.uploadImage(p.getUrl()));
 			newPhotos.add(p); 
 		}
 		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
