@@ -6,10 +6,14 @@ namespace ReservationsLibrary.Services
     public class ReservationService : IReservationService
     {
         private readonly IReservationRepository _reservationRepository;
+        private readonly IAccommodationSearchGrpcService _accommodationSearchGrpcService;
 
-        public ReservationService(IReservationRepository reservationRepository)
+        public ReservationService(
+            IReservationRepository reservationRepository,
+            IAccommodationSearchGrpcService accommodationSearchGrpcService)
         {
             _reservationRepository = reservationRepository;
+            _accommodationSearchGrpcService = accommodationSearchGrpcService;
         }
 
         public int NumOfCanceledReservationForGuest(Guid guestId)
@@ -24,6 +28,7 @@ namespace ReservationsLibrary.Services
             if (DateTime.Now < cancellationDeadline)
                 res.Canceled = true;
             _reservationRepository.Update(res);
+            _accommodationSearchGrpcService.DeleteReservation(res);
         }
 
         public bool ActiveGuestReservations(Guid guestId)

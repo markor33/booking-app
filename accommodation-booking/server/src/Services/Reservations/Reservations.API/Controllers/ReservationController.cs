@@ -10,7 +10,8 @@ namespace Reservations.API.Controllers
     {
         private readonly IReservationService _reservationService;
 
-        public ReservationController(IReservationService reservationService)
+        public ReservationController(
+            IReservationService reservationService)
         {
             _reservationService = reservationService;
         }
@@ -21,6 +22,7 @@ namespace Reservations.API.Controllers
         {
             return Ok(_reservationService.NumOfCanceledReservationForGuest(id));
         }
+
         [Authorize(Roles = "GUEST")]
         [HttpDelete]
         public ActionResult CancelReservation(Guid reservationId)

@@ -53,7 +53,7 @@ class Accommodation(MongoModel):
     max_guests = fields.IntegerField()
     photo = fields.CharField()
     benefits = fields.EmbeddedDocumentListField(Benefit)
-    reservations = fields.EmbeddedDocumentListField(Reservation)
+    reservations = fields.EmbeddedDocumentListField(Reservation, blank=True)
     price_type = fields.IntegerField()
     price_intervals = fields.EmbeddedDocumentListField(PriceInterval)
     general_price = fields.FloatField()

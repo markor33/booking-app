@@ -7,9 +7,10 @@ using Reservations.API.DTO;
 using Microsoft.AspNetCore.Authentication;
 using Reservations.API.Security;
 using Reservations.API.Infrasructure.Persistence.Repositories;
-using Reservations.API.GrpcServices;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
+using ReservationsLibrary.Repository;
+using Reservations.API.Infrastructure.GrpcServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,8 @@ builder.Services.AddScoped(typeof(IAccommodationService), typeof(AccommodationSe
 builder.Services.AddScoped(typeof(IReservationRequestService), typeof(ReservationRequestService));
 builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationService));
 
+builder.Services.AddScoped(typeof(IAccommodationSearchGrpcService), typeof(AccommodationSearchGrpcService));
+
 builder.Services.AddScoped<IHospitalAPIClient, HospitalAPIClient>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -41,6 +44,11 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddGrpc(options =>
 {
     options.EnableDetailedErrors = true;
+});
+
+builder.Services.AddGrpcClient<GrpcAccommodationSearch.AccommodationSearch.AccommodationSearchClient>((services, options) =>
+{
+    options.Address = new Uri("http://host.docker.internal:13001");
 });
 
 builder.WebHost.UseKestrel(options => {

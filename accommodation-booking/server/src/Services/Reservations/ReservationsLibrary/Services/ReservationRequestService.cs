@@ -11,16 +11,19 @@ namespace ReservationsLibrary.Services
         private readonly IAccommodationService _accommodationService;
         private readonly IReservationRepository _reservationRepository;
         private readonly IAccommodationRepository _accommodationRepository;
+        private readonly IAccommodationSearchGrpcService _accommodationSearchGrpcService;
 
         public ReservationRequestService(IReservationRequestRepository reservationRequestRepository,
                                         IAccommodationService accommodationService,
                                         IReservationRepository reservationRepository,
-                                        IAccommodationRepository accommodationRepository)
+                                        IAccommodationRepository accommodationRepository,
+                                        IAccommodationSearchGrpcService accommodationSearchGrpcService)
         {
             _reservationRequestRepository = reservationRequestRepository;
             _accommodationService = accommodationService;
             _reservationRepository = reservationRepository;
             _accommodationRepository = accommodationRepository;
+            _accommodationSearchGrpcService = accommodationSearchGrpcService;
         }
 
         public List<ReservationRequest> GetByUser(Guid userId, string role)
@@ -33,9 +36,10 @@ namespace ReservationsLibrary.Services
         public void ApproveRequest(Guid requestId)
         {
             var request = _reservationRequestRepository.GetById(requestId);
-            _reservationRepository.Create(new Reservation(request));
+            var reservation = _reservationRepository.Create(new Reservation(request));
             ChangeStatus(request, ReservationRequestStatus.APPROVED);
             DeclineOverLapped(request.Period, request.AccommodationId);
+            _accommodationSearchGrpcService.AddReservation(reservation);
         }
 
         public void DeclineRequest(Guid requestId)
@@ -65,11 +69,13 @@ namespace ReservationsLibrary.Services
         {
             _reservationRequestRepository.DeleteAllRequestsByGuest(guestId);
         }
+
         public void ChangeStatus(ReservationRequest request, ReservationRequestStatus status)
         {
             request.Status = status;
             _reservationRequestRepository.Update(request);
         }
+
         public void DeclineOverLapped(DateRange range, Guid accommodationId)
         {
             foreach(ReservationRequest rq in _reservationRequestRepository.GetOverLapped(range, accommodationId))

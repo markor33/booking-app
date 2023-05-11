@@ -3,7 +3,7 @@ using GrpcReservations;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
-namespace Reservations.API.GrpcServices
+namespace Reservations.API.Infrastructure.GrpcServices
 {
     public class ReservationsGrpcService : GrpcReservations.Reservations.ReservationsBase
     {
@@ -12,7 +12,7 @@ namespace Reservations.API.GrpcServices
         private readonly IReservationRequestService _reservationRequestService;
 
         public ReservationsGrpcService(
-            IReservationService reservationService, 
+            IReservationService reservationService,
             IAccommodationService accommodationService,
             IReservationRequestService reservationRequestService
             )
