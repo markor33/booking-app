@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import accomodation.grpc.AccommodationSearchGrpcService;
+import accomodation.grpc.ReservationsGrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,12 @@ import accomodation.util.PhotoUploader;
 
 @Service
 public class AccomodationService {
+
+	@Autowired
+	AccommodationSearchGrpcService accommodationSearchGrpcService;
+
+	@Autowired
+	ReservationsGrpcService	 reservationsGrpcService;
 
 	@Autowired
 	AccomodationRepository accomodationRepository;
@@ -71,7 +79,10 @@ public class AccomodationService {
 			newPhotos.add(p); 
 		}
 		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
-				
+
+		this.accommodationSearchGrpcService.AddAccommodation(createdAccomodation);
+		this.reservationsGrpcService.AddAccommodation(createdAccomodation, accomodationDTO.isAutoConfirmation());
+
 		return createdAccomodation;
 	}
 	

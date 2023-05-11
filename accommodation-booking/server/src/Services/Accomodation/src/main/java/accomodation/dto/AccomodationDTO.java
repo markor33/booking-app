@@ -26,6 +26,7 @@ public class AccomodationDTO {
 	private List<Benefit> benefits;
 	private List<Photo> photos;
 	private List<PriceInterval> priceIntervals;
+	private float generalPrice;
 	private PriceType priceType;
 	private boolean autoConfirmation;
 	
@@ -35,7 +36,7 @@ public class AccomodationDTO {
 
 	public AccomodationDTO(UUID id, UUID hostId, String name, String description, int minGuests, int maxGuests, int weekendIncrease,
 			Date created, Address location, List<Benefit> benefits, List<Photo> photos,
-			List<PriceInterval> priceIntervals, PriceType priceType, boolean autoConfirmation) {
+			List<PriceInterval> priceIntervals, float generalPrice, PriceType priceType, boolean autoConfirmation) {
 		super();
 		this.id = id;
 		this.hostId = hostId;
@@ -49,6 +50,7 @@ public class AccomodationDTO {
 		this.benefits = benefits;
 		this.photos = photos;
 		this.priceIntervals = priceIntervals;
+		this.generalPrice = generalPrice;
 		this.priceType = priceType;
 		this.autoConfirmation = autoConfirmation;
 	}
@@ -181,6 +183,10 @@ public class AccomodationDTO {
 	public void setAutoConfirmation(boolean autoConfirmation) {
 		this.autoConfirmation = autoConfirmation;
 	}
+
+	public float getGeneralPrice() {return generalPrice;}
+
+	public void setGeneralPrice(float generalPrice) {this.generalPrice = generalPrice;}
 
 	@Override
 	public int hashCode() {

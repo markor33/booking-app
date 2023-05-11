@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Identity.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.API.DTO;
+using Reservations.API.Infrasructure;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
@@ -20,34 +22,42 @@ namespace Reservations.API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("host")]
-        public ActionResult<List<ReservationRequest>> GetByHost(Guid hostId)
+        [Authorize]
+        [HttpGet("user")]
+        public ActionResult<List<ReservationRequest>> GetByUser()
         {
-            return _reservationRequestService.GetByHost(hostId);
+            return _reservationRequestService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
         }
 
-        [HttpPut("approve")]
-        public ActionResult ApproveRequest(Guid requestId)
+        [Authorize(Roles = "HOST")]
+        [HttpPut("approve/{id}")]
+        public ActionResult ApproveRequest([FromRoute] Guid id)
         {
-            _reservationRequestService.ApproveRequest(requestId);
+            _reservationRequestService.ApproveRequest(id);
             return Ok();
         }
-        [HttpPut("decline")]
-        public ActionResult DeclineRequest(Guid requestId)
+
+        [Authorize(Roles = "HOST")]
+        [HttpPut("decline/{id}")]
+        public ActionResult DeclineRequest([FromRoute] Guid id)
         {
-            _reservationRequestService.DeclineRequest(requestId);
+            _reservationRequestService.DeclineRequest(id);
             return Ok();
         }
+
+        [Authorize(Roles = "GUEST")]
         [HttpPost]
         public ActionResult CreateRequest(ReservationRequestDTO request)
         {
             _reservationRequestService.Create(_mapper.Map<ReservationRequest>(request));
             return Ok();
         }
-        [HttpDelete]
-        public ActionResult DeleteRequest(Guid requestId)
+
+        [Authorize(Roles = "GUEST")]
+        [HttpDelete("{id}")]
+        public ActionResult DeleteRequest([FromRoute] Guid id)
         {
-            _reservationRequestService.DeleteRequest(requestId);
+            _reservationRequestService.DeleteRequest(id);
             return Ok();
         }
     }

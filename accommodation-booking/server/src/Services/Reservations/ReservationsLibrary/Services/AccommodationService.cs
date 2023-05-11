@@ -21,6 +21,7 @@ namespace ReservationsLibrary.Services
             var accommodation = _accommodationRepository.GetById(accommodationId);
             return accommodation.AutoConfirmation; 
         }
-       
+
+        public void DeleteAccommodationByHost(Guid hostId) => _accommodationRepository.DeleteAccommodationByHost(hostId);
     }
 }

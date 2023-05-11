@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package grpc_accommodation_search;
+
+import "google/protobuf/timestamp.proto";
+
+service AccommodationSearch {
+  rpc CreateAccommodation (AccommodationDTO) returns (CreateAccommodationResponse);
+  rpc CreatePriceInterval (CreatePriceIntervalRequest) returns (CreatePriceIntervalResponse);
+  rpc CreateReservation (CreateReservationRequest) returns (CreateReservationResponse);
+  rpc DeleteReservation (DeleteReservationRequest) returns (DeleteReservationResponse);
+}
+
+message DeleteReservationRequest {
+  string id = 1;
+  string accommodationId = 2;
+}
+
+message DeleteReservationResponse {
+  
+}
+
+message CreateReservationRequest {
+  string id = 1;
+  string accommodationId = 2;
+  google.protobuf.Timestamp startDate = 3;
+  google.protobuf.Timestamp endDate = 4;
+}
+
+message CreateReservationResponse {
+
+}
+
+message CreatePriceIntervalRequest {
+  string id = 1;
+  string accommodationId = 2;
+  float amount = 3;
+  google.protobuf.Timestamp startDate = 4;
+  google.protobuf.Timestamp endDate = 5;
+}
+
+message CreatePriceIntervalResponse {
+
+}
+
+message AccommodationDTO {
+  string id = 1;
+  string hostId = 2;
+  string name = 3;
+  string description = 4;
+  int32 minGuests = 5;
+  int32 maxGuests = 6;
+  int32 weekendIncrease = 7;
+  Address location = 8;
+  string photo = 9;
+  PriceType priceType = 10;
+  repeated Benefit benefits = 11;
+  float generalPrice = 12;
+}
+
+message Benefit {
+  string id = 1;
+  string name = 2;
+}
+
+message Address {
+  string country = 1;
+  string city = 2;
+  string street = 3;
+  string number = 4;
+}
+
+enum PriceType {
+  PER_GUEST = 0;
+  IN_WHOLE = 1;
+}
+
+message CreateAccommodationResponse {
+
+}

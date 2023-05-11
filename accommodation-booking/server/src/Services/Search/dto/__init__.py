@@ -1,0 +1,1 @@
+from .accommodation_dto import AccommodationDTO

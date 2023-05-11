@@ -37,6 +37,7 @@ services:
      - reservations.db
     ports:
      - 12000:80
+     - 12001:5000
 
   accomodation.api:
     image: ${DOCKER_REGISTRY-}accomodationapi

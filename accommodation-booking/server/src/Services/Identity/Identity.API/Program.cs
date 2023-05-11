@@ -1,6 +1,8 @@
+using GrpcReservations;
 using Identity.API.Data;
 using Identity.API.Models;
 using Identity.API.Options;
+using Identity.API.Services;
 using Identity.API.Services.Login;
 using Identity.API.Services.Register;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,6 +67,12 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 
 builder.Services.AddTransient<LoginService>();
 builder.Services.AddTransient<RegisterService>();
+builder.Services.AddTransient<ApplicationUserService>();
+
+builder.Services.AddGrpcClient<Reservations.ReservationsClient>((services, options) =>
+{
+    options.Address = new Uri("http://host.docker.internal:12001");
+});
 
 var app = builder.Build();
 
