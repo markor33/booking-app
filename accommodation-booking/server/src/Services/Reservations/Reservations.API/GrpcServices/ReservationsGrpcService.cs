@@ -1,23 +1,36 @@
 ﻿using Grpc.Core;
 using GrpcReservations;
+using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
-using System.Runtime.CompilerServices;
 
 namespace Reservations.API.GrpcServices
 {
     public class ReservationsGrpcService : GrpcReservations.Reservations.ReservationsBase
     {
+        private readonly IAccommodationService _accommodationService;
         private readonly IReservationService _reservationService;
         private readonly IReservationRequestService _reservationRequestService;
-        private readonly IAccommodationService _accommodationService;
 
         public ReservationsGrpcService(IReservationService reservationService,
                                        IReservationRequestService reservationRequestService,
                                        IAccommodationService accommodationService)
         {
             _reservationService = reservationService;
+            _accommodationService = accommodationService;
             _reservationRequestService = reservationRequestService;
             _accommodationService = accommodationService;
+        }
+
+        public override async Task<AddAccommodationResponse> AddAccommodation(AddAccommodationRequest request, ServerCallContext context)
+        {
+            var accommodation = new Accommodation()
+            {
+                Id = Guid.Parse(request.AccommodationId),
+                HostId = Guid.Parse(request.HostId),
+                AutoConfirmation = request.AutoConfirmation,
+            };
+            _accommodationService.Create(accommodation);
+            return new AddAccommodationResponse();
         }
 
         public async override Task<CheckActiveReservationsResponse> CheckActiveReservations(CheckActiveReservationsRequest request, ServerCallContext context)
@@ -34,7 +47,7 @@ namespace Reservations.API.GrpcServices
         }
         public async override Task<DeleteUserDependenciesResponse> DeleteUserDependencies(DeleteUserDependenciesRequest request, ServerCallContext context)
         {
-            if(request.Role == "HOST")
+            if (request.Role == "HOST")
             {
                 _reservationService.DeleteReservationsByHost(Guid.Parse(request.UserId));
                 _reservationRequestService.DeleteReservationRequestsByHost(Guid.Parse(request.UserId));
@@ -45,5 +58,6 @@ namespace Reservations.API.GrpcServices
 
             return new DeleteUserDependenciesResponse();
         }
+
     }
 }
