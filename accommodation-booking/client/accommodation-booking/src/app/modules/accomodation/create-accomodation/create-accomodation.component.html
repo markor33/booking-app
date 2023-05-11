@@ -66,7 +66,8 @@
                   <mat-option *ngFor="let benefit of benefits" [value]="benefit">{{benefit.name}}</mat-option>
                 </mat-select>
               </mat-form-field>
-             
+              <button type="button" mat-raised-button (click)="fileInput.click()" color="primary">Choose image</button>
+              <input hidden (change)="handleUpload($event)" #fileInput type="file" id="file">
               
 
           </div>

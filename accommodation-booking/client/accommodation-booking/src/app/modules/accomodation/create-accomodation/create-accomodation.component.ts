@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { BenefitService } from '../services/benefit.service';
 import { Benefit } from '../models/benefit.model';
 import { AuthService } from '../../auth/services/auth.service';
+import { Photo } from '../models/photo.model';
 
 @Component({
   selector: 'app-create-accomodation',
@@ -15,11 +16,13 @@ export class CreateAccomodationComponent {
   accomodation: Accomodation;
   benefits: Benefit[];
   selectedBenefits: Benefit[]
+  photos: Photo[];
 
   constructor(private benefitService: BenefitService, private authService: AuthService) { 
     this.accomodation = new Accomodation();
     this.benefits = [];
     this.selectedBenefits = [];
+    this.photos = [];
   }
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class CreateAccomodationComponent {
     this.accomodation.id = '';
     this.accomodation.hostId = this.authService.getUserId();
     this.accomodation.benefits = this.selectedBenefits;
+    this.accomodation.photos = this.photos;
     console.log(this.accomodation);
   }
 
@@ -38,5 +42,20 @@ export class CreateAccomodationComponent {
       this.benefits = res;
     });
   }
+
+  handleUpload(event : any) {
+    let reader = new FileReader();
+    const file = event.target.files[0];
+    reader.readAsDataURL(file);
+    
+    reader.onload = () => {
+      const photo = {
+        id: '',
+        url: reader.result as string
+      }
+      this.photos.push(photo);
+
+  }; 
+}
 
 }
