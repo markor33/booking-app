@@ -1,5 +1,6 @@
 ﻿using Reservations.API.Infrasructure;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Utils;
 
 namespace ReservationsLibrary.Services
 {
@@ -22,6 +23,8 @@ namespace ReservationsLibrary.Services
 
         public void DeleteReservationsByHost(Guid hostId) => _reservationRepository.DeleteReservationsByHost(hostId);
 
+        public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId) => _reservationRepository.IsOverLappedByAccomodation(range, accommodationId);
+
         public void CancelReservation(Guid reservationId)
         {
             var res = _reservationRepository.GetById(reservationId);
@@ -31,5 +34,6 @@ namespace ReservationsLibrary.Services
             _reservationRepository.Update(res);
         }
 
+    
     }
 }
