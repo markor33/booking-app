@@ -1,21 +1,13 @@
 package accomodation.util;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.api.ApiResponse;
-import com.cloudinary.utils.ObjectUtils;
-
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
-
-import javax.persistence.Convert;
 
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Base64;
-import java.util.HashMap;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 
 @Component
 public class PhotoUploader {
