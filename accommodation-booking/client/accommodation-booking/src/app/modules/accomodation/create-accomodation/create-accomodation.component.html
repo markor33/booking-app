@@ -46,11 +46,14 @@
                 <input matInput type="text" required [(ngModel)]="accomodation.location.number" name="number">
               </mat-form-field>
              </section>
+             <h2>Price:</h2>
+             <section class="user-type-section">
+              <mat-form-field appearance="outline">
+                <mat-label>Amount</mat-label>
+                <input matInput type="number" required [(ngModel)]="accomodation.generalPrice" name="generalPrice">
+              </mat-form-field>
+             </section>
               <section class="user-type-section">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Price</mat-label>
-                    <input matInput type="number" required [(ngModel)]="accomodation.generalPrice" name="generalPrice">
-                  </mat-form-field>
                   <label class="user-type-margin">Price type*:</label>
                   <mat-radio-group [(ngModel)]="accomodation.priceType" name="priceType">
                     <mat-radio-button class="user-type-margin" [value]="0">Per guest</mat-radio-button>
@@ -70,12 +73,15 @@
                   <mat-option *ngFor="let benefit of benefits" [value]="benefit">{{benefit.name}}</mat-option>
                 </mat-select>
               </mat-form-field>
+              <h2>Images uploaded: {{photos.length}}</h2>
+              <button type="button" mat-raised-button (click)="resetPhotos()" color="warn">Reset images</button>
+              <br>
               <button type="button" mat-raised-button (click)="fileInput.click()" color="primary">Choose image</button>
               <input hidden (change)="handleUpload($event)" #fileInput type="file" id="file">
           </div>
       </mat-card-content>
       <mat-card-actions>
-          <button mat-raised-button type="submit" color="primary">Register</button>
+          <button mat-raised-button type="submit" color="primary">Create</button>
       </mat-card-actions>
   </form>
 </mat-card>
