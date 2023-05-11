@@ -47,6 +47,10 @@
               </mat-form-field>
              </section>
               <section class="user-type-section">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Price</mat-label>
+                    <input matInput type="number" required [(ngModel)]="accomodation.generalPrice" name="generalPrice">
+                  </mat-form-field>
                   <label class="user-type-margin">Price type*:</label>
                   <mat-radio-group [(ngModel)]="accomodation.priceType" name="priceType">
                     <mat-radio-button class="user-type-margin" [value]="0">Per guest</mat-radio-button>
@@ -54,7 +58,7 @@
                   </mat-radio-group>
               </section>
               <section class="user-type-section">
-                <label class="user-type-margin">Autoconfirmation*:</label>
+                <label class="user-type-margin">Auto confirm reservations*:</label>
                 <mat-radio-group [(ngModel)]="accomodation.autoConfirmation" name="autoConfirmation">
                   <mat-radio-button class="user-type-margin" [value]="true">Yes</mat-radio-button>
                   <mat-radio-button class="user-type-margin" [value]="false">No</mat-radio-button>

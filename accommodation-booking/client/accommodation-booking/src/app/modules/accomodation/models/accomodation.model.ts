@@ -16,6 +16,7 @@ export class Accomodation {
     benefits: Benefit[] = [];
     photos: Photo[] = [];
     priceIntervals: PriceInterval[] = [];
+    generalPrice: number = 0;
     priceType: PriceType = PriceType.PER_GUEST;
     autoConfirmation: boolean = false;
 }
