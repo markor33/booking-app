@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
 const routes: Routes = [
-  { path: 'accommodation/search', component: AccommodationSearchComponent },
+  { path: '', component: AccommodationSearchComponent },
 ];
 
 @NgModule({
