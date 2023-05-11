@@ -43,7 +43,7 @@ namespace Reservations.API.Controllers
             _reservationRequestService.DeclineRequest(id);
             return Ok();
         }
-        //[Authorize(Roles = "GUEST")]
+        [Authorize(Roles = "GUEST")]
         [HttpPost]
         public ActionResult CreateRequest(ReservationRequestDTO request)
         {

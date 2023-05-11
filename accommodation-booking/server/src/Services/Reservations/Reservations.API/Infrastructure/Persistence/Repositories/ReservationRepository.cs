@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservations.API.Infrasructure.Base;
 using ReservationsLibrary.Data;
+using ReservationsLibrary.Enums;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Utils;
 
 namespace Reservations.API.Infrasructure.Persistence.Repositories
 {
@@ -40,6 +42,13 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
             _dbContext.Reservations.RemoveRange(reservations);
             _dbContext.SaveChanges();
+        }
+
+        public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId)
+        {
+            var numOfReservation = _dbContext.Reservations.Where(e => e.Period.Start < range.End && e.Period.End > range.Start
+                                          && e.AccommodationId == accommodationId && e.Canceled == false).GroupBy(r => r.Id).Count();
+            return numOfReservation != 0;
         }
     }
 }
