@@ -14,5 +14,6 @@ namespace ReservationsLibrary.Services
         public List<ReservationRequest> GetByUser(Guid userId, string role);
         public void DeleteRequest(Guid requestId);
         public void DeleteAllRequestsByGuest(Guid guestId);
+        public void DeleteReservationRequestsByHost(Guid hostId);
     }
 }

@@ -46,21 +46,12 @@ namespace Identity.API.Services
         public async Task<Result> DeleteUser(string userId, string role)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            var response = await _reservationsClient.CheckActiveReservationsAsync(new CheckActiveReservationsRequest
-            {
-                Role = role,
-                UserId = userId,
-            });
+            var response = await _reservationsClient.CheckActiveReservationsAsync(new CheckActiveReservationsRequest{ Role = role, UserId = userId });
             if (!response.HasActive)
             {
-                await _userManager.DeleteAsync(user);
-                if (role == "GUEST")
-                    await _reservationsClient.DeleteRequestAndReservationsAsync(new DeleteRequestAndReservationsRequest
-                    {
-                        GuestId = userId
-                    });
+               // await _userManager.DeleteAsync(user);
+                await _reservationsClient.DeleteUserDependenciesAsync(new DeleteUserDependenciesRequest{ UserId = userId, Role = role });
 
-                
                 return Result.Ok();
             }
             return Result.Fail("Failed to delete profile");

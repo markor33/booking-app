@@ -10,5 +10,6 @@ namespace Reservations.API.Infrasructure
         public bool ActiveGuestReservations(Guid guestId);
         public bool ActiveHostReservations(Guid hostId);
         public void DeleteAllReservationsByGuest(Guid guestId);
+        public void DeleteReservationsByHost(Guid hostId);
     }
 }
