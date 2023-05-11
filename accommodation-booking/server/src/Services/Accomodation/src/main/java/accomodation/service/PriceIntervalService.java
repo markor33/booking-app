@@ -25,8 +25,7 @@ public class PriceIntervalService {
 
     public PriceInterval create(PriceIntervalDTO priceIntervalDTO) {
         UUID id = UUID.randomUUID();
-        System.out.println(priceIntervalDTO.getId());
-        System.out.println(priceIntervalDTO.getAccommodationId());
+
         Accomodation accomodation = accomodationRepository.findById(priceIntervalDTO.getAccommodationId()).get();
 
         PriceInterval priceInterval = new PriceInterval(id, accomodation, priceIntervalDTO.getAmount(), priceIntervalDTO.getInterval());
