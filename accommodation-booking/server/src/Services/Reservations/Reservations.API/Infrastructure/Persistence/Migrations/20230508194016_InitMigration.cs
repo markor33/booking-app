@@ -10,7 +10,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Accomodations",
+                name: "Accommodations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -54,7 +54,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_ReservationRequests_Accomodations_AccommodationId",
                         column: x => x.AccommodationId,
-                        principalTable: "Accomodations",
+                        principalTable: "Accommodations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -84,7 +84,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                     table.ForeignKey(
                         name: "FK_Reservations_Accomodations_AccommodationId",
                         column: x => x.AccommodationId,
-                        principalTable: "Accomodations",
+                        principalTable: "Accommodations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -96,7 +96,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Accomodations",
+                table: "Accommodations",
                 columns: new[] { "Id", "AutoConfirmation", "HostId" },
                 values: new object[,]
                 {
@@ -154,7 +154,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Accomodations");
+                name: "Accommodations");
 
             migrationBuilder.DropTable(
                 name: "Prices");

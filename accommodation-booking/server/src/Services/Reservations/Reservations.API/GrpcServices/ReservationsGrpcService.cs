@@ -9,11 +9,15 @@ namespace Reservations.API.GrpcServices
     {
         private readonly IReservationService _reservationService;
         private readonly IReservationRequestService _reservationRequestService;
+        private readonly IAccommodationService _accommodationService;
 
-        public ReservationsGrpcService(IReservationService reservationService, IReservationRequestService reservationRequestService)
+        public ReservationsGrpcService(IReservationService reservationService,
+                                       IReservationRequestService reservationRequestService,
+                                       IAccommodationService accommodationService)
         {
             _reservationService = reservationService;
             _reservationRequestService = reservationRequestService;
+            _accommodationService = accommodationService;
         }
 
         public async override Task<CheckActiveReservationsResponse> CheckActiveReservations(CheckActiveReservationsRequest request, ServerCallContext context)
@@ -28,11 +32,18 @@ namespace Reservations.API.GrpcServices
                 HasActive = result
             };
         }
-        public async override Task<DeleteRequestAndReservationsResponse> DeleteRequestAndReservations(DeleteRequestAndReservationsRequest request, ServerCallContext context)
+        public async override Task<DeleteUserDependenciesResponse> DeleteUserDependencies(DeleteUserDependenciesRequest request, ServerCallContext context)
         {
-            _reservationRequestService.DeleteAllRequestsByGuest(Guid.Parse(request.GuestId));
-            _reservationService.DeleteAllReservationsByGuest(Guid.Parse(request.GuestId));
-            return new DeleteRequestAndReservationsResponse();
+            if(request.Role == "HOST")
+            {
+                _reservationService.DeleteReservationsByHost(Guid.Parse(request.UserId));
+                _reservationRequestService.DeleteReservationRequestsByHost(Guid.Parse(request.UserId));
+                _accommodationService.DeleteAccommodationByHost(Guid.Parse(request.UserId));
+            }
+            _reservationService.DeleteAllReservationsByGuest(Guid.Parse(request.UserId));
+            _reservationRequestService.DeleteAllRequestsByGuest(Guid.Parse(request.UserId));
+
+            return new DeleteUserDependenciesResponse();
         }
     }
 }

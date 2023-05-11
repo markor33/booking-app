@@ -6,7 +6,7 @@ namespace ReservationsLibrary.Data
 {
     public class ReservationsDbContext : DbContext
     {
-        public DbSet<Accommodation>? Accomodations { get; set; }
+        public DbSet<Accommodation>? Accommodations { get; set; }
         public DbSet<ReservationRequest>? ReservationRequests { get; set; }
         public DbSet<Reservation>? Reservations { get; set; }
         public DbSet<Price>? Prices { get; set; }

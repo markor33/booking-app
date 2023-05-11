@@ -12,10 +12,15 @@ namespace ReservationsLibrary.Services
             _reservationRepository = reservationRepository;
         }
 
-        public int NumOfCanceledReservationForGuest(Guid guestId)
-        {
-            return _reservationRepository.NumOfCanceledReservationForGuest(guestId);
-        }
+        public int NumOfCanceledReservationForGuest(Guid guestId) => _reservationRepository.NumOfCanceledReservationForGuest(guestId);
+
+        public bool ActiveGuestReservations(Guid guestId) => _reservationRepository.ActiveGuestReservations(guestId);
+
+        public bool ActiveHostReservations(Guid guestId) => _reservationRepository.ActiveHostReservations(guestId);
+ 
+        public void DeleteAllReservationsByGuest(Guid guestId) => _reservationRepository.DeleteAllReservationsByGuest(guestId);
+
+        public void DeleteReservationsByHost(Guid hostId) => _reservationRepository.DeleteReservationsByHost(hostId);
 
         public void CancelReservation(Guid reservationId)
         {
@@ -26,19 +31,5 @@ namespace ReservationsLibrary.Services
             _reservationRepository.Update(res);
         }
 
-        public bool ActiveGuestReservations(Guid guestId)
-        {
-            return _reservationRepository.ActiveGuestReservations(guestId);
-        }
-
-        public bool ActiveHostReservations(Guid guestId)
-        {
-            return _reservationRepository.ActiveHostReservations(guestId);
-        }
-        
-        public void DeleteAllReservationsByGuest(Guid guestId)
-        {
-            _reservationRepository.DeleteAllReservationsByGuest(guestId);
-        }
     }
 }

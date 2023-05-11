@@ -56,15 +56,12 @@ namespace ReservationsLibrary.Services
 
             return req;
         }
-        public void DeleteRequest(Guid requestId)
-        {
-            _reservationRequestRepository.Delete(requestId);
-        }
+        public void DeleteRequest(Guid requestId) => _reservationRequestRepository.Delete(requestId);
 
-        public void DeleteAllRequestsByGuest(Guid guestId)
-        {
-            _reservationRequestRepository.DeleteAllRequestsByGuest(guestId);
-        }
+        public void DeleteAllRequestsByGuest(Guid guestId) => _reservationRequestRepository.DeleteAllRequestsByGuest(guestId);
+
+        public void DeleteReservationRequestsByHost(Guid hostId) => _reservationRequestRepository.DeleteReservationRequestsByHost(hostId);
+
         public void ChangeStatus(ReservationRequest request, ReservationRequestStatus status)
         {
             request.Status = status;
@@ -76,7 +73,7 @@ namespace ReservationsLibrary.Services
             {
                 ChangeStatus(rq, ReservationRequestStatus.DECLINED);
             }
-        }
- 
+        } 
+
     }
 }

@@ -5,6 +5,7 @@ import { ApplicationUserService } from '../../user/service/application-user.serv
 import { PriceType } from '../model/price-type';
 import { ReservationService } from '../service/reservation.service';
 import { AuthService } from '../../auth/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reservation-requests',
@@ -21,7 +22,8 @@ export class ReservationRequestsComponent implements OnInit {
   constructor(private reservationRequestService: ReservationRequestService,
      private userService: ApplicationUserService,
      private reservationService: ReservationService,
-     private authService: AuthService){ 
+     private authService: AuthService,
+     private snackBar: MatSnackBar){ 
     this.requests = [];
     this.cancelation = [];
   }
@@ -33,11 +35,28 @@ export class ReservationRequestsComponent implements OnInit {
     });
     this.getByUser();
   }
-  approveRequest(id: string){
-    this.reservationRequestService.approveRequest(id).subscribe();
+  approveRequest(id: string, i: number ){
+    this.reservationRequestService.approveRequest(id).subscribe({
+      complete: () =>{
+        this.snackBar.open("Request successfully approved!", "Ok", {
+          duration: 2000,
+          panelClass: ['blue-snackbar']
+        });
+        this.requests.splice(i, 1);
+      }
+    });
+    
   }
-  declineRequest(id: string){
-    this.reservationRequestService.declineRequest(id).subscribe();
+  declineRequest(id: string, i: number){
+    this.reservationRequestService.declineRequest(id).subscribe({
+      complete: () =>{
+        this.snackBar.open("Request successfully declined!", "Ok", {
+          duration: 2000,
+          panelClass: ['blue-snackbar']
+        });
+        this.requests.splice(i, 1);
+      }
+    });
   }
   getByUser(){
     this.reservationRequestService.getRequestByUser().subscribe((res) =>{
@@ -46,8 +65,16 @@ export class ReservationRequestsComponent implements OnInit {
         this.includeUser();
     });
   }
-  deleteRequest(id: string){
-    this.reservationRequestService.deleteRequest(id).subscribe();
+  deleteRequest(id: string, i: number){
+    this.reservationRequestService.deleteRequest(id).subscribe({
+      complete: () =>{
+        this.snackBar.open("Request successfully deleted!", "Ok", {
+          duration: 2000,
+          panelClass: ['blue-snackbar']
+        });
+        this.requests.splice(i, 1);
+      }
+    });
   }
   getNumberOfCancelationForGuest(id: string) : number{
      this.reservationService.getNumberOfCancelationforGuest(id).subscribe((res) =>{

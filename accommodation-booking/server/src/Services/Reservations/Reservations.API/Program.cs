@@ -10,6 +10,7 @@ using Reservations.API.Infrasructure.Persistence.Repositories;
 using Reservations.API.GrpcServices;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
+using ReservationsLibrary.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

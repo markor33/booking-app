@@ -7,5 +7,6 @@ namespace ReservationsLibrary.Services
         public IEnumerable<Accommodation> GetAll();
         public Accommodation Create(Accommodation accommodation);
         public bool IsAutoConfirmation(Guid accommodationId);
+        public void DeleteAccommodationByHost(Guid hostId);
     }
 }

@@ -33,5 +33,13 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
             _dbContext.Reservations.RemoveRange(itemsToDelete);
             _dbContext.SaveChanges();
         }
+
+        public void DeleteReservationsByHost(Guid hostId)
+        {
+            var reservations = _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.Accommodation.HostId == hostId);
+
+            _dbContext.Reservations.RemoveRange(reservations);
+            _dbContext.SaveChanges();
+        }
     }
 }
