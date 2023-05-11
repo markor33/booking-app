@@ -36,6 +36,7 @@ namespace Reservations.API.Controllers
             _reservationRequestService.ApproveRequest(id);
             return Ok();
         }
+
         [Authorize(Roles = "HOST")]
         [HttpPut("decline/{id}")]
         public ActionResult DeclineRequest([FromRoute] Guid id)
@@ -43,6 +44,7 @@ namespace Reservations.API.Controllers
             _reservationRequestService.DeclineRequest(id);
             return Ok();
         }
+
         [Authorize(Roles = "GUEST")]
         [HttpPost]
         public ActionResult CreateRequest(ReservationRequestDTO request)
@@ -50,6 +52,7 @@ namespace Reservations.API.Controllers
             _reservationRequestService.Create(_mapper.Map<ReservationRequest>(request));
             return Ok();
         }
+
         [Authorize(Roles = "GUEST")]
         [HttpDelete("{id}")]
         public ActionResult DeleteRequest([FromRoute] Guid id)

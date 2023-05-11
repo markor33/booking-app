@@ -24,6 +24,16 @@ class AccommodationSearchStub(object):
                 request_serializer=accommodation__search__pb2.CreatePriceIntervalRequest.SerializeToString,
                 response_deserializer=accommodation__search__pb2.CreatePriceIntervalResponse.FromString,
                 )
+        self.CreateReservation = channel.unary_unary(
+                '/grpc_accommodation_search.AccommodationSearch/CreateReservation',
+                request_serializer=accommodation__search__pb2.CreateReservationRequest.SerializeToString,
+                response_deserializer=accommodation__search__pb2.CreateReservationResponse.FromString,
+                )
+        self.DeleteReservation = channel.unary_unary(
+                '/grpc_accommodation_search.AccommodationSearch/DeleteReservation',
+                request_serializer=accommodation__search__pb2.DeleteReservationRequest.SerializeToString,
+                response_deserializer=accommodation__search__pb2.DeleteReservationResponse.FromString,
+                )
 
 
 class AccommodationSearchServicer(object):
@@ -41,6 +51,18 @@ class AccommodationSearchServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CreateReservation(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteReservation(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AccommodationSearchServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -53,6 +75,16 @@ def add_AccommodationSearchServicer_to_server(servicer, server):
                     servicer.CreatePriceInterval,
                     request_deserializer=accommodation__search__pb2.CreatePriceIntervalRequest.FromString,
                     response_serializer=accommodation__search__pb2.CreatePriceIntervalResponse.SerializeToString,
+            ),
+            'CreateReservation': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateReservation,
+                    request_deserializer=accommodation__search__pb2.CreateReservationRequest.FromString,
+                    response_serializer=accommodation__search__pb2.CreateReservationResponse.SerializeToString,
+            ),
+            'DeleteReservation': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteReservation,
+                    request_deserializer=accommodation__search__pb2.DeleteReservationRequest.FromString,
+                    response_serializer=accommodation__search__pb2.DeleteReservationResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -95,5 +127,39 @@ class AccommodationSearch(object):
         return grpc.experimental.unary_unary(request, target, '/grpc_accommodation_search.AccommodationSearch/CreatePriceInterval',
             accommodation__search__pb2.CreatePriceIntervalRequest.SerializeToString,
             accommodation__search__pb2.CreatePriceIntervalResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateReservation(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc_accommodation_search.AccommodationSearch/CreateReservation',
+            accommodation__search__pb2.CreateReservationRequest.SerializeToString,
+            accommodation__search__pb2.CreateReservationResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteReservation(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc_accommodation_search.AccommodationSearch/DeleteReservation',
+            accommodation__search__pb2.DeleteReservationRequest.SerializeToString,
+            accommodation__search__pb2.DeleteReservationResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

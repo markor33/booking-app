@@ -3,7 +3,7 @@ using GrpcReservations;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
-namespace Reservations.API.GrpcServices
+namespace Reservations.API.Infrastructure.GrpcServices
 {
     public class ReservationsGrpcService : GrpcReservations.Reservations.ReservationsBase
     {
@@ -45,6 +45,7 @@ namespace Reservations.API.GrpcServices
                 HasActive = result
             };
         }
+        
         public async override Task<DeleteUserDependenciesResponse> DeleteUserDependencies(DeleteUserDependenciesRequest request, ServerCallContext context)
         {
             if (request.Role == "HOST")

@@ -1,8 +1,9 @@
+import sys
 import uuid
 from datetime import datetime
 from . import accommodation_search_pb2
 from . import accommodation_search_pb2_grpc
-from models import Accommodation, Address, Benefit, PriceInterval, DateRange
+from models import Accommodation, Address, Benefit, PriceInterval, DateRange, Reservation
 
 class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServicer):
     def CreateAccommodation(self, request, context):
@@ -46,4 +47,31 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
         accommodation.price_intervals.append(price_interval)
         accommodation.save()
         response = accommodation_search_pb2.CreatePriceIntervalResponse()
+        return response
+
+    def CreateReservation(self, request, context):
+        accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
+        reservation = Reservation(
+            id = request.id,
+            period = DateRange(
+                start_date = datetime.fromtimestamp(request.startDate.seconds),
+                end_date = datetime.fromtimestamp(request.endDate.seconds)
+            )
+        )
+        accommodation.reservations.append(reservation)
+        accommodation.save()
+        response = accommodation_search_pb2.CreateReservationResponse()
+        return response
+
+    def DeleteReservation(self, request, context):
+        accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
+        for reservation in accommodation.reservations:
+            if uuid.UUID(request.id) == reservation.id:
+                print(reservation.id, file=sys.stderr)
+                accommodation.reservations.remove(reservation)
+                break
+        print(accommodation.name, file=sys.stderr)
+        accommodation.save()
+        #Accommodation.objects.raw({"_id": uuid.UUID(request.accommodationId)}).update({"$pull": {"reservations": {"_id": uuid.UUID(request.id)}}})
+        response = accommodation_search_pb2.DeleteReservationResponse()
         return response
