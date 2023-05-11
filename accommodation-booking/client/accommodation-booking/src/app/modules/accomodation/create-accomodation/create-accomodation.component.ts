@@ -5,6 +5,7 @@ import { BenefitService } from '../services/benefit.service';
 import { Benefit } from '../models/benefit.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { Photo } from '../models/photo.model';
+import { AccomodationService } from '../services/accomodation.service';
 
 @Component({
   selector: 'app-create-accomodation',
@@ -18,7 +19,7 @@ export class CreateAccomodationComponent {
   selectedBenefits: Benefit[]
   photos: Photo[];
 
-  constructor(private benefitService: BenefitService, private authService: AuthService) { 
+  constructor(private benefitService: BenefitService, private authService: AuthService, private accomodationService: AccomodationService) { 
     this.accomodation = new Accomodation();
     this.benefits = [];
     this.selectedBenefits = [];
@@ -34,7 +35,13 @@ export class CreateAccomodationComponent {
     this.accomodation.hostId = this.authService.getUserId();
     this.accomodation.benefits = this.selectedBenefits;
     this.accomodation.photos = this.photos;
-    console.log(this.accomodation);
+    this.createAccomodation();
+  }
+
+  createAccomodation() {
+    this.accomodationService.createAccomodation(this.accomodation).subscribe( (res) => {
+      //redirect + snack bar
+    })
   }
 
   getBenefits() {

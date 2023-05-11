@@ -1,14 +1,11 @@
 package accomodation.controller;
 
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import accomodation.grpc.GreeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cloudinary.Cloudinary;
-
 import accomodation.dto.AccomodationCardDTO;
 import accomodation.dto.AccomodationDTO;
+import accomodation.grpc.GreeterService;
 import accomodation.model.Accomodation;
-import accomodation.model.Photo;
 import accomodation.security.TokenUtils;
 import accomodation.service.AccomodationService;
-import accomodation.util.PhotoUploader;
 
 @RestController
 @RequestMapping(value = "api/accomodation")
@@ -42,9 +36,6 @@ public class AccomodationController {
 	
 	@Autowired
 	TokenUtils tokenUtils;
-
-	@Autowired
-	PhotoUploader photoUploader;
 	
 	@GetMapping(value = "/test")
 	@PreAuthorize("hasAuthority('HOST')")
@@ -92,12 +83,6 @@ public class AccomodationController {
 		//grpc posalji accomodationDTO.autoConfirmation reservation.api 
 		UUID str = UUID.fromString(tokenUtils.getIdFromToken(tokenUtils.getToken(request)));
 		accomodationDTO.setHostId(str);
-		
-		List<Photo> newPhotos = new ArrayList<Photo>();
-		for(Photo p : accomodationDTO.getPhotos()) {
-			p.setUrl(photoUploader.uploadImage(p.getUrl(), accomodationDTO.getName()));
-			newPhotos.add(p);
-		}
 		
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.createAccomodation(accomodationDTO)), HttpStatus.OK);
 	}

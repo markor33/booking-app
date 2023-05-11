@@ -30,7 +30,7 @@ public class PhotoUploader {
 		cloudinary = new Cloudinary(config);
 	}
 	
-	 public String uploadImage(String b64, String imgName) {
+	 public String uploadImage(String b64) {
 	        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
 	            "cloud_name", "dso3mvk4p",
 	            "api_key", "277748894623968",
