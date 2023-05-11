@@ -5,6 +5,9 @@ package GrpcReservations;
 service Reservations {
 	rpc CheckActiveReservations(CheckActiveReservationsRequest) returns (CheckActiveReservationsResponse);
 	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
+	rpc DeleteUserDependencies(DeleteUserDependenciesRequest) returns (DeleteUserDependenciesResponse);
+
+
 }
 
 message CheckActiveReservationsRequest {
@@ -25,4 +28,11 @@ message AddAccommodationRequest {
 message AddAccommodationResponse {
 
 }
+message DeleteUserDependenciesRequest{
+	string userId = 1;
+	string role = 2;
+}
 
+message DeleteUserDependenciesResponse{
+	
+}

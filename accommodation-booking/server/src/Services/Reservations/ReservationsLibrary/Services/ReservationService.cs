@@ -1,5 +1,6 @@
 ﻿using Reservations.API.Infrasructure;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Utils;
 
 namespace ReservationsLibrary.Services
 {
@@ -16,10 +17,17 @@ namespace ReservationsLibrary.Services
             _accommodationSearchGrpcService = accommodationSearchGrpcService;
         }
 
-        public int NumOfCanceledReservationForGuest(Guid guestId)
-        {
-            return _reservationRepository.NumOfCanceledReservationForGuest(guestId);
-        }
+        public int NumOfCanceledReservationForGuest(Guid guestId) => _reservationRepository.NumOfCanceledReservationForGuest(guestId);
+
+        public bool ActiveGuestReservations(Guid guestId) => _reservationRepository.ActiveGuestReservations(guestId);
+
+        public bool ActiveHostReservations(Guid guestId) => _reservationRepository.ActiveHostReservations(guestId);
+ 
+        public void DeleteAllReservationsByGuest(Guid guestId) => _reservationRepository.DeleteAllReservationsByGuest(guestId);
+
+        public void DeleteReservationsByHost(Guid hostId) => _reservationRepository.DeleteReservationsByHost(hostId);
+
+        public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId) => _reservationRepository.IsOverLappedByAccomodation(range, accommodationId);
 
         public void CancelReservation(Guid reservationId)
         {
@@ -31,19 +39,6 @@ namespace ReservationsLibrary.Services
             _accommodationSearchGrpcService.DeleteReservation(res);
         }
 
-        public bool ActiveGuestReservations(Guid guestId)
-        {
-            return _reservationRepository.ActiveGuestReservations(guestId);
-        }
-
-        public bool ActiveHostReservations(Guid guestId)
-        {
-            return _reservationRepository.ActiveHostReservations(guestId);
-        }
-        
-        public void DeleteAllReservationsByGuest(Guid guestId)
-        {
-            _reservationRepository.DeleteAllReservationsByGuest(guestId);
-        }
+    
     }
 }

@@ -38,7 +38,7 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Accomodations");
+                    b.ToTable("Accommodations");
 
                     b.HasData(
                         new
