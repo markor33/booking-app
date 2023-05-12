@@ -1,13 +1,15 @@
-<div class="container">
-  <h2>Accomodations</h2>
-  <button mat-raised-button color="primary" routerLink="/accomodation/create">
-    <mat-icon>add_box</mat-icon>
-    Create Accomodation
-  </button>
-</div>
+<div>
+  <div class="container">
+    <h2>Accomodations</h2>
+    <button mat-raised-button color="primary" routerLink="/accomodation/create">
+      <mat-icon>add_box</mat-icon>
+      Create Accomodation
+    </button>
+  </div>
 
-<mat-grid-list cols="4" gutterSize="16px" rowHeight="400px" style="margin: 5px;">
-  <mat-grid-tile *ngFor="let accomodation of accomodations">
-    <app-accomodation-card [accomodation]="accomodation"></app-accomodation-card>
-  </mat-grid-tile>
-</mat-grid-list>
+  <mat-grid-list cols="4" gutterSize="16px" rowHeight="400px" style="margin: 5px;">
+    <mat-grid-tile *ngFor="let accomodation of accomodations">
+      <app-accomodation-card [accomodation]="accomodation"></app-accomodation-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

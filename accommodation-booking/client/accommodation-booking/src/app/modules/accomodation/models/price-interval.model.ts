@@ -3,7 +3,7 @@ import { DateTimeRange } from "./date-time-range.model";
 
 export class PriceInterval {
     id: string = '';
-    accomodation: Accomodation = new Accomodation();
+    accommodationId: string = '';
     amount: number = 0;
     interval: DateTimeRange = {
         start: new Date(),

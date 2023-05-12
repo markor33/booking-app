@@ -41,7 +41,7 @@ export class CreateAccomodationComponent {
   }
 
   createAccomodation() {
-    this.accomodationService.createAccomodation(this.accomodation).subscribe( (res) => {
+    this.accomodationService.createAccomodation(this.accomodation).subscribe( () => {
       this.snackBar.open("Successfully created the accomodation!", "Ok", {
         duration: 2000,
         panelClass: ['snack-bar']
