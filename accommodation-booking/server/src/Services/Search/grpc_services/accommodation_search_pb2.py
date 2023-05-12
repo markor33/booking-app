@@ -14,35 +14,39 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1a\x61\x63\x63ommodation-search.proto\x12\x19grpc_accommodation_search\x1a\x1fgoogle/protobuf/timestamp.proto\"?\n\x18\x44\x65leteReservationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\"\x1b\n\x19\x44\x65leteReservationResponse\"\x9b\x01\n\x18\x43reateReservationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\x12-\n\tstartDate\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x07\x65ndDate\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1b\n\x19\x43reateReservationResponse\"\xad\x01\n\x1a\x43reatePriceIntervalRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x02\x12-\n\tstartDate\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x07\x65ndDate\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1d\n\x1b\x43reatePriceIntervalResponse\"\xda\x02\n\x10\x41\x63\x63ommodationDTO\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06hostId\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x11\n\tminGuests\x18\x05 \x01(\x05\x12\x11\n\tmaxGuests\x18\x06 \x01(\x05\x12\x17\n\x0fweekendIncrease\x18\x07 \x01(\x05\x12\x34\n\x08location\x18\x08 \x01(\x0b\x32\".grpc_accommodation_search.Address\x12\r\n\x05photo\x18\t \x01(\t\x12\x37\n\tpriceType\x18\n \x01(\x0e\x32$.grpc_accommodation_search.PriceType\x12\x34\n\x08\x62\x65nefits\x18\x0b \x03(\x0b\x32\".grpc_accommodation_search.Benefit\x12\x14\n\x0cgeneralPrice\x18\x0c \x01(\x02\"#\n\x07\x42\x65nefit\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"H\n\x07\x41\x64\x64ress\x12\x0f\n\x07\x63ountry\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\x0e\n\x06street\x18\x03 \x01(\t\x12\x0e\n\x06number\x18\x04 \x01(\t\"\x1d\n\x1b\x43reateAccommodationResponse*(\n\tPriceType\x12\r\n\tPER_GUEST\x10\x00\x12\x0c\n\x08IN_WHOLE\x10\x01\x32\x98\x04\n\x13\x41\x63\x63ommodationSearch\x12z\n\x13\x43reateAccommodation\x12+.grpc_accommodation_search.AccommodationDTO\x1a\x36.grpc_accommodation_search.CreateAccommodationResponse\x12\x84\x01\n\x13\x43reatePriceInterval\x12\x35.grpc_accommodation_search.CreatePriceIntervalRequest\x1a\x36.grpc_accommodation_search.CreatePriceIntervalResponse\x12~\n\x11\x43reateReservation\x12\x33.grpc_accommodation_search.CreateReservationRequest\x1a\x34.grpc_accommodation_search.CreateReservationResponse\x12~\n\x11\x44\x65leteReservation\x12\x33.grpc_accommodation_search.DeleteReservationRequest\x1a\x34.grpc_accommodation_search.DeleteReservationResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1a\x61\x63\x63ommodation-search.proto\x12\x19grpc_accommodation_search\x1a\x1fgoogle/protobuf/timestamp.proto\"2\n DeleteHostsAccommodationsRequest\x12\x0e\n\x06hostId\x18\x01 \x01(\t\"#\n!DeleteHostsAccommodationsResponse\"?\n\x18\x44\x65leteReservationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\"\x1b\n\x19\x44\x65leteReservationResponse\"\x9b\x01\n\x18\x43reateReservationRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\x12-\n\tstartDate\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x07\x65ndDate\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1b\n\x19\x43reateReservationResponse\"\xad\x01\n\x1a\x43reatePriceIntervalRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x17\n\x0f\x61\x63\x63ommodationId\x18\x02 \x01(\t\x12\x0e\n\x06\x61mount\x18\x03 \x01(\x02\x12-\n\tstartDate\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12+\n\x07\x65ndDate\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"\x1d\n\x1b\x43reatePriceIntervalResponse\"\xda\x02\n\x10\x41\x63\x63ommodationDTO\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06hostId\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x11\n\tminGuests\x18\x05 \x01(\x05\x12\x11\n\tmaxGuests\x18\x06 \x01(\x05\x12\x17\n\x0fweekendIncrease\x18\x07 \x01(\x05\x12\x34\n\x08location\x18\x08 \x01(\x0b\x32\".grpc_accommodation_search.Address\x12\r\n\x05photo\x18\t \x01(\t\x12\x37\n\tpriceType\x18\n \x01(\x0e\x32$.grpc_accommodation_search.PriceType\x12\x34\n\x08\x62\x65nefits\x18\x0b \x03(\x0b\x32\".grpc_accommodation_search.Benefit\x12\x14\n\x0cgeneralPrice\x18\x0c \x01(\x02\"#\n\x07\x42\x65nefit\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"H\n\x07\x41\x64\x64ress\x12\x0f\n\x07\x63ountry\x18\x01 \x01(\t\x12\x0c\n\x04\x63ity\x18\x02 \x01(\t\x12\x0e\n\x06street\x18\x03 \x01(\t\x12\x0e\n\x06number\x18\x04 \x01(\t\"\x1d\n\x1b\x43reateAccommodationResponse*(\n\tPriceType\x12\r\n\tPER_GUEST\x10\x00\x12\x0c\n\x08IN_WHOLE\x10\x01\x32\xb1\x05\n\x13\x41\x63\x63ommodationSearch\x12z\n\x13\x43reateAccommodation\x12+.grpc_accommodation_search.AccommodationDTO\x1a\x36.grpc_accommodation_search.CreateAccommodationResponse\x12\x84\x01\n\x13\x43reatePriceInterval\x12\x35.grpc_accommodation_search.CreatePriceIntervalRequest\x1a\x36.grpc_accommodation_search.CreatePriceIntervalResponse\x12~\n\x11\x43reateReservation\x12\x33.grpc_accommodation_search.CreateReservationRequest\x1a\x34.grpc_accommodation_search.CreateReservationResponse\x12~\n\x11\x44\x65leteReservation\x12\x33.grpc_accommodation_search.DeleteReservationRequest\x1a\x34.grpc_accommodation_search.DeleteReservationResponse\x12\x96\x01\n\x19\x44\x65leteHostsAccommodations\x12;.grpc_accommodation_search.DeleteHostsAccommodationsRequest\x1a<.grpc_accommodation_search.DeleteHostsAccommodationsResponseb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'accommodation_search_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _PRICETYPE._serialized_start=1069
-  _PRICETYPE._serialized_end=1109
-  _DELETERESERVATIONREQUEST._serialized_start=90
-  _DELETERESERVATIONREQUEST._serialized_end=153
-  _DELETERESERVATIONRESPONSE._serialized_start=155
-  _DELETERESERVATIONRESPONSE._serialized_end=182
-  _CREATERESERVATIONREQUEST._serialized_start=185
-  _CREATERESERVATIONREQUEST._serialized_end=340
-  _CREATERESERVATIONRESPONSE._serialized_start=342
-  _CREATERESERVATIONRESPONSE._serialized_end=369
-  _CREATEPRICEINTERVALREQUEST._serialized_start=372
-  _CREATEPRICEINTERVALREQUEST._serialized_end=545
-  _CREATEPRICEINTERVALRESPONSE._serialized_start=547
-  _CREATEPRICEINTERVALRESPONSE._serialized_end=576
-  _ACCOMMODATIONDTO._serialized_start=579
-  _ACCOMMODATIONDTO._serialized_end=925
-  _BENEFIT._serialized_start=927
-  _BENEFIT._serialized_end=962
-  _ADDRESS._serialized_start=964
-  _ADDRESS._serialized_end=1036
-  _CREATEACCOMMODATIONRESPONSE._serialized_start=1038
-  _CREATEACCOMMODATIONRESPONSE._serialized_end=1067
-  _ACCOMMODATIONSEARCH._serialized_start=1112
-  _ACCOMMODATIONSEARCH._serialized_end=1648
+  _PRICETYPE._serialized_start=1158
+  _PRICETYPE._serialized_end=1198
+  _DELETEHOSTSACCOMMODATIONSREQUEST._serialized_start=90
+  _DELETEHOSTSACCOMMODATIONSREQUEST._serialized_end=140
+  _DELETEHOSTSACCOMMODATIONSRESPONSE._serialized_start=142
+  _DELETEHOSTSACCOMMODATIONSRESPONSE._serialized_end=177
+  _DELETERESERVATIONREQUEST._serialized_start=179
+  _DELETERESERVATIONREQUEST._serialized_end=242
+  _DELETERESERVATIONRESPONSE._serialized_start=244
+  _DELETERESERVATIONRESPONSE._serialized_end=271
+  _CREATERESERVATIONREQUEST._serialized_start=274
+  _CREATERESERVATIONREQUEST._serialized_end=429
+  _CREATERESERVATIONRESPONSE._serialized_start=431
+  _CREATERESERVATIONRESPONSE._serialized_end=458
+  _CREATEPRICEINTERVALREQUEST._serialized_start=461
+  _CREATEPRICEINTERVALREQUEST._serialized_end=634
+  _CREATEPRICEINTERVALRESPONSE._serialized_start=636
+  _CREATEPRICEINTERVALRESPONSE._serialized_end=665
+  _ACCOMMODATIONDTO._serialized_start=668
+  _ACCOMMODATIONDTO._serialized_end=1014
+  _BENEFIT._serialized_start=1016
+  _BENEFIT._serialized_end=1051
+  _ADDRESS._serialized_start=1053
+  _ADDRESS._serialized_end=1125
+  _CREATEACCOMMODATIONRESPONSE._serialized_start=1127
+  _CREATEACCOMMODATIONRESPONSE._serialized_end=1156
+  _ACCOMMODATIONSEARCH._serialized_start=1201
+  _ACCOMMODATIONSEARCH._serialized_end=1890
 # @@protoc_insertion_point(module_scope)

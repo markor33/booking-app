@@ -1,3 +1,4 @@
+using GrpcAccommodationSearch;
 using GrpcReservations;
 using Identity.API.Data;
 using Identity.API.Models;
@@ -72,6 +73,10 @@ builder.Services.AddTransient<ApplicationUserService>();
 builder.Services.AddGrpcClient<Reservations.ReservationsClient>((services, options) =>
 {
     options.Address = new Uri("http://host.docker.internal:12001");
+});
+builder.Services.AddGrpcClient<AccommodationSearch.AccommodationSearchClient>((services, options) =>
+{
+    options.Address = new Uri("http://host.docker.internal:13001");
 });
 
 var app = builder.Build();

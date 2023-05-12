@@ -1,6 +1,7 @@
 import sys
 import uuid
 from datetime import datetime
+from pymodm.errors import DoesNotExist
 from . import accommodation_search_pb2
 from . import accommodation_search_pb2_grpc
 from models import Accommodation, Address, Benefit, PriceInterval, DateRange, Reservation
@@ -74,4 +75,12 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
         accommodation.save()
         #Accommodation.objects.raw({"_id": uuid.UUID(request.accommodationId)}).update({"$pull": {"reservations": {"_id": uuid.UUID(request.id)}}})
         response = accommodation_search_pb2.DeleteReservationResponse()
+        return response
+
+    def DeleteHostsAccommodations(self, request, context):
+        try:
+            accommodation = Accommodation.objects.get({'host_id': request.hostId}).delete()
+        except DoesNotExist:
+            pass
+        response = accommodation_search_pb2.DeleteHostsAccommodationsResponse()
         return response

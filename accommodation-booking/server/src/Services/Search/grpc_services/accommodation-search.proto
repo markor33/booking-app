@@ -9,6 +9,15 @@ service AccommodationSearch {
   rpc CreatePriceInterval (CreatePriceIntervalRequest) returns (CreatePriceIntervalResponse);
   rpc CreateReservation (CreateReservationRequest) returns (CreateReservationResponse);
   rpc DeleteReservation (DeleteReservationRequest) returns (DeleteReservationResponse);
+  rpc DeleteHostsAccommodations (DeleteHostsAccommodationsRequest) returns (DeleteHostsAccommodationsResponse);
+}
+
+message DeleteHostsAccommodationsRequest {
+  string hostId = 1;
+}
+
+message DeleteHostsAccommodationsResponse {
+
 }
 
 message DeleteReservationRequest {
