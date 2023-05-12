@@ -56,8 +56,10 @@ public class PriceIntervalService {
     	Accomodation accomodation = accomodationRepository.findById(dto.getAccommodationId()).get();
     	
     	//PROVERITI DA LI JE VEC REZERVISAN
-    	
-        return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
+    	//if(VEC JE REZERVISAN) 
+    	//	return null
+    	//else
+    		return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
     }
 
 }
