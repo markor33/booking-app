@@ -24,6 +24,11 @@ class AccommodationSearchStub(object):
                 request_serializer=accommodation__search__pb2.CreatePriceIntervalRequest.SerializeToString,
                 response_deserializer=accommodation__search__pb2.CreatePriceIntervalResponse.FromString,
                 )
+        self.EditPriceInterval = channel.unary_unary(
+                '/grpc_accommodation_search.AccommodationSearch/EditPriceInterval',
+                request_serializer=accommodation__search__pb2.EditPriceIntervalRequest.SerializeToString,
+                response_deserializer=accommodation__search__pb2.EditPriceIntervalResponse.FromString,
+                )
         self.CreateReservation = channel.unary_unary(
                 '/grpc_accommodation_search.AccommodationSearch/CreateReservation',
                 request_serializer=accommodation__search__pb2.CreateReservationRequest.SerializeToString,
@@ -51,6 +56,12 @@ class AccommodationSearchServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def CreatePriceInterval(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def EditPriceInterval(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -86,6 +97,11 @@ def add_AccommodationSearchServicer_to_server(servicer, server):
                     servicer.CreatePriceInterval,
                     request_deserializer=accommodation__search__pb2.CreatePriceIntervalRequest.FromString,
                     response_serializer=accommodation__search__pb2.CreatePriceIntervalResponse.SerializeToString,
+            ),
+            'EditPriceInterval': grpc.unary_unary_rpc_method_handler(
+                    servicer.EditPriceInterval,
+                    request_deserializer=accommodation__search__pb2.EditPriceIntervalRequest.FromString,
+                    response_serializer=accommodation__search__pb2.EditPriceIntervalResponse.SerializeToString,
             ),
             'CreateReservation': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateReservation,
@@ -143,6 +159,23 @@ class AccommodationSearch(object):
         return grpc.experimental.unary_unary(request, target, '/grpc_accommodation_search.AccommodationSearch/CreatePriceInterval',
             accommodation__search__pb2.CreatePriceIntervalRequest.SerializeToString,
             accommodation__search__pb2.CreatePriceIntervalResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def EditPriceInterval(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc_accommodation_search.AccommodationSearch/EditPriceInterval',
+            accommodation__search__pb2.EditPriceIntervalRequest.SerializeToString,
+            accommodation__search__pb2.EditPriceIntervalResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

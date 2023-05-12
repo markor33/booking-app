@@ -68,6 +68,8 @@ public class PriceIntervalService {
     	if(result)
     		return null;
 
+        this.accommodationSearchGrpcService.EditPriceInterval(dto);
+
         return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
     }
 

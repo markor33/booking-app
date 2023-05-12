@@ -50,6 +50,18 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
         response = accommodation_search_pb2.CreatePriceIntervalResponse()
         return response
 
+    def EditPriceInterval(self, request, context):
+        accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
+        for price_interval in accommodation.price_intervals:
+            if uuid.UUID(request.priceIntervalId) == price_interval.id:
+                price_interval.interval.start_date = datetime.fromtimestamp(request.startDate.seconds)
+                price_interval.interval.end_date = datetime.fromtimestamp(request.endDate.seconds)
+                price_interval.amount = request.amount
+                break
+        accommodation.save()
+        response = accommodation_search_pb2.EditPriceIntervalResponse()
+        return response
+
     def CreateReservation(self, request, context):
         accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
         reservation = Reservation(
