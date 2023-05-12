@@ -1,0 +1,101 @@
+<div class="m5">
+    <mat-card class="grid-container">
+        <h2>Information</h2>
+        
+        <mat-grid-list cols="5" style="margin:5px" rowHeight="100px" class="centered-grid-list">
+
+            <mat-card [ngStyle]="{'background-color': 'lightblue'}">
+                <mat-grid-tile>
+                    Name: {{accomodation.name}}
+                </mat-grid-tile>
+            </mat-card>  
+                
+            <mat-grid-tile>
+                Description: {{accomodation.description}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Created: {{accomodation.created}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Minimum guests: {{accomodation.minGuests}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Maximum guests: {{accomodation.maxGuests}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Weekend increase: {{accomodation.weekendIncrease}}%
+            </mat-grid-tile>
+
+            <mat-grid-tile> 
+                Location: {{accomodation.location.country}}, {{accomodation.location.city}}, {{accomodation.location.street}} {{accomodation.location.number}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Price: {{accomodation.generalPrice}} EUR
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Price type: {{accomodation.priceType}}
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                Benefits:
+                <div *ngFor="let benefit of accomodation.benefits">
+                    &nbsp;
+                    {{benefit.name}}
+                </div>     
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </mat-card>
+
+    <mat-card>
+        <h2>Photos</h2>
+        <mat-grid-list cols="5" gutterSize="16px" style="margin: 5px;">
+            <mat-grid-tile *ngFor="let photo of accomodation.photos">
+                <img [src]="photo.url" class="image">
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+
+    <mat-card>
+        <div>
+            <h2>Special intervals</h2>
+            <button mat-raised-button color="primary" (click)="createInterval()">
+              <mat-icon>add_box</mat-icon>
+              Define interval
+            </button>
+        </div>
+        
+        <table mat-table [dataSource]="accomodation.priceIntervals">
+            <ng-container matColumnDef="start">
+                <th mat-header-cell *matHeaderCellDef>Start</th>
+                <td mat-cell *matCellDef="let element">{{element.interval.start}}</td>
+            </ng-container>
+            <ng-container matColumnDef="end">
+                <th mat-header-cell *matHeaderCellDef>End</th>
+                <td mat-cell *matCellDef="let element">{{element.interval.end}}</td>
+            </ng-container>
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef>Price increase</th>
+                <td mat-cell *matCellDef="let element">{{element.amount}} EUR</td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Edit</th>
+                <td mat-cell *matCellDef="let i = index">
+                    <button mat-raised-button color="primary" (click)="editInterval(i)">
+                        <mat-icon>edit_box</mat-icon>
+                        Edit
+                      </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>  
+    </mat-card>
+</div>

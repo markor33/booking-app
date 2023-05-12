@@ -28,11 +28,12 @@ public class DateTimeRange {
 		this.end = d.getEnd();
 	}
 
-	public boolean overlapsWith(DateTimeRange dateRange) {
-		return (dateRange.start.compareTo(start) >= 0 && dateRange.start.compareTo(end) <= 0) ||
-				(dateRange.end.compareTo(start) >= 0 && dateRange.end.compareTo(end) <= 0);
+	public boolean overlapsWith(DateTimeRange dateRange) { 
+		return (dateRange.start.compareTo(start) >= 0 && dateRange.start.compareTo(end) <= 0) || 
+			(dateRange.end.compareTo(start) >= 0 && dateRange.end.compareTo(end) <= 0) ||
+			(dateRange.start.compareTo(start) <= 0 && dateRange.end.compareTo(end) >= 0);
 	}
-
+	 
 	public LocalDateTime getStart() {
 		return start;
 	}
