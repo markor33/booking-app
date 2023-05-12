@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using GrpcAccommodationSearch;
 using GrpcReservations;
 using Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
@@ -9,10 +10,16 @@ namespace Identity.API.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly Reservations.ReservationsClient _reservationsClient;
+        private readonly AccommodationSearch.AccommodationSearchClient _searchClient;
 
-        public ApplicationUserService(UserManager<ApplicationUser> userManager, Reservations.ReservationsClient reservationsClient = null)
+        public ApplicationUserService(
+            UserManager<ApplicationUser> userManager, 
+            Reservations.ReservationsClient reservationsClient,
+            AccommodationSearch.AccommodationSearchClient searchClient)
         {
-            _userManager = userManager; _reservationsClient = reservationsClient;
+            _userManager = userManager; 
+            _reservationsClient = reservationsClient;
+            _searchClient = searchClient;
         }
 
         public async Task<Result> EditProfileAsync(UserProfile user)
@@ -51,7 +58,8 @@ namespace Identity.API.Services
             {
                // await _userManager.DeleteAsync(user);
                 await _reservationsClient.DeleteUserDependenciesAsync(new DeleteUserDependenciesRequest{ UserId = userId, Role = role });
-
+                if (role == "HOST")
+                    await _searchClient.DeleteHostsAccommodationsAsync(new DeleteHostsAccommodationsRequest { HostId = userId });
                 return Result.Ok();
             }
             return Result.Fail("Failed to delete profile");
