@@ -7,9 +7,22 @@ import "google/protobuf/timestamp.proto";
 service AccommodationSearch {
   rpc CreateAccommodation (AccommodationDTO) returns (CreateAccommodationResponse);
   rpc CreatePriceInterval (CreatePriceIntervalRequest) returns (CreatePriceIntervalResponse);
+  rpc EditPriceInterval (EditPriceIntervalRequest) returns (EditPriceIntervalResponse);
   rpc CreateReservation (CreateReservationRequest) returns (CreateReservationResponse);
   rpc DeleteReservation (DeleteReservationRequest) returns (DeleteReservationResponse);
   rpc DeleteHostsAccommodations (DeleteHostsAccommodationsRequest) returns (DeleteHostsAccommodationsResponse);
+}
+
+message EditPriceIntervalRequest {
+  string accommodationId = 1;
+  string priceIntervalId = 2;
+  google.protobuf.Timestamp startDate = 3;
+  google.protobuf.Timestamp endDate = 4;
+  float amount = 5;
+}
+
+message EditPriceIntervalResponse {
+
 }
 
 message DeleteHostsAccommodationsRequest {
