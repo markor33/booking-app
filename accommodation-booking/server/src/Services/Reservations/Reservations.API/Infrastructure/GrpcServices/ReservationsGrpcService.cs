@@ -2,6 +2,7 @@
 using GrpcReservations;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
+using ReservationsLibrary.Utils;
 
 namespace Reservations.API.Infrastructure.GrpcServices
 {
@@ -60,5 +61,12 @@ namespace Reservations.API.Infrastructure.GrpcServices
             return new DeleteUserDependenciesResponse();
         }
 
+        public async override Task<IsOverLappedByAccomodationResponse> IsOverLappedByAccomodation(IsOverLappedByAccomodationRequest request, ServerCallContext context)
+        {
+            var accommodationId = Guid.Parse(request.AccommodationId);
+            var range = new DateRange(request.StartDate.ToDateTime(), request.EndDate.ToDateTime());
+            var result = _reservationService.IsOverLappedByAccomodation(range, accommodationId);
+            return new IsOverLappedByAccomodationResponse() { IsOverlapped = result };
+        }
     }
 }

@@ -3,6 +3,7 @@ package accomodation.service;
 import java.util.List;
 import java.util.UUID;
 
+import accomodation.grpc.ReservationsGrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class PriceIntervalService {
 
     @Autowired
     AccommodationSearchGrpcService accommodationSearchGrpcService;
+
+    @Autowired
+    ReservationsGrpcService reservationsGrpcService;
 
     @Autowired
     PriceIntervalRepository priceIntervalRepository;
@@ -39,6 +43,11 @@ public class PriceIntervalService {
     	
         UUID id = UUID.randomUUID();
         Accomodation accomodation = accomodationRepository.findById(priceIntervalDTO.getAccommodationId()).get();
+
+        boolean result = this.reservationsGrpcService.IsOverllaped(accomodation.getId(), priceIntervalDTO.getInterval());
+        if(result)
+            return null;
+
         PriceInterval priceInterval = new PriceInterval(id, accomodation, priceIntervalDTO.getAmount(), priceIntervalDTO.getInterval());
         priceInterval = this.priceIntervalRepository.save(priceInterval);
         this.accommodationSearchGrpcService.AddPriceInterval(priceInterval);
@@ -54,12 +63,12 @@ public class PriceIntervalService {
     	}  	
     	
     	Accomodation accomodation = accomodationRepository.findById(dto.getAccommodationId()).get();
-    	
-    	//PROVERITI DA LI JE VEC REZERVISAN
-    	//if(VEC JE REZERVISAN) 
-    	//	return null
-    	//else
-    		return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
+
+        boolean result = this.reservationsGrpcService.IsOverllaped(accomodation.getId(), dto.getInterval());
+    	if(result)
+    		return null;
+
+        return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
     }
 
 }
