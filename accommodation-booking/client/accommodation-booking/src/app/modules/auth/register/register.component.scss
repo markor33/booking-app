@@ -1,0 +1,67 @@
+mat-card {
+    max-width: 40%;
+    margin: 10em auto;
+    text-align: center;
+}
+
+mat-card-content {
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card-actions button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.system-user-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-type-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+.user-type-margin {
+    margin: 0 10px;
+}
+
+.name-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2%;
+}
+
+.name-container mat-form-field {
+    width: 50%;
+}
+
+mat-divider {
+    margin: 2% 0% 5% 0%;
+}
+
+.address-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-container div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2%;
+}
+
+.address-container .street-input {
+    width: 90%;
+}
+
+.address-container mat-form-field {
+    width: 50%;
+}

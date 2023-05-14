@@ -1,0 +1,30 @@
+  <table md-table>
+    <thead md-head>
+      <tr md-row>
+        <th md-column>Photo</th>
+        <th md-column>Accommodation name</th>
+        <th md-column *ngIf="userRole == 'HOST'">Guest name</th>
+        <th md-column *ngIf="userRole == 'HOST'">Number of cancel reservation in past</th>
+        <th md-column>Period</th>
+        <th md-column>Number of guests</th>
+        <th md-column>Price</th>
+        <th md-column *ngIf="userRole == 'HOST'"></th>
+        <th md-column *ngIf="userRole == 'HOST'"></th>
+        <th md-column *ngIf="userRole == 'GUEST'"></th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row *ngFor="let res of requests;index as i">
+        <td md-cell *ngIf="res.accommodationCard != undefined"><img mat-card-image src={{res.accommodationCard.photoUrl}} class="img"/></td>
+        <td md-cell *ngIf="res.accommodationCard != undefined">{{res.accommodationCard.name}}</td>
+        <td md-cell *ngIf="userRole == 'HOST' && res.guestProfile != undefined">{{res.guestProfile.firstName + " " + res.guestProfile.lastName}}</td>
+        <td md-cell *ngIf="userRole == 'HOST'">{{cancelation[i]}}</td>
+        <td md-cell>{{res.period.start | date:'mediumDate'}} - {{res.period.end | date:'mediumDate'}}</td>
+        <td md-cell>{{res.numOfGuests}}</td>
+        <td md-cell>{{res.price + "eur"}} </td>
+        <td md-cell *ngIf="userRole == 'HOST'"><button mat-raised-button color="warn"(click)="declineRequest(res.id, i)">Decline</button></td>
+        <td md-cell *ngIf="userRole == 'HOST'"><button mat-raised-button color="primary" (click)="approveRequest(res.id, i)">Approve</button></td>
+        <td md-cell *ngIf="userRole == 'GUEST'"><button mat-raised-button color="primary" (click)="deleteRequest(res.id, i)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>

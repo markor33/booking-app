@@ -1,0 +1,49 @@
+﻿syntax = "proto3";
+
+package GrpcReservations;
+import "google/protobuf/timestamp.proto";
+
+service Reservations {
+	rpc CheckActiveReservations(CheckActiveReservationsRequest) returns (CheckActiveReservationsResponse);
+	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
+	rpc DeleteUserDependencies(DeleteUserDependenciesRequest) returns (DeleteUserDependenciesResponse);
+	rpc IsOverLappedByAccomodation(IsOverLappedByAccomodationRequest) returns (IsOverLappedByAccomodationResponse);
+
+}
+
+message IsOverLappedByAccomodationRequest {
+	string accommodationId = 1;
+	google.protobuf.Timestamp startDate = 2;
+	google.protobuf.Timestamp endDate = 3;
+}
+
+message IsOverLappedByAccomodationResponse {
+	bool isOverlapped = 1;
+}
+
+message CheckActiveReservationsRequest {
+	string userId = 1;
+	string role = 2;
+}
+
+message CheckActiveReservationsResponse {
+	bool hasActive = 1;
+}
+
+message AddAccommodationRequest {
+	string accommodationId = 1;
+	string hostId = 2;
+	bool autoConfirmation = 3;
+}
+
+message AddAccommodationResponse {
+
+}
+message DeleteUserDependenciesRequest{
+	string userId = 1;
+	string role = 2;
+}
+
+message DeleteUserDependenciesResponse{
+	
+}

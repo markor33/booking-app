@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  flightbooking.api:
+    image: ${DOCKER_REGISTRY-}flightbookingapi
+    build:
+      context: .
+      dockerfile: src/FlightBooking.API/Dockerfile  
+    ports:
+     - 50000:80

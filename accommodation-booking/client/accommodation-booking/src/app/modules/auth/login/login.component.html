@@ -1,0 +1,26 @@
+<mat-card>
+    <form (ngSubmit)="login()">
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" required [(ngModel)]="credentials.username" name="username">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Enter password</mat-label>
+                <input matInput [type]="hidePassword ? 'password' : 'text'" required [(ngModel)]="credentials.password" name="password">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary">Login</button>
+            <a [routerLink]="['/auth/register']">
+                Don't have an account? Sign Up
+            </a>
+        </mat-card-actions>
+    </form>
+</mat-card>
