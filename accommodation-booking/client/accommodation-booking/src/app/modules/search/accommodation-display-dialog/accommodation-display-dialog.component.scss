@@ -1,13 +1,3 @@
-@use '@angular/material' as mat;
-
-$my-palette: mat.define-palette(mat.$indigo-palette);
-
-.dialog-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
 .container {
     padding: 1%;
     display: flex;
@@ -39,18 +29,4 @@ $my-palette: mat.define-palette(mat.$indigo-palette);
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-.reservation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 5%;
-    background-color: mat.get-color-from-palette($my-palette);
-    cursor: pointer;
-}
-
-.reservation h2 {
-    color: white;
 }

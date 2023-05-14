@@ -2,18 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ReservationsLibrary.Data;
 
 #nullable disable
 
-namespace Reservations.API.Infrastructure.Persistence.Migrations
+namespace Reservations.API.Migrations
 {
     [DbContext(typeof(ReservationsDbContext))]
-    partial class ReservationsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230514170541_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,27 +43,27 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6dd36b67-30e0-40df-bceb-1d03e29afe28"),
+                            Id = new Guid("21dbd1b8-b523-4d9b-a8c8-05e0c567316f"),
                             AutoConfirmation = true,
-                            HostId = new Guid("878962ca-7be7-4cd2-9e27-1963749e19be")
+                            HostId = new Guid("142eac06-d30f-4836-80ad-fb52725149dd")
                         },
                         new
                         {
-                            Id = new Guid("7bd43bc3-3607-4861-8de3-ac46a639419b"),
+                            Id = new Guid("c609fafc-3c32-4e73-9cec-84877cf50eb1"),
                             AutoConfirmation = false,
-                            HostId = new Guid("cd241f3d-3641-43d0-9227-bd49f5c4cc20")
+                            HostId = new Guid("5d604ef4-7149-4cab-a1cf-4c6497e9768e")
                         },
                         new
                         {
-                            Id = new Guid("426bb5cd-11c7-4a6b-b69d-a295cf8ad810"),
+                            Id = new Guid("b2702b82-40d6-498f-b9a7-fa6d5e0fa029"),
                             AutoConfirmation = false,
-                            HostId = new Guid("1ea0022e-cff0-4256-ba25-2c12cc0dfadc")
+                            HostId = new Guid("a62dafca-14d6-4907-aa4a-cd8ca5607665")
                         },
                         new
                         {
-                            Id = new Guid("8ae6ed88-2755-4ad8-9a1f-0c64dab88da5"),
+                            Id = new Guid("f653f8e7-efde-45c2-b82e-16566de0c27a"),
                             AutoConfirmation = true,
-                            HostId = new Guid("06d65b58-5b3e-4dd3-b886-341ced7d0d51")
+                            HostId = new Guid("ee6f2fa4-8bcf-4530-b97a-686f9be133d2")
                         });
                 });
 
@@ -123,18 +125,18 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("09927483-c298-4c0a-8a33-88d92548e12b"),
-                            AccommodationId = new Guid("6dd36b67-30e0-40df-bceb-1d03e29afe28"),
-                            GuestId = new Guid("0e41276d-8cac-400c-9dcb-0fa771023864"),
+                            Id = new Guid("5ace11c7-4bbc-402c-9a42-0a85998fbec1"),
+                            AccommodationId = new Guid("21dbd1b8-b523-4d9b-a8c8-05e0c567316f"),
+                            GuestId = new Guid("5fbd1fd1-ab26-4728-aef2-e44fef2e41ab"),
                             NumOfGuests = 2,
                             Price = 500,
                             Status = 0
                         },
                         new
                         {
-                            Id = new Guid("8e39a8d9-cb9d-4d13-804c-a1002ca0964b"),
-                            AccommodationId = new Guid("7bd43bc3-3607-4861-8de3-ac46a639419b"),
-                            GuestId = new Guid("f07fd2d7-5fcf-45a5-98ea-c9826be346a4"),
+                            Id = new Guid("d8ef57a7-f0c6-4111-90f7-2b85ebc6827b"),
+                            AccommodationId = new Guid("c609fafc-3c32-4e73-9cec-84877cf50eb1"),
+                            GuestId = new Guid("97a98ce3-7426-4f76-96cd-1e96472a9ece"),
                             NumOfGuests = 1,
                             Price = 400,
                             Status = 0
@@ -206,13 +208,13 @@ namespace Reservations.API.Infrastructure.Persistence.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    ReservationRequestId = new Guid("09927483-c298-4c0a-8a33-88d92548e12b"),
+                                    ReservationRequestId = new Guid("5ace11c7-4bbc-402c-9a42-0a85998fbec1"),
                                     End = new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 },
                                 new
                                 {
-                                    ReservationRequestId = new Guid("8e39a8d9-cb9d-4d13-804c-a1002ca0964b"),
+                                    ReservationRequestId = new Guid("d8ef57a7-f0c6-4111-90f7-2b85ebc6827b"),
                                     End = new DateTime(2023, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 });

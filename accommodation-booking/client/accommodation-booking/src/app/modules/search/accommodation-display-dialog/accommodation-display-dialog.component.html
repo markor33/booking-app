@@ -1,21 +1,17 @@
-<div class="dialog-container">
-    <div class="container">
-        <h1>{{accommodation.name}}</h1>
-        <span class="icon-text-align location">
-            <mat-icon color="primary">location_on</mat-icon>
-            {{accommodation.location.street + ' ' + accommodation.location.number + ', ' + accommodation.location.city + ' ' + accommodation.location.country}}
-        </span>
-        <div class="description">
-            {{accommodation.description}}
-        </div>
-        <div class="benefits">
-            <h4>Benefits: {{getBenefitNames()}}</h4>
-        </div>
-        <div class="photos">
-            <img *ngFor="let photo of accommodation.photos" [src]="photo.url">
-        </div>
+
+<div class="container">
+    <h1>{{accommodation.name}}</h1>
+    <span class="icon-text-align location">
+        <mat-icon color="primary">location_on</mat-icon>
+        {{accommodation.location.street + ' ' + accommodation.location.number + ', ' + accommodation.location.city + ' ' + accommodation.location.country}}
+    </span>
+    <div class="description">
+        {{accommodation.description}}
     </div>
-    <div class="reservation">
-        <h2>Reserve: (01-01-2023) - (15-01-2023), 300</h2>
-    </div>    
+    <div class="benefits">
+        <h4>Benefits: {{getBenefitNames()}}</h4>
+    </div>
+    <div class="photos">
+        <img *ngFor="let photo of accommodation.photos" [src]="photo.url">
+    </div>
 </div>
