@@ -13,7 +13,7 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public int NumOfCanceledReservationForGuest(Guid guestId) => _dbContext.Reservations.Where(r => r.GuestId == guestId && r.Canceled == true).GroupBy(r => r.GuestId).Count();
 
-        public Reservation GetById(Guid resId) => _dbContext.Reservations.Include(a => a.Accommodation).Include(p => p.Price).FirstOrDefault(r => r.Id == resId);
+        public Reservation GetById(Guid resId) => _dbContext.Reservations.Include(a => a.Accommodation).FirstOrDefault(r => r.Id == resId);
 
         public bool ActiveGuestReservations(Guid guestId)
         {
@@ -49,6 +49,16 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
             var numOfReservation = _dbContext.Reservations.Where(e => e.Period.Start < range.End && e.Period.End > range.Start
                                           && e.AccommodationId == accommodationId && e.Canceled == false).GroupBy(r => r.Id).Count();
             return numOfReservation != 0;
+        }
+
+        public List<Reservation> GetByHost(Guid hostId)
+        {
+            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.Accommodation.HostId == hostId).ToList();
+        }
+
+        public List<Reservation> GetByGuest(Guid guestId)
+        {
+            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.GuestId == guestId).ToList();
         }
     }
 }

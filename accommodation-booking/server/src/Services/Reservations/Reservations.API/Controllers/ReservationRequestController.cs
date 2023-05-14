@@ -49,8 +49,12 @@ namespace Reservations.API.Controllers
         [HttpPost]
         public ActionResult CreateRequest(ReservationRequestDTO request)
         {
-            _reservationRequestService.Create(_mapper.Map<ReservationRequest>(request));
-            return Ok();
+            var req = _mapper.Map<ReservationRequest>(request);
+            req.GuestId = Guid.Parse(User.UserId());
+            var res = _reservationRequestService.Create(_mapper.Map<ReservationRequest>(req));
+            if (res.IsFailed)
+                return BadRequest();
+            return Ok(res.Value);
         }
 
         [Authorize(Roles = "GUEST")]

@@ -2,6 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Accomodation } from '../models/accomodation.model';
+import { AccommodationCard } from '../models/accommodation-card.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,12 @@ export class AccomodationService {
 
     return this.http
       .post<Accomodation>(url, accomodation, this.httpOptions);
+  }
+  getAccommodationCoverAndName(id: string): Observable<AccommodationCard>{
+    const url = '/api/accomodation-service/accomodation/cover/' + id;
+    
+    return this.http
+      .get<AccommodationCard>(url, this.httpOptions);
   }
 
 }

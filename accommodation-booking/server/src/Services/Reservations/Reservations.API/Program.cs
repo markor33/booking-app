@@ -9,7 +9,6 @@ using Reservations.API.Security;
 using Reservations.API.Infrasructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
-using ReservationsLibrary.Repository;
 using Reservations.API.Infrastructure.GrpcServices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +26,6 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<ReservationsDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Reservations")));
 builder.Services.AddScoped(typeof(IAccommodationRepository), typeof(AccommodationRepository));
-builder.Services.AddScoped(typeof(IPriceRepository), typeof(PriceRepository));
 builder.Services.AddScoped(typeof(IReservationRepository), typeof(ReservationRepository));
 builder.Services.AddScoped(typeof(IReservationRequestRepository), typeof(ReservationRequestRepository));
 

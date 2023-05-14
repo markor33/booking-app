@@ -16,20 +16,12 @@ namespace ReservationsLibrary.Data.Seed
                 new Accommodation(Guid.NewGuid(), Guid.NewGuid(), true)
 
             };
-
-            var prices = new[]
-            {
-                new Price(Guid.NewGuid(), 250, PriceType.PER_GUEST),
-                new Price(Guid.NewGuid(), 350, PriceType.IN_WHOLE),
-            };
-
             var reservationRequests = new[]
             {
-                new ReservationRequest(Guid.NewGuid(),accommodations[0].Id,Guid.NewGuid(),2,prices[0].Id),
-                new ReservationRequest(Guid.NewGuid(),accommodations[1].Id,Guid.NewGuid(),1,prices[1].Id),
+                new ReservationRequest(Guid.NewGuid(),accommodations[0].Id,Guid.NewGuid(),2, 500),
+                new ReservationRequest(Guid.NewGuid(),accommodations[1].Id,Guid.NewGuid(),1, 400),
             };
             modelBuilder.Entity<Accommodation>().HasData(accommodations);
-            modelBuilder.Entity<Price>().HasData(prices);
             modelBuilder.Entity<ReservationRequest>(rr =>
             {
                 rr.HasData(reservationRequests[0]);

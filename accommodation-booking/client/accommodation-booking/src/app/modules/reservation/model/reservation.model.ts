@@ -1,19 +1,18 @@
 import { AccommodationCard } from "../../accomodation/models/accommodation-card.model";
 import { UserProfile } from "../../user/model/user-profile.model";
 import { DateRange } from "./date-range.model";
-import { ReservationRequestStatus } from "./reservation-request-status";
 
-export class ReservationRequest {
+export class Reservation {
 
     id: string;
     accommodationId: string;
-    accommodationCard: AccommodationCard;
     guestProfile: UserProfile;
     guestId: string;
     period: DateRange;
     numOfGuests: number;
     price: number;
-    status: ReservationRequestStatus;
+    canceled: boolean;
+    accommodationCard: AccommodationCard;
 
     constructor(rrInter: ReservationRequestInterface){
         this.accommodationId = rrInter.accommodationId;
@@ -22,7 +21,7 @@ export class ReservationRequest {
         this.period = rrInter.period;
         this.numOfGuests = rrInter.numOfGuests;
         this.price = rrInter.price;
-        this.status = rrInter.status
+        this.canceled = rrInter.canceled
         this.id = rrInter.id;
         this.accommodationCard = rrInter.accommodationCard;
     }
@@ -36,7 +35,6 @@ interface ReservationRequestInterface{
     period: DateRange;
     numOfGuests: number;
     price: number;
-    status: ReservationRequestStatus;
+    canceled: boolean;
     accommodationCard: AccommodationCard;
 }
-

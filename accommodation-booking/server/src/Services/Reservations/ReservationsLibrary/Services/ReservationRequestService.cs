@@ -1,4 +1,5 @@
-﻿using Reservations.API.Infrasructure;
+﻿using FluentResults;
+using Reservations.API.Infrasructure;
 using ReservationsLibrary.Enums;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Utils;
@@ -48,17 +49,23 @@ namespace ReservationsLibrary.Services
             ChangeStatus(request, ReservationRequestStatus.DECLINED);
         }
 
-        public ReservationRequest Create(ReservationRequest request)
+        public Result<ReservationRequest> Create(ReservationRequest request)
         {
             request.Accommodation = _accommodationRepository.GetById(request.AccommodationId);
-            var req = _reservationRequestRepository.Create(request);
-            if (_accommodationService.IsAutoConfirmation(req.AccommodationId))
+            if (!_reservationRepository.IsOverLappedByAccomodation(request.Period, request.AccommodationId))
             {
-                _reservationRepository.Create(new Reservation(req));
-                ChangeStatus(req, ReservationRequestStatus.APPROVED);
+                var req = _reservationRequestRepository.Create(request);
+                if (_accommodationService.IsAutoConfirmation(req.AccommodationId))
+                {
+                    var reservation = new Reservation(req);
+                    _reservationRepository.Create(reservation);
+                    ChangeStatus(req, ReservationRequestStatus.APPROVED);
+                    _accommodationSearchGrpcService.AddReservation(reservation);
+                }
+                return Result.Ok(req);
             }
-
-            return req;
+               
+            return Result.Fail("Already reserved");
         }
         public void DeleteRequest(Guid requestId) => _reservationRequestRepository.Delete(requestId);
 
