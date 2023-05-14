@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AccommodationSearchService } from '../services/accommodation-search.service';
 import { SearchQuery } from '../models/search-query.model';
 import { Accommodation } from '../models/accommodation.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AccommodationDisplayDialogComponent } from '../accommodation-display-dialog/accommodation-display-dialog.component';
 
 @Component({
   selector: 'app-accommodation-search',
@@ -14,7 +16,9 @@ export class AccommodationSearchComponent {
   numOfNights: number = 0;
   accommodations: Accommodation[] = [];
 
-  constructor(private searchService: AccommodationSearchService) {}
+  constructor(
+    private searchService: AccommodationSearchService,
+    private matDialog: MatDialog) {}
 
   ngOnInit() {
 
@@ -32,6 +36,14 @@ export class AccommodationSearchComponent {
   getNumOfNights() {
     const diffTime =  Math.abs(this.searchQuery.endDate.getTime() - this.searchQuery.startDate.getTime())
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+  openAccommodationDisplay(id: string) {
+    this.matDialog.open(AccommodationDisplayDialogComponent, {
+      data: { id: id },
+      width: '80%',
+      height: '90%'
+    });
   }
 
 }
