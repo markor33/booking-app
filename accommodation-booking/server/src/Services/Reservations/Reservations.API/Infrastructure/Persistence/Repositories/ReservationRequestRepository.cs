@@ -13,13 +13,11 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public List<ReservationRequest> GetByHost(Guid hostId)
         {
-            return _dbContext.ReservationRequests.Include(r => r.Accommodation).Include(p => p.Price)
-                                                .Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
+            return _dbContext.ReservationRequests.Include(r => r.Accommodation).Where(r => r.Accommodation.HostId == hostId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
         public List<ReservationRequest> GetByGuest(Guid guestId)
         {
-            return _dbContext.ReservationRequests.Include(r => r.Accommodation).Include(p => p.Price)
-                                                .Where(r => r.GuestId == guestId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
+            return _dbContext.ReservationRequests.Include(r => r.Accommodation).Where(r => r.GuestId == guestId && r.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
 
         public List<ReservationRequest> GetOverLapped(DateRange range, Guid accommodationId)
@@ -27,7 +25,7 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
             return _dbContext.ReservationRequests.Where(e => e.Period.Start < range.End && e.Period.End > range.Start
                                             && e.AccommodationId == accommodationId && e.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
-        public ReservationRequest GetById(Guid requestId) => _dbContext.ReservationRequests.Include(a => a.Accommodation).Include(f => f.Price).FirstOrDefault(r => r.Id == requestId);
+        public ReservationRequest GetById(Guid requestId) => _dbContext.ReservationRequests.Include(a => a.Accommodation).FirstOrDefault(r => r.Id == requestId);
 
         public void DeleteAllRequestsByGuest(Guid guestId)
         {

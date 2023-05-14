@@ -10,13 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { ReservationsComponent } from './reservations/reservations.component';
 const routes: Routes = [
-  {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}}
+  {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}},
+  {path: 'reservations', component: ReservationsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}},
 ];
 
 @NgModule({
   declarations: [
-    ReservationRequestsComponent
+    ReservationRequestsComponent,
+    ReservationsComponent
   ],
   imports: [
     CommonModule,

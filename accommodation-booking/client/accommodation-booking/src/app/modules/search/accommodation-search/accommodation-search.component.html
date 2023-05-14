@@ -40,7 +40,7 @@
                         <b>{{accommodation.price}}</b>
                     </span>
                 </div>
-                <button mat-raised-button color="primary">Reserve</button>
+                <button mat-raised-button color="primary" *ngIf="userRole == 'GUEST'" (click)="createRequest(accommodation.id, accommodation.price)">Reserve</button>
             </div>
         </div>
     </div>
