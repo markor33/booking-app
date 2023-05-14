@@ -1,5 +1,7 @@
 package accomodation.dto;
 
+import static org.mockito.ArgumentMatchers.anyFloat;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +70,7 @@ public class AccomodationDTO {
 		this.benefits = a.getBenefits();
 		this.photos = a.getPhotos();
 		this.priceIntervals = a.getPriceIntervals();
+		this.generalPrice = a.getGeneralPrice();
 		this.priceType = a.getPriceType();
 		this.autoConfirmation = false;
 	}
@@ -190,8 +193,8 @@ public class AccomodationDTO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autoConfirmation, benefits, created, description, hostId, id, name, location, maxGuests,
-				minGuests, photos, priceIntervals, priceType, weekendIncrease);
+		return Objects.hash(autoConfirmation, benefits, created, description, generalPrice, hostId, id, location,
+				maxGuests, minGuests, name, photos, priceIntervals, priceType, weekendIncrease);
 	}
 
 	@Override
@@ -204,22 +207,22 @@ public class AccomodationDTO {
 			return false;
 		AccomodationDTO other = (AccomodationDTO) obj;
 		return autoConfirmation == other.autoConfirmation && Objects.equals(benefits, other.benefits)
-				&& Objects.equals(name, other.name)
 				&& Objects.equals(created, other.created) && Objects.equals(description, other.description)
+				&& Float.floatToIntBits(generalPrice) == Float.floatToIntBits(other.generalPrice)
 				&& Objects.equals(hostId, other.hostId) && Objects.equals(id, other.id)
 				&& Objects.equals(location, other.location) && maxGuests == other.maxGuests
-				&& minGuests == other.minGuests && Objects.equals(photos, other.photos)
-				&& Objects.equals(priceIntervals, other.priceIntervals) && priceType == other.priceType
-				&& weekendIncrease == other.weekendIncrease;
+				&& minGuests == other.minGuests && Objects.equals(name, other.name)
+				&& Objects.equals(photos, other.photos) && Objects.equals(priceIntervals, other.priceIntervals)
+				&& priceType == other.priceType && weekendIncrease == other.weekendIncrease;
 	}
 
 	@Override
 	public String toString() {
-		return "AccomodationDTO [id=" + id + ", hostId=" + hostId + ", description=" + description + ", name=" + name + ", minGuests="
-				+ minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease + ", created="
-				+ created + ", location=" + location + ", benefits=" + benefits + ", photos=" + photos
-				+ ", priceIntervals=" + priceIntervals + ", priceType=" + priceType + ", autoConfirmation="
-				+ autoConfirmation + "]";
+		return "AccomodationDTO [id=" + id + ", hostId=" + hostId + ", name=" + name + ", description=" + description
+				+ ", minGuests=" + minGuests + ", maxGuests=" + maxGuests + ", weekendIncrease=" + weekendIncrease
+				+ ", created=" + created + ", location=" + location + ", benefits=" + benefits + ", photos=" + photos
+				+ ", priceIntervals=" + priceIntervals + ", generalPrice=" + generalPrice + ", priceType=" + priceType
+				+ ", autoConfirmation=" + autoConfirmation + "]";
 	}
 
 }

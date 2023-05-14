@@ -1,0 +1,81 @@
+<mat-card>
+  <form (ngSubmit)="create()">
+      <mat-card-header>
+          <mat-card-title>
+            Create Accomodation
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <div class="system-user-container">
+              <mat-form-field appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput type="text" required [(ngModel)]="accomodation.name" name="name">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput rows="5" required [(ngModel)]="accomodation.description" name="description"></textarea>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                  <mat-label>Minimum guests</mat-label>
+                  <input matInput type="number" required [(ngModel)]="accomodation.minGuests" name="minGuests">
+             </mat-form-field>
+             <mat-form-field appearance="outline">
+                  <mat-label>Maximum guests</mat-label>
+                  <input matInput type="number" required [(ngModel)]="accomodation.maxGuests" name="maxGuests">
+             </mat-form-field>
+             <mat-form-field appearance="outline">
+                <mat-label>Weekend increase</mat-label>
+                <input matInput type="number" required [(ngModel)]="accomodation.weekendIncrease" name="weekendIncrease">
+             </mat-form-field>
+             <h2>Address:</h2>
+             <section class="user-type-section">
+              <mat-form-field appearance="outline" class="m5">
+                <mat-label>Country</mat-label>
+                <input matInput type="text" required [(ngModel)]="accomodation.location.country" name="country">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="m5">
+                <mat-label>City</mat-label>
+                <input matInput type="text" required [(ngModel)]="accomodation.location.city" name="city">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="m5">
+                <mat-label>Street</mat-label>
+                <input matInput type="text" required [(ngModel)]="accomodation.location.street" name="street">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="m5">
+                <mat-label>Number</mat-label>
+                <input matInput type="text" required [(ngModel)]="accomodation.location.number" name="number">
+              </mat-form-field>
+             </section>
+              <section class="user-type-section">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Price</mat-label>
+                    <input matInput type="number" required [(ngModel)]="accomodation.generalPrice" name="generalPrice">
+                  </mat-form-field>
+                  <label class="user-type-margin">Price type*:</label>
+                  <mat-radio-group [(ngModel)]="accomodation.priceType" name="priceType">
+                    <mat-radio-button class="user-type-margin" [value]="0">Per guest</mat-radio-button>
+                    <mat-radio-button class="user-type-margin" [value]="1">In whole</mat-radio-button>
+                  </mat-radio-group>
+              </section>
+              <section class="user-type-section">
+                <label class="user-type-margin">Auto confirm reservations*:</label>
+                <mat-radio-group [(ngModel)]="accomodation.autoConfirmation" name="autoConfirmation">
+                  <mat-radio-button class="user-type-margin" [value]="true">Yes</mat-radio-button>
+                  <mat-radio-button class="user-type-margin" [value]="false">No</mat-radio-button>
+                </mat-radio-group>
+              </section>
+              <mat-form-field appearance="outline">
+                <label class="user-type-margin">Benefits*:</label>
+                <mat-select [(ngModel)]="selectedBenefits" name="benefits" multiple>
+                  <mat-option *ngFor="let benefit of benefits" [value]="benefit">{{benefit.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button type="button" mat-raised-button (click)="fileInput.click()" color="primary">Choose image</button>
+              <input hidden (change)="handleUpload($event)" #fileInput type="file" id="file">
+          </div>
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-raised-button type="submit" color="primary">Register</button>
+      </mat-card-actions>
+  </form>
+</mat-card>

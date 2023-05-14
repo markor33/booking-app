@@ -66,11 +66,6 @@ namespace ReservationsLibrary.Services
 
         public void DeleteReservationRequestsByHost(Guid hostId) => _reservationRequestRepository.DeleteReservationRequestsByHost(hostId);
 
-        public void DeleteAllRequestsByGuest(Guid guestId)
-        {
-            _reservationRequestRepository.DeleteAllRequestsByGuest(guestId);
-        }
-
         public void ChangeStatus(ReservationRequest request, ReservationRequestStatus status)
         {
             request.Status = status;

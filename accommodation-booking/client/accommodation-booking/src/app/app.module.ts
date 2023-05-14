@@ -7,10 +7,12 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AccomodationModule } from './modules/accomodation/accomodation.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { SearchModule } from './modules/search/search.module';
 import { UserModule } from './modules/user/user.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
-import { SearchModule } from './modules/search/search.module';
-import { SharedModule } from './modules/shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { SharedModule } from './modules/shared/shared.module';
     SearchModule,
     SharedModule,
     BrowserAnimationsModule,
+    AccomodationModule,
     UserModule,
     ReservationModule,
     JwtModule.forRoot({
