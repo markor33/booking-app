@@ -1,15 +1,15 @@
-export class Accommodation {
+export class AccommodationCard {
     
     name: string;
-    photo: string;
+    photoUrl: string;
 
     constructor(accomInter: AccommodationInterface){
         this.name = accomInter.name;
-        this.photo = accomInter.photo;
+        this.photoUrl = accomInter.photoUrl;
     }
 }
 
 interface AccommodationInterface{
     name: string;
-    photo: string;
+    photoUrl: string;
 }

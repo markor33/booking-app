@@ -60,7 +60,7 @@ public class AccomodationController {
 	}
 	
 	@GetMapping(value = "/cover/{id}")
-	@PreAuthorize("hasAuthority('HOST')")
+	//@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationCardDTO> getAccomodationNameAndCoverPhoto(HttpServletRequest request, @PathVariable UUID id) {
 		return new ResponseEntity<AccomodationCardDTO>(new AccomodationCardDTO(accomodationService.findById(id)), HttpStatus.OK);
 	}

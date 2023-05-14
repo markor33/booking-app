@@ -9,7 +9,6 @@ namespace ReservationsLibrary.Data
         public DbSet<Accommodation>? Accommodations { get; set; }
         public DbSet<ReservationRequest>? ReservationRequests { get; set; }
         public DbSet<Reservation>? Reservations { get; set; }
-        public DbSet<Price>? Prices { get; set; }
         public ReservationsDbContext(DbContextOptions<ReservationsDbContext> options) : base(options)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

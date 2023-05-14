@@ -1,6 +1,7 @@
 ﻿using Reservations.API.Infrasructure;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Utils;
+using FluentResults;
 
 namespace ReservationsLibrary.Services
 {
@@ -29,16 +30,25 @@ namespace ReservationsLibrary.Services
 
         public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId) => _reservationRepository.IsOverLappedByAccomodation(range, accommodationId);
 
-        public void CancelReservation(Guid reservationId)
+        public Result CancelReservation(Guid reservationId)
         {
             var res = _reservationRepository.GetById(reservationId);
             var cancellationDeadline = res.Period.Start.AddHours(-24);
             if (DateTime.Now < cancellationDeadline)
+            {
                 res.Canceled = true;
-            _reservationRepository.Update(res);
-            _accommodationSearchGrpcService.DeleteReservation(res);
+                _reservationRepository.Update(res);
+                _accommodationSearchGrpcService.DeleteReservation(res);
+                return Result.Ok();
+            }
+            return Result.Fail("Cancel failed");
         }
 
-    
+        public List<Reservation> GetByUser(Guid userId, string role)
+        {
+            if (role == "HOST")
+                return _reservationRepository.GetByHost(userId);
+            return _reservationRepository.GetByGuest(userId);
+        }
     }
 }

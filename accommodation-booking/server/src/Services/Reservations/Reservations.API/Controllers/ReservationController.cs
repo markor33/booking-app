@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Identity.API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
 namespace Reservations.API.Controllers
@@ -24,11 +26,20 @@ namespace Reservations.API.Controllers
         }
 
         [Authorize(Roles = "GUEST")]
-        [HttpDelete]
-        public ActionResult CancelReservation(Guid reservationId)
+        [HttpPut("{reservationId}")]
+        public ActionResult CancelReservation([FromRoute] Guid reservationId)
         {
-            _reservationService.CancelReservation(reservationId);
+            var res = _reservationService.CancelReservation(reservationId);
+            if (res.IsFailed)
+                return BadRequest();
             return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("user")]
+        public ActionResult<List<Reservation>> GetByUser()
+        {
+            return _reservationService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
         }
     }
 }

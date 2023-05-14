@@ -42,6 +42,12 @@
               <span matLine>Requests</span>
             </div>
           </a>
+          <a mat-list-item routerLink="/reservations" *ngIf="userRole == 'HOST' || userRole == 'GUEST'">
+            <div>
+              <mat-icon fontIcon="list_alt"></mat-icon>
+              <span matLine>Reservations</span>
+            </div>
+          </a>
         </mat-nav-list>
       </mat-sidenav>
       <mat-sidenav-content>

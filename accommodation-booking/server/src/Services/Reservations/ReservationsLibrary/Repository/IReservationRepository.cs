@@ -13,5 +13,7 @@ namespace Reservations.API.Infrasructure
         public void DeleteAllReservationsByGuest(Guid guestId);
         public void DeleteReservationsByHost(Guid hostId);
         public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId);
+        public List<Reservation> GetByHost(Guid hostId);
+        public List<Reservation> GetByGuest(Guid guestId);
     }
 }

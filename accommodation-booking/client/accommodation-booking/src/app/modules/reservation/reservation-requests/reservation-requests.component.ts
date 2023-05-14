@@ -6,6 +6,7 @@ import { PriceType } from '../model/price-type';
 import { ReservationService } from '../service/reservation.service';
 import { AuthService } from '../../auth/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AccomodationService } from '../../accomodation/services/accomodation.service';
 
 @Component({
   selector: 'app-reservation-requests',
@@ -23,7 +24,8 @@ export class ReservationRequestsComponent implements OnInit {
      private userService: ApplicationUserService,
      private reservationService: ReservationService,
      private authService: AuthService,
-     private snackBar: MatSnackBar){ 
+     private snackBar: MatSnackBar,
+     private accommService: AccomodationService){ 
     this.requests = [];
     this.cancelation = [];
   }
@@ -61,8 +63,7 @@ export class ReservationRequestsComponent implements OnInit {
   getByUser(){
     this.reservationRequestService.getRequestByUser().subscribe((res) =>{
       this.requests = res;
-      if(this.userRole == 'HOST')
-        this.includeUser();
+      this.include();
     });
   }
   deleteRequest(id: string, i: number){
@@ -76,23 +77,22 @@ export class ReservationRequestsComponent implements OnInit {
       }
     });
   }
-  getNumberOfCancelationForGuest(id: string) : number{
+  getNumberOfCancelationForGuest(id: string){
      this.reservationService.getNumberOfCancelationforGuest(id).subscribe((res) =>{
-      return res;
+      this.cancelation.push(res);
      })
-     return 0;
   }
-  includeUser(){
+  include(){
     this.requests.forEach((req) => {
-      this.cancelation.push(this.getNumberOfCancelationForGuest(req.guestId))
-      this.userService.getById(req.guestId).subscribe((res) => {
-        req.guestProfile = res;
+      if(this.userRole == 'HOST'){
+        this.getNumberOfCancelationForGuest(req.guestId);
+        this.userService.getById(req.guestId).subscribe((res) => {
+          req.guestProfile = res;
+        })
+      }
+      this.accommService.getAccommodationCoverAndName(req.accommodationId).subscribe((res) => {
+        req.accommodationCard = res;
       })
     })
-  }
-  printEnum(type: PriceType){
-    if(type == 0)
-      return "PER PERSON"
-    return "IN WHOLE"
   }
 }

@@ -9,20 +9,19 @@ namespace ReservationsLibrary.Models
         public Guid? GuestId { get; set; }
         public DateRange? Period { get; set; }
         public int NumOfGuests { get; set; }
-        public Price? Price { get; set; }
-        public Guid PriceId { get; set; }
+        public int Price { get; set; }
         public bool Canceled { get; set; } = false;
 
         public Reservation() { }
 
-        public Reservation(Guid id, Guid guestId ,Guid accommodationId, DateRange period, int numOfGuests, Guid priceId)
+        public Reservation(Guid id, Guid guestId ,Guid accommodationId, DateRange period, int numOfGuests, int price)
         {
             Id = id;
             GuestId = guestId;
             AccommodationId = accommodationId;
             Period = period;
             NumOfGuests = numOfGuests;
-            PriceId = priceId;
+            Price = price;
         }
 
         public Reservation(ReservationRequest request)
