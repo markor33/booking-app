@@ -54,7 +54,6 @@ public class AccomodationController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<AccomodationDTO> getAccomodation(HttpServletRequest request, @PathVariable UUID id) {
 		return new ResponseEntity<AccomodationDTO>(new AccomodationDTO(accomodationService.findById(id)), HttpStatus.OK);
 	}

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AccommodationSearchService } from '../services/accommodation-search.service';
 import { SearchQuery } from '../models/search-query.model';
 import { Accommodation } from '../models/accommodation.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AccommodationDisplayDialogComponent } from '../accommodation-display-dialog/accommodation-display-dialog.component';
 import { DateRange } from '../../reservation/model/date-range.model';
 import { Request } from '../models/request.model';
 import { ReservationRequestService } from '../../reservation/service/reservation-request.service';
@@ -26,7 +28,8 @@ export class AccommodationSearchComponent {
   constructor(private searchService: AccommodationSearchService,
               private requestService: ReservationRequestService,
               private snackBar: MatSnackBar,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private matDialog: MatDialog) {
     this.period = {
       start: new Date(),
       end: new Date()
@@ -59,6 +62,15 @@ export class AccommodationSearchComponent {
   getNumOfNights() {
     const diffTime =  Math.abs(this.searchQuery.endDate.getTime() - this.searchQuery.startDate.getTime())
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
+
+
+  openAccommodationDisplay(id: string) {
+    this.matDialog.open(AccommodationDisplayDialogComponent, {
+      data: { id: id },
+      width: '80%',
+      height: '90%'
+    });
   }
 
   createRequest(accommodationId: string, price: number){
