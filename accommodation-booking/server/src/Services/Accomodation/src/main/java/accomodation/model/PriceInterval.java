@@ -19,6 +19,7 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import accomodation.dto.PriceIntervalDTO;
 import accomodation.util.DateTimeRange;
 
 @Entity
@@ -66,7 +67,7 @@ public class PriceInterval {
 		this.amount = p.getAmount();
 		this.interval = p.getInterval();
 	}
-
+	
 	public UUID getId() {
 		return id;
 	}

@@ -3,6 +3,7 @@ package accomodation.dto;
 import accomodation.model.PriceInterval;
 import accomodation.util.DateTimeRange;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PriceIntervalDTO {
@@ -61,4 +62,30 @@ public class PriceIntervalDTO {
     public void setAmount(float amount) {
         this.amount = amount;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accommodationId, amount, id, interval);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PriceIntervalDTO other = (PriceIntervalDTO) obj;
+		return Objects.equals(accommodationId, other.accommodationId)
+				&& Float.floatToIntBits(amount) == Float.floatToIntBits(other.amount) && Objects.equals(id, other.id)
+				&& Objects.equals(interval, other.interval);
+	}
+
+	@Override
+	public String toString() {
+		return "PriceIntervalDTO [id=" + id + ", accommodationId=" + accommodationId + ", interval=" + interval
+				+ ", amount=" + amount + "]";
+	}
+    
 }

@@ -40,6 +40,7 @@ namespace Identity.API.Controllers
                 return BadRequest();
             return Ok();
         }
+
         [Authorize]
         [HttpDelete]
         public async Task<ActionResult> DeleteUser()
@@ -57,6 +58,7 @@ namespace Identity.API.Controllers
             var userInfo = await _userService.GetUserProfile(User.UserEmail());
             return Ok(userInfo.Value);
         }
+
         [Authorize(Roles = "HOST")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GuestUser>> GetUserById([FromRoute] string id)

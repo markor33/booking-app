@@ -1,6 +1,7 @@
 import sys
 import uuid
 from datetime import datetime
+from pymodm.errors import DoesNotExist
 from . import accommodation_search_pb2
 from . import accommodation_search_pb2_grpc
 from models import Accommodation, Address, Benefit, PriceInterval, DateRange, Reservation
@@ -49,6 +50,18 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
         response = accommodation_search_pb2.CreatePriceIntervalResponse()
         return response
 
+    def EditPriceInterval(self, request, context):
+        accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
+        for price_interval in accommodation.price_intervals:
+            if uuid.UUID(request.priceIntervalId) == price_interval.id:
+                price_interval.interval.start_date = datetime.fromtimestamp(request.startDate.seconds)
+                price_interval.interval.end_date = datetime.fromtimestamp(request.endDate.seconds)
+                price_interval.amount = request.amount
+                break
+        accommodation.save()
+        response = accommodation_search_pb2.EditPriceIntervalResponse()
+        return response
+
     def CreateReservation(self, request, context):
         accommodation = Accommodation.objects.get({'_id': uuid.UUID(request.accommodationId)})
         reservation = Reservation(
@@ -74,4 +87,12 @@ class AccommodationService(accommodation_search_pb2_grpc.AccommodationSearchServ
         accommodation.save()
         #Accommodation.objects.raw({"_id": uuid.UUID(request.accommodationId)}).update({"$pull": {"reservations": {"_id": uuid.UUID(request.id)}}})
         response = accommodation_search_pb2.DeleteReservationResponse()
+        return response
+
+    def DeleteHostsAccommodations(self, request, context):
+        try:
+            accommodation = Accommodation.objects.get({'host_id': request.hostId}).delete()
+        except DoesNotExist:
+            pass
+        response = accommodation_search_pb2.DeleteHostsAccommodationsResponse()
         return response

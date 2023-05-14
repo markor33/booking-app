@@ -1,6 +1,7 @@
 package accomodation.grpc;
 
 import accomodation.dto.AccomodationDTO;
+import accomodation.dto.PriceIntervalDTO;
 import accomodation.enums.PriceType;
 import accomodation.model.Accomodation;
 import accomodation.model.Benefit;
@@ -85,6 +86,33 @@ public class AccommodationSearchGrpcService {
                 .build();
         try {
             this.accommodationSearchClient.createPriceInterval(createPriceIntervalRequest);
+            return true;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean EditPriceInterval(PriceIntervalDTO priceInterval) {
+        AccommodationSearchOuterClass.EditPriceIntervalRequest editPriceIntervalRequest = AccommodationSearchOuterClass.EditPriceIntervalRequest
+                .newBuilder()
+                .setAccommodationId(priceInterval.getAccommodationId().toString())
+                .setPriceIntervalId(priceInterval.getId().toString())
+                .setStartDate(Timestamp
+                        .newBuilder()
+                        .setSeconds(priceInterval.getInterval().getStart().toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(priceInterval.getInterval().getStart().getNano())
+                        .build())
+                .setEndDate(Timestamp
+                        .newBuilder()
+                        .setSeconds(priceInterval.getInterval().getEnd().toEpochSecond(ZoneOffset.UTC))
+                        .setNanos(priceInterval.getInterval().getEnd().getNano())
+                        .build())
+                .setAmount(priceInterval.getAmount())
+                .build();
+        try {
+            this.accommodationSearchClient.editPriceInterval(editPriceIntervalRequest);
             return true;
         }
         catch (Exception ex) {

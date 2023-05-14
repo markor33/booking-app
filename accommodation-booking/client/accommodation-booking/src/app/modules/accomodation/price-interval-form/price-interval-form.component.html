@@ -1,0 +1,35 @@
+<mat-card>
+    <form (ngSubmit)="save()">
+        <mat-card-header>
+            <mat-card-title>
+              Create/edit interval
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="system-user-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>Start</mat-label>
+                    <input matInput [matDatepicker]="picker1" [(ngModel)]="interval.interval.start" name="start">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>End</mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="interval.interval.end" name="end">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                  </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Amount</mat-label>
+                    <input matInput type="number" required [(ngModel)]="interval.amount" name="amount">
+               </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary">Save</button>
+        </mat-card-actions>
+    </form>
+  </mat-card>
+  

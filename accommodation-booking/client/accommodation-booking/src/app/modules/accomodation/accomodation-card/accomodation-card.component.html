@@ -10,8 +10,7 @@
             <p>Price: {{accomodation.generalPrice}} EUR, {{accomodation.priceType}}</p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-flat-button color="primary">View Details</button>
+            <button mat-flat-button (click)="openAccomodationInfo()" color="primary">View Details</button>
         </mat-card-actions>
     </div>
 </mat-card>
-

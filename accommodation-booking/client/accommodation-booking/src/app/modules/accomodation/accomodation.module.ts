@@ -19,23 +19,35 @@ import { CreateAccomodationComponent } from './create-accomodation/create-accomo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccomodationInfoComponent } from './accomodation-info/accomodation-info.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { MatTableModule } from '@angular/material/table';
+import { PriceIntervalFormComponent } from './price-interval-form/price-interval-form.component';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 
 const routes: Routes = [
   { path: 'accomodation', component: AccomodationsComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['HOST'] }, },
-  { path: 'accomodation/create', component: CreateAccomodationComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['HOST'] }, }
+  { path: 'accomodation/create', component: CreateAccomodationComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['HOST'] }, },
+  { path: 'accomodation/:id', component: AccomodationInfoComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST']} },
+  { path: 'accomodation/:id/price-interval', component: PriceIntervalFormComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST']} }
 ];
 
 @NgModule({
   declarations: [
     AccomodationsComponent,
     AccomodationCardComponent,
-    CreateAccomodationComponent
+    CreateAccomodationComponent,
+    AccomodationInfoComponent,
+    PriceIntervalFormComponent
   ],
   imports: [
+    CarouselModule,
     CommonModule,
     MatCardModule,
     MatInputModule,
+    MatTableModule,
     MatIconModule,
+    MatDatepickerModule,
     MatButtonModule,
     MatSnackBarModule,
     FormsModule,
