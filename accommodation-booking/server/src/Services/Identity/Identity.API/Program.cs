@@ -1,6 +1,11 @@
 using GrpcAccommodationSearch;
 using GrpcReservations;
 using Identity.API.Data;
+using Identity.API.Integration;
+using Identity.API.Integration.EventBus;
+using Identity.API.Integration.Events;
+using Identity.API.Integration.Extensions;
+using Identity.API.Integration.SubscriptionManager;
 using Identity.API.Models;
 using Identity.API.Options;
 using Identity.API.Services;
@@ -10,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NATS.Client;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,7 +85,20 @@ builder.Services.AddGrpcClient<AccommodationSearch.AccommodationSearchClient>((s
     options.Address = new Uri("http://host.docker.internal:13001");
 });
 
+builder.Services.AddSingleton<ISubscriptionManager, SubscriptionManager>();
+builder.Services.AddSingleton<IConnection>(provider =>
+{
+    var factory = new ConnectionFactory();
+    var url = builder.Configuration.GetSection("NATS").GetValue<string>("Url");
+    return factory.CreateConnection(url);
+});
+builder.Services.AddSingleton<IEventBus, NatsEventBus>();
+builder.Services.AddIntegrationEventsHandlers(typeof(TestIntegrationEventHandler).Assembly);
+
 var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.AddHandlers(typeof(TestIntegrationEvent).Assembly);
 
 // await AppDbContextSeed.Seed(app.Services.CreateScope().ServiceProvider);
 

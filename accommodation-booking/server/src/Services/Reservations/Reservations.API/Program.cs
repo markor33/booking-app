@@ -10,6 +10,11 @@ using Reservations.API.Infrasructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 using Reservations.API.Infrastructure.GrpcServices;
+using NATS.Client;
+using Reservations.API.Integration.Extensions;
+using Reservations.API.Integration.SubscriptionManager;
+using Reservations.API.Integration.EventBus;
+using Reservations.API.Integration.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,7 +64,20 @@ builder.WebHost.UseKestrel(options => {
     });
 });
 
+builder.Services.AddSingleton<ISubscriptionManager, SubscriptionManager>();
+builder.Services.AddSingleton<IConnection>(provider =>
+{
+    var factory = new ConnectionFactory();
+    var url = builder.Configuration.GetSection("NATS").GetValue<string>("Url");
+    return factory.CreateConnection(url);
+});
+builder.Services.AddSingleton<IEventBus, NatsEventBus>();
+builder.Services.AddIntegrationEventsHandlers(typeof(TestIntegrationEventHandler).Assembly);
+
 var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.AddHandlers(typeof(TestIntegrationEvent).Assembly);
 
 if (app.Environment.IsDevelopment())
 {
