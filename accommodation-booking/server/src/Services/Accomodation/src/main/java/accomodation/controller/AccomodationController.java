@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import accomodation.integration.eventBus.NatsEventBus;
+import accomodation.integration.events.TestIntegrationEvent;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,15 @@ public class AccomodationController {
 	
 	@Autowired
 	TokenUtils tokenUtils;
+
+	@Autowired
+	NatsEventBus eventBus;
+
+	@GetMapping(value = "test")
+	public ResponseEntity<String> test() throws JsonProcessingException {
+		eventBus.publish(new TestIntegrationEvent("asdasdasda"));
+		return new ResponseEntity<String>("asdasdasd", HttpStatus.OK);
+	}
 	
 	@GetMapping()
 	@PreAuthorize("hasAuthority('HOST')")

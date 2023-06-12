@@ -2,7 +2,7 @@
 {
     public interface ISubscriptionManager
     {
-        void AddSubcription<T, TH>()
+        void AddSubscription<T, TH>()
             where T : IntegrationEvent
             where TH : IIntegrationEventHandler<T>;
 
