@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace Reservations.API.Integration.Extensions
+namespace EventBus.NET.Integration.Extensions
 {
     public static class ServiceCollectionExtensions
     {

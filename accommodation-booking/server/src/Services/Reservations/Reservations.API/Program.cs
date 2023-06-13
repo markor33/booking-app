@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 using Reservations.API.Infrastructure.GrpcServices;
 using NATS.Client;
-using Reservations.API.Integration.Extensions;
-using Reservations.API.Integration.SubscriptionManager;
-using Reservations.API.Integration.EventBus;
-using Reservations.API.Integration.Events;
+using EventBus.NET.Integration.SubscriptionManager;
+using EventBus.NET.Integration.EventBus;
+using EventBus.NET.Integration.Events;
+using EventBus.NET.Integration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

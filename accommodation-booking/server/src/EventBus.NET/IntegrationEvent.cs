@@ -1,4 +1,4 @@
-﻿namespace Reservations.API.Integration
+﻿namespace EventBus.NET.Integration
 {
     public class IntegrationEvent
     {

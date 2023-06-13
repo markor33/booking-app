@@ -1,4 +1,4 @@
-﻿namespace Reservations.API.Integration.SubscriptionManager
+﻿namespace EventBus.NET.Integration.SubscriptionManager
 {
     public class SubscriptionManager : ISubscriptionManager
     {
@@ -11,7 +11,7 @@
             _eventTypes = new List<Type>();
         }
 
-        public void AddSubcription<T, TH>()
+        public void AddSubscription<T, TH>()
             where T : IntegrationEvent
             where TH : IIntegrationEventHandler<T>
         {

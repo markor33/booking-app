@@ -1,5 +1,5 @@
 ﻿
-namespace Reservations.API.Integration.EventBus
+namespace EventBus.NET.Integration.EventBus
 {
     public interface IEventBus
     {

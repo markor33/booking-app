@@ -1,4 +1,4 @@
-﻿namespace Reservations.API.Integration.Events
+﻿namespace EventBus.NET.Integration.Events
 {
     public class TestIntegrationEventHandler : IIntegrationEventHandler<TestIntegrationEvent>
     {

@@ -1,8 +1,6 @@
 ﻿using Identity.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Reservations.API.Integration.EventBus;
-using Reservations.API.Integration.Events;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
@@ -13,21 +11,11 @@ namespace Reservations.API.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
-        private readonly IEventBus _eventBus;
 
         public ReservationController(
-            IReservationService reservationService,
-            IEventBus eventBus)
+            IReservationService reservationService)
         {
             _reservationService = reservationService;
-            _eventBus = eventBus;
-        }
-
-        [HttpGet("test")]
-        public async Task<ActionResult> Test()
-        {
-            _eventBus.Publish(new TestIntegrationEvent("asdasdasdasd"));
-            return Ok();
         }
 
         [Authorize(Roles = "HOST")]

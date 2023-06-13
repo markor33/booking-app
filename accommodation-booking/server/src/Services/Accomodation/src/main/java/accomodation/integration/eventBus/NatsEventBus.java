@@ -2,14 +2,14 @@ package accomodation.integration.eventBus;
 
 import accomodation.integration.IIntegrationEventHandler;
 import accomodation.integration.IntegrationEvent;
+import accomodation.integration.events.AccommodationCreatedIntegrationEvent;
 import accomodation.integration.events.TestIntegrationEvent;
 import accomodation.integration.events.TestIntegrationEventHandler;
 import accomodation.integration.subscriptionManager.ISubscriptionManager;
-import accomodation.integration.subscriptionManager.SubscriptionManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.nats.client.*;
@@ -18,11 +18,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class NatsEventBus {
+public class NatsEventBus implements IEventBus {
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired
@@ -32,19 +31,25 @@ public class NatsEventBus {
     private ObjectMapper objectMapper =  new ObjectMapper();;
 
     @PostConstruct
-    public void initializeNats() throws IOException, InterruptedException {
+    public void initializeNats() {
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
+        this.objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_INDEX);
 
         this.subscribe(TestIntegrationEvent.class, TestIntegrationEventHandler.class);
     }
 
-    public void publish(IntegrationEvent event) throws JsonProcessingException {
+    public void publish(IntegrationEvent event) {
         String eventName = event.getClass().getSimpleName();
-        System.out.println(eventName);
 
-        String json = this.objectMapper.writeValueAsString(event);
-        System.out.println(json);
+        String json = null;
+        try {
+            json = this.objectMapper.writeValueAsString(event);
+            System.out.println("ASSADASDASDASDASD");
+            System.out.println(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         byte[] payload = json.getBytes(StandardCharsets.UTF_8);
         this.connection.publish(eventName, payload);
     }

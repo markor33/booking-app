@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Reservations.API.Integration.Events
+namespace EventBus.NET.Integration.Events
 {
     public class TestIntegrationEvent : IntegrationEvent
     {

@@ -1,10 +1,11 @@
-﻿using Reservations.API.Integration.SubscriptionManager;
+﻿using EventBus.NET.Integration.SubscriptionManager;
 using NATS.Client;
 using System.Text;
 using System;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Reservations.API.Integration.EventBus
+namespace EventBus.NET.Integration.EventBus
 {
     public class NatsEventBus : IEventBus
     {
@@ -36,7 +37,7 @@ namespace Reservations.API.Integration.EventBus
             where T : IntegrationEvent
             where TH : IIntegrationEventHandler<T>
         {
-            _subscriptionManager.AddSubcription<T, TH>();
+            _subscriptionManager.AddSubscription<T, TH>();
             var eventName = typeof(T).Name;
             IAsyncSubscription subscription = _connection.SubscribeAsync(eventName, ConsumerReceived);
         }
@@ -63,6 +64,7 @@ namespace Reservations.API.Integration.EventBus
             await Task.Yield();
             await (Task)concreteType.GetMethod("HandleAsync").Invoke(handler, new object[] { integrationEvent });
         }
+
 
     }
 }

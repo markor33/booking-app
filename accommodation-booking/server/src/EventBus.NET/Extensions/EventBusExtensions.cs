@@ -1,8 +1,8 @@
-﻿using Reservations.API.Integration.EventBus;
-using Reservations.API.Integration;
+﻿using EventBus.NET.Integration.EventBus;
+using EventBus.NET.Integration;
 using System.Reflection;
 
-namespace Reservations.API.Integration.Extensions
+namespace EventBus.NET.Integration.Extensions
 {
     public static class EventBusExtensions
     {
