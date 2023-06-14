@@ -1,6 +1,6 @@
 export class SearchQuery {
     location: string = '';
-    numGuests: number = 0;
-    startDate: Date = new Date();
-    endDate: Date = new Date();
+    numOfGuests: number = 0;
+    start: Date = new Date();
+    end: Date = new Date();
 }

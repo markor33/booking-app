@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.UUID;
 
 import accomodation.grpc.ReservationsGrpcService;
+import accomodation.integration.eventBus.IEventBus;
+import accomodation.integration.events.PriceIntervalChangedIntegrationEvent;
+import accomodation.integration.events.PriceIntervalCreatedIntegrationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +21,7 @@ import accomodation.repository.PriceIntervalRepository;
 public class PriceIntervalService {
 
     @Autowired
-    AccommodationSearchGrpcService accommodationSearchGrpcService;
+    IEventBus eventBus;
 
     @Autowired
     ReservationsGrpcService reservationsGrpcService;
@@ -50,7 +53,15 @@ public class PriceIntervalService {
 
         PriceInterval priceInterval = new PriceInterval(id, accomodation, priceIntervalDTO.getAmount(), priceIntervalDTO.getInterval());
         priceInterval = this.priceIntervalRepository.save(priceInterval);
-        this.accommodationSearchGrpcService.AddPriceInterval(priceInterval);
+
+        this.eventBus.publish(
+                new PriceIntervalCreatedIntegrationEvent(
+                        priceInterval.getId(),
+                        accomodation.getId(),
+                        priceInterval.getAmount(),
+                        priceInterval.getInterval().getStart(),
+                        priceInterval.getInterval().getEnd()));
+
         return priceInterval;
     }
     
@@ -68,7 +79,15 @@ public class PriceIntervalService {
     	if(result)
     		return null;
 
-        this.accommodationSearchGrpcService.EditPriceInterval(dto);
+        // this.accommodationSearchGrpcService.EditPriceInterval(dto);
+
+        eventBus.publish(new PriceIntervalChangedIntegrationEvent(
+                dto.getId(),
+                accomodation.getId(),
+                dto.getAmount(),
+                dto.getInterval().getStart(),
+                dto.getInterval().getEnd())
+        );
 
         return this.priceIntervalRepository.save(new PriceInterval(dto.getId(), accomodation, dto.getAmount(), dto.getInterval()));
     }

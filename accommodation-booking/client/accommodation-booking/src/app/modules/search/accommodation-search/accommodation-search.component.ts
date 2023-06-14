@@ -60,7 +60,7 @@ export class AccommodationSearchComponent {
   }
 
   getNumOfNights() {
-    const diffTime =  Math.abs(this.searchQuery.endDate.getTime() - this.searchQuery.startDate.getTime())
+    const diffTime =  Math.abs(this.searchQuery.end.getTime() - this.searchQuery.start.getTime())
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
@@ -74,9 +74,9 @@ export class AccommodationSearchComponent {
   }
 
   createRequest(accommodationId: string, price: number){
-    this.request.period.start = this.searchQuery.startDate;
-    this.request.period.end = this.searchQuery.endDate
-    this.request.numOfGuests = this.searchQuery.numGuests;
+    this.request.period.start = this.searchQuery.start;
+    this.request.period.end = this.searchQuery.end;
+    this.request.numOfGuests = this.searchQuery.numOfGuests;
     this.request.price = price;
     this.request.accommodationId = accommodationId;
 

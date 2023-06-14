@@ -83,8 +83,37 @@ services:
       - 13000:5000
       - 13001:5001
 
+  search.api:
+    image: ${DOCKER_REGISTRY-}searchapi
+    build:
+      context: .
+      dockerfile: src/Services/Search/Search.API/Dockerfile
+    ports:
+     - 14000:80
+     - 14001:5000
+
+  nats:
+    image: 'nats:latest'
+    expose:
+        - "4222"
+    ports:
+        - "4222:4222"
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    restart: always
+
 volumes:
   identity-data:
   accomodation-data:
     name: mysql-database
   reservations-data:
+  mongo_data:
+
