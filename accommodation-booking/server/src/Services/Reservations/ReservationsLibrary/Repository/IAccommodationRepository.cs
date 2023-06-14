@@ -5,6 +5,7 @@ namespace Reservations.API.Infrasructure
 {
     public interface IAccommodationRepository : IEntityRepository<Accommodation>
     {
-        public void DeleteAccommodationByHost(Guid hostId);
+        public Task<bool> DeleteAccommodationByHost(Guid hostId);
+        public Task<List<Accommodation>> GetByHost(Guid hostId);
     }
 }

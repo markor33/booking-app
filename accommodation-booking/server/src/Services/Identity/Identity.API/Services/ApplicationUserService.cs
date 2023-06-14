@@ -1,6 +1,8 @@
-﻿using FluentResults;
+﻿using EventBus.NET.Integration.EventBus;
+using FluentResults;
 using GrpcAccommodationSearch;
 using GrpcReservations;
+using Identity.API.IntegrationEvents;
 using Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,17 +11,14 @@ namespace Identity.API.Services
     public class ApplicationUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly Reservations.ReservationsClient _reservationsClient;
-        private readonly AccommodationSearch.AccommodationSearchClient _searchClient;
+        private readonly IEventBus _eventBus;
 
         public ApplicationUserService(
-            UserManager<ApplicationUser> userManager, 
-            Reservations.ReservationsClient reservationsClient,
-            AccommodationSearch.AccommodationSearchClient searchClient)
+            UserManager<ApplicationUser> userManager,
+            IEventBus eventBus)
         {
-            _userManager = userManager; 
-            _reservationsClient = reservationsClient;
-            _searchClient = searchClient;
+            _userManager = userManager;
+            _eventBus = eventBus;
         }
 
         public async Task<Result> EditProfileAsync(UserProfile user)
@@ -53,16 +52,19 @@ namespace Identity.API.Services
         public async Task<Result> DeleteUser(string userId, string role)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            var response = await _reservationsClient.CheckActiveReservationsAsync(new CheckActiveReservationsRequest{ Role = role, UserId = userId });
-            if (!response.HasActive)
-            {
-               // await _userManager.DeleteAsync(user);
-                await _reservationsClient.DeleteUserDependenciesAsync(new DeleteUserDependenciesRequest{ UserId = userId, Role = role });
-                if (role == "HOST")
-                    await _searchClient.DeleteHostsAccommodationsAsync(new DeleteHostsAccommodationsRequest { HostId = userId });
-                return Result.Ok();
-            }
-            return Result.Fail("Failed to delete profile");
+
+            user.Status = UserStatus.PENDING_DELETE;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+                return Result.Fail("Delete account failed");
+
+            if (role == "HOST")
+                _eventBus.Publish(new DeleteHostRequestIntegrationEvent(user.Id));
+            else if (role == "GUEST")
+                _eventBus.Publish(new DeleteGuestRequestIntegrationEvent(user.Id));
+
+            return Result.Ok();
         }
 
         public async Task<Result<UserProfile>> GetUserProfile(string email)

@@ -8,6 +8,8 @@ namespace Reservations.API.DTO
         public MappingProfile()
         {
             CreateMap<ReservationRequestDTO, ReservationRequest>();
+
+            CreateMap<Reservation, ReservationDTO>();
         }
     }
 }

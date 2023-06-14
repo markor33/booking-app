@@ -22,7 +22,7 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public List<ReservationRequest> GetOverLapped(DateRange range, Guid accommodationId)
         {
-            return _dbContext.ReservationRequests.Where(e => e.Period.Start < range.End && e.Period.End > range.Start
+            return _dbContext.ReservationRequests.Where(e => e.IsDeleted == false && e.Period.Start < range.End && e.Period.End > range.Start
                                             && e.AccommodationId == accommodationId && e.Status == ReservationRequestStatus.ON_HOLD).ToList();
         }
         public ReservationRequest GetById(Guid requestId) => _dbContext.ReservationRequests.Include(a => a.Accommodation).FirstOrDefault(r => r.Id == requestId);

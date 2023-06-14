@@ -1,6 +1,13 @@
 export class SearchQuery {
     location: string = '';
-    numGuests: number = 0;
-    startDate: Date = new Date();
-    endDate: Date = new Date();
+    numOfGuests: number = 0;
+    start: Date = new Date();
+    end: Date = new Date();
+    filterArgs: Filters = new Filters();
+}
+
+export class Filters {
+    minPrice: number | null = null;
+    maxPrice: number | null = null;
+    benefits: string[] = [];
 }

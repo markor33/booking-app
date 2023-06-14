@@ -7,18 +7,38 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Number of guests</mat-label>
-                <input matInput type="number" [(ngModel)]="searchQuery.numGuests" name="numGuests">
+                <input matInput type="number" [(ngModel)]="searchQuery.numOfGuests" name="numGuests">
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate placeholder="Start date" [(ngModel)]="searchQuery.startDate" name="startDate">
-                  <input matEndDate placeholder="End date" [(ngModel)]="searchQuery.endDate" name="endDate">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="searchQuery.start" name="startDate">
+                  <input matEndDate placeholder="End date" [(ngModel)]="searchQuery.end" name="endDate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="filters">
+        <form (ngSubmit)="search()">
+            <mat-form-field>
+                <mat-label>Min price</mat-label>
+                <input matInput type="number" [(ngModel)]="searchQuery.filterArgs.minPrice" name="minPrice">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Max price</mat-label>
+                <input matInput type="number" [(ngModel)]="searchQuery.filterArgs.maxPrice" name="maxPrice">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <label class="user-type-margin">Benefits*:</label>
+                <mat-select [(ngModel)]="searchQuery.filterArgs.benefits" name="benefits" multiple>
+                <mat-option *ngFor="let benefit of benefits" [value]="benefit.id">{{benefit.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Apply</button>
+            <button mat-raised-button type="reset">Reset</button>
         </form>
     </div>
     <div class="search-result">
@@ -33,7 +53,7 @@
             </div>
             <mat-divider vertical></mat-divider>
             <div class="reservation">
-                <h3>{{numOfNights}} nights, {{searchQuery.numGuests}} guests</h3>
+                <h3>{{numOfNights}} nights, {{searchQuery.numOfGuests}} guests</h3>
                 <div class="price">
                     <span class="icon-text-align">
                         <mat-icon>euro</mat-icon>
