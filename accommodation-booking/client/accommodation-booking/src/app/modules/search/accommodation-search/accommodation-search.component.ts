@@ -9,6 +9,8 @@ import { Request } from '../models/request.model';
 import { ReservationRequestService } from '../../reservation/service/reservation-request.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/services/auth.service';
+import { Benefit } from '../../shared/models/benefit.model';
+import { BenefitService } from '../../accomodation/services/benefit.service';
 
 @Component({
   selector: 'app-accommodation-search',
@@ -25,8 +27,11 @@ export class AccommodationSearchComponent {
   isUserLogged: boolean = false;
   userRole: string = '';
 
+  benefits: Benefit[] = [];
+
   constructor(private searchService: AccommodationSearchService,
               private requestService: ReservationRequestService,
+              private benefitService: BenefitService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
               private matDialog: MatDialog) {
@@ -48,6 +53,7 @@ export class AccommodationSearchComponent {
       if(this.isUserLogged)
         this.userRole = this.authService.getUserRole();
     });
+    this.benefitService.getBenefits().subscribe((benefits) => this.benefits = benefits);
   }
 
   search() {
@@ -55,7 +61,6 @@ export class AccommodationSearchComponent {
     {
       this.accommodations = res;
       this.numOfNights = this.getNumOfNights();
-      console.log(this.numOfNights);
     });
   }
 
