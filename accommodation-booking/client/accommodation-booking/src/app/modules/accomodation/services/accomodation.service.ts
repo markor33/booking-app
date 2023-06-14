@@ -15,6 +15,10 @@ export class AccomodationService {
 
   constructor(private http: HttpClient) { }
 
+  getAccomodation(id: string): Observable<Accomodation> {
+    return this.http.get<Accomodation>(`api/accomodation-service/accomodation/${id}`);
+  }
+
   getAccomodations(): Observable<Accomodation[]> {
     const url = 'api/accomodation-service/accomodation';
 

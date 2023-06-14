@@ -1,0 +1,32 @@
+.container {
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 1%;
+}
+
+.container > * {
+    margin-bottom: 1%;
+}
+
+.description {
+    white-space: pre-line;
+}
+
+.photos {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+}
+
+.photos img {
+    width: 25%;
+    height: 50%;
+}
+
+.icon-text-align {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

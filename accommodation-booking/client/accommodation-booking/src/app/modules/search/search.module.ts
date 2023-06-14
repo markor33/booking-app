@@ -10,6 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { AccommodationDisplayDialogComponent } from './accommodation-display-dialog/accommodation-display-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   { path: '', component: AccommodationSearchComponent },
@@ -17,7 +19,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AccommodationSearchComponent
+    AccommodationSearchComponent,
+    AccommodationDisplayDialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ const routes: Routes = [
     FormsModule,
     MatIconModule,
     MatDividerModule,
+    MatDialogModule,
     RouterModule.forChild(routes),
   ],
   exports: [
