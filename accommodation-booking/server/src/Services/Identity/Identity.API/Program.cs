@@ -1,11 +1,10 @@
+using EventBus.NET.Integration.EventBus;
+using EventBus.NET.Integration.Extensions;
+using EventBus.NET.Integration.SubscriptionManager;
 using GrpcAccommodationSearch;
 using GrpcReservations;
 using Identity.API.Data;
-using Identity.API.Integration;
-using Identity.API.Integration.EventBus;
-using Identity.API.Integration.Events;
-using Identity.API.Integration.Extensions;
-using Identity.API.Integration.SubscriptionManager;
+using Identity.API.IntegrationEvents;
 using Identity.API.Models;
 using Identity.API.Options;
 using Identity.API.Services;
@@ -93,12 +92,12 @@ builder.Services.AddSingleton<IConnection>(provider =>
     return factory.CreateConnection(url);
 });
 builder.Services.AddSingleton<IEventBus, NatsEventBus>();
-builder.Services.AddIntegrationEventsHandlers(typeof(TestIntegrationEventHandler).Assembly);
+builder.Services.AddIntegrationEventsHandlers(typeof(DeleteHostRequestIntegrationEvent).Assembly);
 
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-eventBus.AddHandlers(typeof(TestIntegrationEvent).Assembly);
+eventBus.AddHandlers(typeof(DeleteHostRequestIntegrationEvent).Assembly);
 
 // await AppDbContextSeed.Seed(app.Services.CreateScope().ServiceProvider);
 

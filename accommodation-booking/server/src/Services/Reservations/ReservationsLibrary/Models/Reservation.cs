@@ -11,6 +11,7 @@ namespace ReservationsLibrary.Models
         public int NumOfGuests { get; set; }
         public int Price { get; set; }
         public bool Canceled { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
 
         public Reservation() { }
 

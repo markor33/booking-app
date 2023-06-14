@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReservationsLibrary.Data;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Repository.Base;
 
 namespace Reservations.API.Infrasructure.Base
 {
@@ -12,6 +13,8 @@ namespace Reservations.API.Infrasructure.Base
         {
             _dbContext = dbContext;
         }
+
+        public IUnitOfWork UnitOfWork => _dbContext;
 
         public virtual List<TEntity> GetAll() => _dbContext.Set<TEntity>().ToList();
 
@@ -31,7 +34,7 @@ namespace Reservations.API.Infrasructure.Base
             {
                 _dbContext.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
                 throw;
             }

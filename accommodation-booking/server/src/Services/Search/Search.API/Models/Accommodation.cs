@@ -16,6 +16,7 @@
         public PriceType PriceType { get; private set; }
         public float GeneralPrice { get; private set; }
         public int WeekendIncrease { get; private set; }
+        public bool IsDeleted { get; private set; } = false;
 
         public Accommodation(Guid id, Guid hostId, string name, string description, Address location, 
             int minGuests, int maxGuests, string photo, List<Benefit> benefits,
@@ -99,6 +100,7 @@
             return additionalAmount;
         }
 
+        public void SetDeleted(bool isDeleted) => IsDeleted = isDeleted;
 
     }
 }

@@ -15,6 +15,7 @@ using EventBus.NET.Integration.SubscriptionManager;
 using EventBus.NET.Integration.EventBus;
 using EventBus.NET.Integration.Events;
 using EventBus.NET.Integration.Extensions;
+using ReservationsLibrary.IntegrationEvents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,12 +73,12 @@ builder.Services.AddSingleton<IConnection>(provider =>
     return factory.CreateConnection(url);
 });
 builder.Services.AddSingleton<IEventBus, NatsEventBus>();
-builder.Services.AddIntegrationEventsHandlers(typeof(TestIntegrationEventHandler).Assembly);
+builder.Services.AddIntegrationEventsHandlers(typeof(DeleteHostRequestIntegrationEventHandler).Assembly);
 
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
-eventBus.AddHandlers(typeof(TestIntegrationEvent).Assembly);
+eventBus.AddHandlers(typeof(DeleteHostRequestIntegrationEventHandler).Assembly);
 
 if (app.Environment.IsDevelopment())
 {

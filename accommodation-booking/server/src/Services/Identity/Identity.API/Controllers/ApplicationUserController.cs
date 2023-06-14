@@ -48,7 +48,7 @@ namespace Identity.API.Controllers
             var res = await _userService.DeleteUser(User.UserId(), User.UserRole());
             if (res.IsFailed)
                 return BadRequest();
-            return Ok();
+            return Accepted();
         }
 
         [Authorize]

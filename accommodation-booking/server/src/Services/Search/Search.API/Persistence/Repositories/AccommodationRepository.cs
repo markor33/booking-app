@@ -30,6 +30,38 @@ namespace Search.API.Persistence.Repositories
             await _accommodations.ReplaceOneAsync(filter, accommodation);
         }
 
+        public async Task<bool> DeleteByHostAsync(Guid hostId)
+        {
+            var filter = Builders<Accommodation>.Filter.Eq(fr => fr.HostId, hostId);
+            var update = Builders<Accommodation>.Update.Set(fr => fr.IsDeleted, true);
+
+            try
+            {
+                var result = await _accommodations.UpdateManyAsync(filter, update);
+                return result.IsAcknowledged;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteGuestReservations(Guid guestId)
+        {
+            var filter = Builders<Accommodation>.Filter.ElemMatch(acc => acc.Reservations, res => res.GuestId == guestId);
+            var update = Builders<Accommodation>.Update.Set("Reservations.$.IsDeleted", true);
+
+            try
+            {
+                var result = await _accommodations.UpdateManyAsync(filter, update);
+                return result.IsAcknowledged;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public async Task<List<Accommodation>> Search(string location, int numOfGuests, DateTime startDate, DateTime endDate)
         {
             var locationFilter = Builders<Accommodation>.Filter.Or(

@@ -1,10 +1,12 @@
 ﻿using ReservationsLibrary.Enums;
 using ReservationsLibrary.Utils;
+using System.Text.Json.Serialization;
 
 namespace ReservationsLibrary.Models
 {
     public class ReservationRequest : BaseEntityModel
     {
+        [JsonIgnore]
         public Accommodation? Accommodation { get; set; }
         public Guid AccommodationId { get; set; }
         public Guid GuestId { get; set; }
@@ -12,6 +14,7 @@ namespace ReservationsLibrary.Models
         public int NumOfGuests { get; set; }
         public int Price { get; set; }
         public ReservationRequestStatus Status { get; set; } = ReservationRequestStatus.ON_HOLD;
+        public bool IsDeleted { get; set; } = false;
 
         public ReservationRequest() { }
 

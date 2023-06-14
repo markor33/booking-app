@@ -2,9 +2,7 @@ package accomodation.integration.eventBus;
 
 import accomodation.integration.IIntegrationEventHandler;
 import accomodation.integration.IntegrationEvent;
-import accomodation.integration.events.AccommodationCreatedIntegrationEvent;
-import accomodation.integration.events.TestIntegrationEvent;
-import accomodation.integration.events.TestIntegrationEventHandler;
+import accomodation.integration.events.*;
 import accomodation.integration.subscriptionManager.ISubscriptionManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -36,7 +34,9 @@ public class NatsEventBus implements IEventBus {
         this.objectMapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
         this.objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_INDEX);
 
-        this.subscribe(TestIntegrationEvent.class, TestIntegrationEventHandler.class);
+        this.subscribe(HostReservationsDeletedIntegrationEvent.class, HostReservationsDeletedIntegrationEventHandler.class);
+        this.subscribe(HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent.class,
+                HostSearchAccommodationsDeleteUnsuccessfulIntegrationEventHandler.class);
     }
 
     public void publish(IntegrationEvent event) {
@@ -45,8 +45,6 @@ public class NatsEventBus implements IEventBus {
         String json = null;
         try {
             json = this.objectMapper.writeValueAsString(event);
-            System.out.println("ASSADASDASDASDASD");
-            System.out.println(json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +68,6 @@ public class NatsEventBus implements IEventBus {
         Class eventHandlerType = this.subscriptionManager.getHandlerForEvent(eventName);
         try {
             IntegrationEvent event = (IntegrationEvent)this.objectMapper.readValue(message, eventType);
-            System.out.println(eventHandlerType.getSimpleName());
             IIntegrationEventHandler handler = (IIntegrationEventHandler) this.applicationContext.getBean(eventHandlerType);
             handler.handle(event);
         }

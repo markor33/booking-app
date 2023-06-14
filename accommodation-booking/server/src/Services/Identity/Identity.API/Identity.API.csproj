@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\..\..\EventBus.NET\EventBus.NET.csproj" />
 	  <Protobuf Include="..\..\Reservations\Reservations.API\Proto\reservations.proto" GrpcServices="Client" />
 	  <Protobuf Include="..\..\Search\grpc_services\accommodation-search.proto" GrpcServices="Client" />
   </ItemGroup>

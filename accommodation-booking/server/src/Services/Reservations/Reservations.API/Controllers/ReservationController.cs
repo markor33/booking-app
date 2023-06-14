@@ -1,6 +1,8 @@
-﻿using Identity.API.Extensions;
+﻿using AutoMapper;
+using Identity.API.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Reservations.API.DTO;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
 
@@ -11,11 +13,14 @@ namespace Reservations.API.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IReservationService _reservationService;
+        private readonly IMapper _mapper;
 
         public ReservationController(
-            IReservationService reservationService)
+            IReservationService reservationService,
+            IMapper mapper)
         {
             _reservationService = reservationService;
+            _mapper = mapper;
         }
 
         [Authorize(Roles = "HOST")]
@@ -37,9 +42,10 @@ namespace Reservations.API.Controllers
 
         [Authorize]
         [HttpGet("user")]
-        public ActionResult<List<Reservation>> GetByUser()
+        public ActionResult<List<ReservationDTO>> GetByUser()
         {
-            return _reservationService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
+            var reservations = _reservationService.GetByUser(Guid.Parse(User.UserId()), User.UserRole());
+            return Ok(_mapper.Map<List<ReservationDTO>>(reservations));
         }
     }
 }
