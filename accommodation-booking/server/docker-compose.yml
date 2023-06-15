@@ -107,11 +107,32 @@ services:
     ports:
      - 20000:80
 
+  ratings.api:
+    image: ${DOCKER_REGISTRY-}ratingsapi
+    build:
+      context: .
+      dockerfile: src/Services/Ratings.API/Dockerfile
+    depends_on:
+      - accomodation.db
+    ports:
+     - 15000:80
+
+  ratings.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - ratings-data:/var/lib/postgresql/data
+    ports:
+     - 23000:5432
+
 volumes:
   identity-data:
   accomodation-data:
     name: mysql-database
   reservations-data:
+  ratings-data:
   mongo_data:
-
 

@@ -4,14 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace Reservations.API.Security
+namespace Ratings.API.Security
 {
     public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
 
-
         private readonly IIdentityAPIClient _identityAPIClient;
-
 
         public AuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
