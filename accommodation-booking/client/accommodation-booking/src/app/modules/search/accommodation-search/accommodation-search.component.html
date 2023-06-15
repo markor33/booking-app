@@ -7,13 +7,13 @@
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Number of guests</mat-label>
-                <input matInput type="number" [(ngModel)]="searchQuery.numGuests" name="numGuests">
+                <input matInput type="number" [(ngModel)]="searchQuery.numOfGuests" name="numGuests">
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate placeholder="Start date" [(ngModel)]="searchQuery.startDate" name="startDate">
-                  <input matEndDate placeholder="End date" [(ngModel)]="searchQuery.endDate" name="endDate">
+                  <input matStartDate placeholder="Start date" [(ngModel)]="searchQuery.start" name="startDate">
+                  <input matEndDate placeholder="End date" [(ngModel)]="searchQuery.end" name="endDate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
@@ -33,7 +33,7 @@
             </div>
             <mat-divider vertical></mat-divider>
             <div class="reservation">
-                <h3>{{numOfNights}} nights, {{searchQuery.numGuests}} guests</h3>
+                <h3>{{numOfNights}} nights, {{searchQuery.numOfGuests}} guests</h3>
                 <div class="price">
                     <span class="icon-text-align">
                         <mat-icon>euro</mat-icon>

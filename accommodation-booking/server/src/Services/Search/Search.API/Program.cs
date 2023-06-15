@@ -1,0 +1,49 @@
+using EventBus.NET.Integration.EventBus;
+using EventBus.NET.Integration.Extensions;
+using EventBus.NET.Integration.SubscriptionManager;
+using NATS.Client;
+using Search.API.IntegrationEvents;
+using Search.API.Persistence.Repositories;
+using Search.API.Persistence.Settings;
+using Search.API.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var mongoDbSettings = builder.Configuration.GetSection("MongoDB");
+builder.Services.Configure<MongoDBSettings>(mongoDbSettings);
+builder.Services.AddScoped(typeof(IMongoDbFactory), typeof(MongoDbFactory));
+
+builder.Services.AddScoped(typeof(IAccommodationRepository), typeof(AccommodationRepository));
+
+builder.Services.AddScoped(typeof(ISearchService), typeof(SearchService));
+
+builder.Services.AddSingleton<ISubscriptionManager, SubscriptionManager>();
+builder.Services.AddSingleton<IConnection>(provider =>
+{
+    var factory = new ConnectionFactory();
+    var url = builder.Configuration.GetSection("NATS").GetValue<string>("Url");
+    return factory.CreateConnection(url);
+});
+builder.Services.AddSingleton<IEventBus, NatsEventBus>();
+builder.Services.AddIntegrationEventsHandlers(typeof(AccommodationCreatedIntegrationEventHandler).Assembly);
+
+var app = builder.Build();
+
+var eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.AddHandlers(typeof(AccommodationCreatedIntegrationEventHandler).Assembly);
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

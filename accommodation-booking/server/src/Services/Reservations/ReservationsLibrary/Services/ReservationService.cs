@@ -2,20 +2,23 @@
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Utils;
 using FluentResults;
+using EventBus.NET.Integration.EventBus;
+using ReservationsLibrary.IntegrationEvents;
+using ReservationsLibrary.IntegrationEvents.Notifications;
 
 namespace ReservationsLibrary.Services
 {
     public class ReservationService : IReservationService
     {
         private readonly IReservationRepository _reservationRepository;
-        private readonly IAccommodationSearchGrpcService _accommodationSearchGrpcService;
+        private readonly IEventBus _eventBus;
 
         public ReservationService(
             IReservationRepository reservationRepository,
-            IAccommodationSearchGrpcService accommodationSearchGrpcService)
+            IEventBus eventBus)
         {
             _reservationRepository = reservationRepository;
-            _accommodationSearchGrpcService = accommodationSearchGrpcService;
+            _eventBus = eventBus;
         }
 
         public int NumOfCanceledReservationForGuest(Guid guestId) => _reservationRepository.NumOfCanceledReservationForGuest(guestId);
@@ -38,7 +41,8 @@ namespace ReservationsLibrary.Services
             {
                 res.Canceled = true;
                 _reservationRepository.Update(res);
-                _accommodationSearchGrpcService.DeleteReservation(res);
+                _eventBus.Publish(new ReservationCanceledIntegrationEvent(res.AccommodationId, res.Id));
+                _eventBus.Publish(new ReservationCanceledNotification(res.Accommodation.HostId, res.AccommodationId, res.Id));
                 return Result.Ok();
             }
             return Result.Fail("Cancel failed");

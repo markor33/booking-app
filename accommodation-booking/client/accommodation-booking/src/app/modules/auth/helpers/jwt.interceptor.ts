@@ -10,6 +10,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let token = this.jwtHelper.tokenGetter();
+        console.log(request.url);
         if (token) {
             request = request.clone({
                 setHeaders: {

@@ -34,6 +34,9 @@ namespace Reservations.API.Migrations
                     b.Property<Guid>("HostId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Id");
 
                     b.ToTable("Accommodations");
@@ -41,27 +44,31 @@ namespace Reservations.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("21dbd1b8-b523-4d9b-a8c8-05e0c567316f"),
+                            Id = new Guid("cb5678dc-5c5e-409f-8332-03161608c74c"),
                             AutoConfirmation = true,
-                            HostId = new Guid("142eac06-d30f-4836-80ad-fb52725149dd")
+                            HostId = new Guid("f2e8be61-1f0e-44c9-92b7-b97079cef005"),
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("c609fafc-3c32-4e73-9cec-84877cf50eb1"),
+                            Id = new Guid("9681e718-1e6c-414a-b435-0fdeb5548ff3"),
                             AutoConfirmation = false,
-                            HostId = new Guid("5d604ef4-7149-4cab-a1cf-4c6497e9768e")
+                            HostId = new Guid("6fea589c-a74f-4a11-9ac0-6e228c33e520"),
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("b2702b82-40d6-498f-b9a7-fa6d5e0fa029"),
+                            Id = new Guid("70bbb592-d7d7-4134-a117-f6b7968a125d"),
                             AutoConfirmation = false,
-                            HostId = new Guid("a62dafca-14d6-4907-aa4a-cd8ca5607665")
+                            HostId = new Guid("d2c8c76a-ffab-4d4d-8dfa-035707b4e35c"),
+                            IsDeleted = false
                         },
                         new
                         {
-                            Id = new Guid("f653f8e7-efde-45c2-b82e-16566de0c27a"),
+                            Id = new Guid("43b84d7a-02de-4a2f-bcdb-41f297ec1fb4"),
                             AutoConfirmation = true,
-                            HostId = new Guid("ee6f2fa4-8bcf-4530-b97a-686f9be133d2")
+                            HostId = new Guid("eb1c614c-5367-49e4-b94a-f32c69bcd70d"),
+                            IsDeleted = false
                         });
                 });
 
@@ -77,8 +84,11 @@ namespace Reservations.API.Migrations
                     b.Property<bool>("Canceled")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("GuestId")
+                    b.Property<Guid>("GuestId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("NumOfGuests")
                         .HasColumnType("integer");
@@ -102,8 +112,11 @@ namespace Reservations.API.Migrations
                     b.Property<Guid>("AccommodationId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("GuestId")
+                    b.Property<Guid>("GuestId")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("NumOfGuests")
                         .HasColumnType("integer");
@@ -123,18 +136,20 @@ namespace Reservations.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5ace11c7-4bbc-402c-9a42-0a85998fbec1"),
-                            AccommodationId = new Guid("21dbd1b8-b523-4d9b-a8c8-05e0c567316f"),
-                            GuestId = new Guid("5fbd1fd1-ab26-4728-aef2-e44fef2e41ab"),
+                            Id = new Guid("8cd5cdec-f3ca-458b-bb29-e7cf2e8b6934"),
+                            AccommodationId = new Guid("cb5678dc-5c5e-409f-8332-03161608c74c"),
+                            GuestId = new Guid("01a1152d-84c5-47c6-8243-b4ba607bf9d1"),
+                            IsDeleted = false,
                             NumOfGuests = 2,
                             Price = 500,
                             Status = 0
                         },
                         new
                         {
-                            Id = new Guid("d8ef57a7-f0c6-4111-90f7-2b85ebc6827b"),
-                            AccommodationId = new Guid("c609fafc-3c32-4e73-9cec-84877cf50eb1"),
-                            GuestId = new Guid("97a98ce3-7426-4f76-96cd-1e96472a9ece"),
+                            Id = new Guid("95628d24-77d5-4f79-8e76-7dedbfd7c199"),
+                            AccommodationId = new Guid("9681e718-1e6c-414a-b435-0fdeb5548ff3"),
+                            GuestId = new Guid("d692de48-e23b-474d-9b06-4d4a4d561c6f"),
+                            IsDeleted = false,
                             NumOfGuests = 1,
                             Price = 400,
                             Status = 0
@@ -144,7 +159,7 @@ namespace Reservations.API.Migrations
             modelBuilder.Entity("ReservationsLibrary.Models.Reservation", b =>
                 {
                     b.HasOne("ReservationsLibrary.Models.Accommodation", "Accommodation")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("AccommodationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,7 +193,7 @@ namespace Reservations.API.Migrations
             modelBuilder.Entity("ReservationsLibrary.Models.ReservationRequest", b =>
                 {
                     b.HasOne("ReservationsLibrary.Models.Accommodation", "Accommodation")
-                        .WithMany()
+                        .WithMany("ReservationRequests")
                         .HasForeignKey("AccommodationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -206,13 +221,13 @@ namespace Reservations.API.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    ReservationRequestId = new Guid("5ace11c7-4bbc-402c-9a42-0a85998fbec1"),
+                                    ReservationRequestId = new Guid("8cd5cdec-f3ca-458b-bb29-e7cf2e8b6934"),
                                     End = new DateTime(2023, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 },
                                 new
                                 {
-                                    ReservationRequestId = new Guid("d8ef57a7-f0c6-4111-90f7-2b85ebc6827b"),
+                                    ReservationRequestId = new Guid("95628d24-77d5-4f79-8e76-7dedbfd7c199"),
                                     End = new DateTime(2023, 6, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 });
@@ -221,6 +236,13 @@ namespace Reservations.API.Migrations
                     b.Navigation("Accommodation");
 
                     b.Navigation("Period");
+                });
+
+            modelBuilder.Entity("ReservationsLibrary.Models.Accommodation", b =>
+                {
+                    b.Navigation("ReservationRequests");
+
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

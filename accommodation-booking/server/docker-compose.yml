@@ -72,19 +72,67 @@ services:
     ports:
      - 22000:5432
 
-  accommodation-search.api:
-    image: accommodation-search.api
+  search.api:
+    image: ${DOCKER_REGISTRY-}searchapi
     build:
       context: .
-      dockerfile: src/Services/Search/Dockerfile
-    environment:
-      - MONGODB_URI=mongodb+srv://addm2019:Z522zXN2eBo7xDzM@cluster0.23ppwpl.mongodb.net/search_db?retryWrites=true&w=majority
+      dockerfile: src/Services/Search/Search.API/Dockerfile
     ports:
-      - 13000:5000
-      - 13001:5001
+     - 14000:80
+     - 14001:5000
+
+  nats:
+    image: 'nats:latest'
+    expose:
+        - "4222"
+    ports:
+        - "4222:4222"
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    restart: always
+
+  notifications.signalr:
+    image: ${DOCKER_REGISTRY-}notificationssignalr
+    build:
+      context: .
+      dockerfile: src/Services/Notifications/Notifications.SignalR/Dockerfile
+    ports:
+     - 20000:80
+
+  ratings.api:
+    image: ${DOCKER_REGISTRY-}ratingsapi
+    build:
+      context: .
+      dockerfile: src/Services/Ratings.API/Dockerfile
+    depends_on:
+      - accomodation.db
+    ports:
+     - 15000:80
+
+  ratings.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - ratings-data:/var/lib/postgresql/data
+    ports:
+     - 23000:5432
 
 volumes:
   identity-data:
   accomodation-data:
     name: mysql-database
   reservations-data:
+  ratings-data:
+  mongo_data:
+

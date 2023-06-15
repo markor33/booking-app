@@ -46,7 +46,7 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public bool IsOverLappedByAccomodation(DateRange range, Guid accommodationId)
         {
-            var numOfReservation = _dbContext.Reservations.Where(e => e.Period.Start < range.End && e.Period.End > range.Start
+            var numOfReservation = _dbContext.Reservations.Where(e => e.IsDeleted == false && e.Period.Start < range.End && e.Period.End > range.Start
                                           && e.AccommodationId == accommodationId && e.Canceled == false).GroupBy(r => r.Id).Count();
             return numOfReservation != 0;
         }

@@ -9,16 +9,18 @@ namespace Reservations.API.Security
     public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
 
-        private readonly IHospitalAPIClient _hospitalAPIClient;
+
+        private readonly IIdentityAPIClient _identityAPIClient;
+
 
         public AuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IHospitalAPIClient hospitalAPIClient) : base(options, logger, encoder, clock)
+            IIdentityAPIClient hospitalAPIClient) : base(options, logger, encoder, clock)
         {
-            _hospitalAPIClient = hospitalAPIClient;
+            _identityAPIClient = hospitalAPIClient;
         }
 
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -26,7 +28,7 @@ namespace Reservations.API.Security
             if (Request.Headers.Authorization.Count == 0)
                 return AuthenticateResult.NoResult();
             var authorizationHeader = Request.Headers.Authorization.ToString();
-            if (!_hospitalAPIClient.ValidateAuthorizationHeader(authorizationHeader))
+            if (!_identityAPIClient.ValidateAuthorizationHeader(authorizationHeader))
                 return AuthenticateResult.Fail("Token is not valid");
 
             var tokenHandler = new JwtSecurityTokenHandler();
