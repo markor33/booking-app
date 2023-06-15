@@ -35,7 +35,7 @@ builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationServic
 
 builder.Services.AddScoped(typeof(IAccommodationSearchGrpcService), typeof(AccommodationSearchGrpcService));
 
-builder.Services.AddScoped<IHospitalAPIClient, HospitalAPIClient>();
+builder.Services.AddScoped<IBookingAPIClient, BookingAPIClient>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

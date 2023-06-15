@@ -21,7 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reservations", "Reservation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reservations.API", "src\Services\Reservations\Reservations.API\Reservations.API.csproj", "{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservationsLibrary", "src\Services\Reservations\ReservationsLibrary\ReservationsLibrary.csproj", "{B2DAA8DE-1356-4E89-B2D2-97F99E622564}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReservationsLibrary", "src\Services\Reservations\ReservationsLibrary\ReservationsLibrary.csproj", "{B2DAA8DE-1356-4E89-B2D2-97F99E622564}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ratings", "Ratings", "{599C1424-2500-4101-AACD-963482C9C1E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ratings.API", "src\Services\Ratings.API\Ratings.API.csproj", "{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatingsLibrary", "src\Services\RatingsLibrary\RatingsLibrary.csproj", "{F86B2807-3DC9-4775-BB06-70BE49AA4B22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +55,14 @@ Global
 		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2DAA8DE-1356-4E89-B2D2-97F99E622564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86B2807-3DC9-4775-BB06-70BE49AA4B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86B2807-3DC9-4775-BB06-70BE49AA4B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86B2807-3DC9-4775-BB06-70BE49AA4B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86B2807-3DC9-4775-BB06-70BE49AA4B22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +76,9 @@ Global
 		{57A2EC42-AECC-4E1E-8AE9-478CA90B765D} = {FA1619D2-EEC9-4ED6-805B-23C34C1859D9}
 		{B0FD85FE-D4CE-43F8-AC45-9BC47AE58E0C} = {57A2EC42-AECC-4E1E-8AE9-478CA90B765D}
 		{B2DAA8DE-1356-4E89-B2D2-97F99E622564} = {57A2EC42-AECC-4E1E-8AE9-478CA90B765D}
+		{599C1424-2500-4101-AACD-963482C9C1E5} = {FA1619D2-EEC9-4ED6-805B-23C34C1859D9}
+		{6FD491D7-3F1B-496B-AA2C-C9B2FF6A19A8} = {599C1424-2500-4101-AACD-963482C9C1E5}
+		{F86B2807-3DC9-4775-BB06-70BE49AA4B22} = {599C1424-2500-4101-AACD-963482C9C1E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EF2BE0E2-3912-425B-B820-5AFC2139821C}
