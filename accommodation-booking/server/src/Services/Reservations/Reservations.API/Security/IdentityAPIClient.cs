@@ -2,11 +2,11 @@
 
 namespace Reservations.API.Security
 {
-    public class HospitalAPIClient : IHospitalAPIClient
+    public class IdentityAPIClient : IIdentityAPIClient
     {
         private readonly RestClient _restClient;
 
-        public HospitalAPIClient()
+        public IdentityAPIClient()
         {
             _restClient = new RestClient("http://host.docker.internal:10000/api/identity/auth/validate");
         }

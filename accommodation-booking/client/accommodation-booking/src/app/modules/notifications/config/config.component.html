@@ -1,0 +1,9 @@
+<div class="container">
+    <form (ngSubmit)="save()">
+        <div *ngFor="let item of configs | keyvalue">
+            <span>{{item.key}}</span>
+            <mat-checkbox [checked]="item.value" (change)="updateConfigValue(item.key, $event.checked)" name="isEnabled">Enabled</mat-checkbox>
+        </div>
+        <button mat-raised-button type="">Save</button>
+    </form>
+</div>

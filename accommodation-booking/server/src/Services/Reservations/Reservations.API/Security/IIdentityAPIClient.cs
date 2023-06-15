@@ -1,6 +1,6 @@
 ﻿namespace Reservations.API.Security
 {
-    public interface IHospitalAPIClient
+    public interface IIdentityAPIClient
     {
         public bool ValidateAuthorizationHeader(string authorizationHeader);
     }

@@ -9,14 +9,14 @@ namespace Reservations.API.Security
     public class AuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
 
-        private readonly IHospitalAPIClient _hospitalAPIClient;
+        private readonly IIdentityAPIClient _hospitalAPIClient;
 
         public AuthHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IHospitalAPIClient hospitalAPIClient) : base(options, logger, encoder, clock)
+            IIdentityAPIClient hospitalAPIClient) : base(options, logger, encoder, clock)
         {
             _hospitalAPIClient = hospitalAPIClient;
         }

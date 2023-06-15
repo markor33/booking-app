@@ -5,13 +5,15 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from './modules/layout/layout.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AccomodationModule } from './modules/accomodation/accomodation.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { SearchModule } from './modules/search/search.module';
 import { UserModule } from './modules/user/user.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { JwtInterceptor } from './modules/auth/helpers/jwt.interceptor';
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { ReservationModule } from './modules/reservation/reservation.module';
     AccomodationModule,
     UserModule,
     ReservationModule,
+    NotificationsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')
