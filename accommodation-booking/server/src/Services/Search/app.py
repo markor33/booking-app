@@ -4,6 +4,9 @@ import uuid
 import json
 import grpc
 import logging
+import nats
+import asyncio
+import sys
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from pymodm import connect
@@ -36,8 +39,29 @@ def serve():
     server.start()
     server.wait_for_termination()
 
+async def init_nats_event_bus():
+    async def test_msg(msg):
+        subject = msg.subject
+        data = msg.data.decode()
+        print(data, file=sys.stdout)
+    
+    nc = await nats.connect('nats://host.docker.internal:4222')
+    print('fffffffffffffffff', file=sys.stdout)
+    sub = await nc.subscribe('TestIntegrationEvent', cb=test_msg)
+    print('cccccccccccccccc', file=sys.stdout)
+
+def start_nats_event_bus():
+    loop = asyncio.new_event_loop()  # Create a new event loop
+    asyncio.set_event_loop(loop)  # Set it as the current event loop
+    loop.run_until_complete(init_nats_event_bus())
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
+    
     serve_thread = threading.Thread(target=serve)
     serve_thread.start()
+
+    nats_thread = threading.Thread(target=start_nats_event_bus)
+    nats_thread.start()
+
     app.run(host='0.0.0.0', debug=True)

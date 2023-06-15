@@ -85,6 +85,9 @@ public class Accomodation {
 	
 	@Column(name = "price_type")
 	private PriceType priceType;
+
+	@Column(name = "is_deleted")
+	private boolean isDeleted;
 	
 	public Accomodation() {
 
@@ -106,6 +109,7 @@ public class Accomodation {
 		this.photos = photos;
 		this.priceIntervals = priceIntervals;
 		this.priceType = priceType;
+		this.isDeleted = false;
 	}
 
 	public Accomodation(Accomodation a) {
@@ -122,6 +126,7 @@ public class Accomodation {
 		this.photos = a.getPhotos();
 		this.priceIntervals = a.getPriceIntervals();
 		this.priceType = a.getPriceType();
+		this.isDeleted = a.isDeleted;
 	}
 	
 	public Accomodation(AccomodationDTO dto) {
@@ -247,6 +252,14 @@ public class Accomodation {
 	public float getGeneralPrice() {return generalPrice; }
 
 	public void setGeneralPrice(float generalPrice) { this.generalPrice = generalPrice; }
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
+	}
 
 	@Override
 	public int hashCode() {

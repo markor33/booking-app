@@ -23,6 +23,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseWebSockets();
 await app.UseOcelot();
 
 app.MapControllers();

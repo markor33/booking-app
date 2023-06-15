@@ -31,7 +31,7 @@ builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationServic
 builder.Services.AddScoped(typeof(IHostRatingService), typeof(HostRatingService));
 builder.Services.AddScoped(typeof(IProminentHostService), typeof(ProminentHostService));
 
-builder.Services.AddScoped<IBookingAPIClient, BookingAPIClient>();
+builder.Services.AddScoped<IIdentityAPIClient, IdentityAPIClient>();
 
 var app = builder.Build();
 

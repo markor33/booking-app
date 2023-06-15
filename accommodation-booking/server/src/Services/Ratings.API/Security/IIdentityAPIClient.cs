@@ -1,6 +1,6 @@
 ﻿namespace Ratings.API.Security
 {
-    public interface IBookingAPIClient
+    public interface IIdentityAPIClient
     {
         public bool ValidateAuthorizationHeader(string authorizationHeader);
     }

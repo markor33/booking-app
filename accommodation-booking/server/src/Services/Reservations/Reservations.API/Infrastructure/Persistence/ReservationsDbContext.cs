@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReservationsLibrary.Data.Seed;
 using ReservationsLibrary.Models;
+using ReservationsLibrary.Repository.Base;
 
 namespace ReservationsLibrary.Data
 {
-    public class ReservationsDbContext : DbContext
+    public class ReservationsDbContext : DbContext, IUnitOfWork
     {
-        public DbSet<Accommodation>? Accommodations { get; set; }
-        public DbSet<ReservationRequest>? ReservationRequests { get; set; }
-        public DbSet<Reservation>? Reservations { get; set; }
+        public DbSet<Accommodation> Accommodations { get; set; }
+        public DbSet<ReservationRequest> ReservationRequests { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
         public ReservationsDbContext(DbContextOptions<ReservationsDbContext> options) : base(options)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -38,6 +39,20 @@ namespace ReservationsLibrary.Data
 
             builder.SeedData();
             base.OnModelCreating(builder);
+        }
+
+        public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                await base.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

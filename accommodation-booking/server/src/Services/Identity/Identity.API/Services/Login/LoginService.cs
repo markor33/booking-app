@@ -26,7 +26,7 @@ namespace Identity.API.Services.Login
         public async Task<Result<LoginResponse>> LoginAsync(LoginViewModel login)
         {
             var user = await _userManager.FindByNameAsync(login.Username);
-            if (user is null)
+            if (user is null || user.Status == UserStatus.DELETED)
                 return Result.Fail("Login failed");
 
             var result = await _userManager.CheckPasswordAsync(user, login.Password);

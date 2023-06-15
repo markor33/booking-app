@@ -13,7 +13,6 @@ services:
     ports:
       - "80"
 
-
   reservations.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -24,8 +23,19 @@ services:
     ports:
       - "80"
 
-
   ratings.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  search.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  notifications.signalr:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

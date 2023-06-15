@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import accomodation.grpc.AccommodationSearchGrpcService;
 import accomodation.grpc.ReservationsGrpcService;
+import accomodation.integration.eventBus.IEventBus;
+import accomodation.integration.eventBus.NatsEventBus;
+import accomodation.integration.events.AccommodationCreatedIntegrationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,10 @@ import accomodation.util.PhotoUploader;
 public class AccomodationService {
 
 	@Autowired
-	AccommodationSearchGrpcService accommodationSearchGrpcService;
+	IEventBus eventBus;
+
+	/*@Autowired
+	AccommodationSearchGrpcService accommodationSearchGrpcService;*/
 
 	@Autowired
 	ReservationsGrpcService	 reservationsGrpcService;
@@ -80,8 +86,10 @@ public class AccomodationService {
 		}
 		createdAccomodation.setPhotos(photoRepository.saveAll(newPhotos));
 
-		this.accommodationSearchGrpcService.AddAccommodation(createdAccomodation);
+		// this.accommodationSearchGrpcService.AddAccommodation(createdAccomodation);
 		this.reservationsGrpcService.AddAccommodation(createdAccomodation, accomodationDTO.isAutoConfirmation());
+
+		this.eventBus.publish(new AccommodationCreatedIntegrationEvent(createdAccomodation));
 
 		return createdAccomodation;
 	}
