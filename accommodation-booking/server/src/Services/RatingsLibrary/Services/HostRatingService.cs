@@ -28,9 +28,9 @@ namespace RatingsLibrary.Services
             return true;
         }
 
-        public void DeleteHostRating(Guid guestId, Guid hostId)
+        public void DeleteHostRating(Guid reservationId)
         {
-            var rating = _hostRatingRepository.GetByGuestAndHost(guestId, hostId);
+            var rating = _hostRatingRepository.GetByReservationId(reservationId);
            _hostRatingRepository.Delete(rating.Id);
         }
 
@@ -52,9 +52,17 @@ namespace RatingsLibrary.Services
             return false;
         }
 
+        public List<int> GetGradesByGuest(Guid guestId, string role)
+        {
+            if(role == "GUEST")
+                return _hostRatingRepository.GetGradesByGuest(guestId);
+            else
+                return _hostRatingRepository.GetGradesByHost(guestId);
+        }
+
         private bool EditHostRatingIfExits(HostRating hostRating)
         {
-            var rating = _hostRatingRepository.GetByGuestAndHost(hostRating.GuestId, hostRating.HostId);
+            var rating = _hostRatingRepository.GetByReservationId(hostRating.ReservationId);
             if (rating != null)
             {
                 rating.Grade = hostRating.Grade;

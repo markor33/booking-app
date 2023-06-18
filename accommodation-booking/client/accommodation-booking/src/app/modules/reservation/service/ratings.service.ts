@@ -30,4 +30,10 @@ export class RatingsService {
   deleteAccommodationRate(id: string): Observable<void>{
     return this.httpClient.delete<void>('api/ratings/accommodationRating/' + id, this.httpOptions);
   }
+  getGradeAccommByReservation(): Observable<number[]>{
+    return this.httpClient.get<number[]>('api/ratings/accommodationRating/grades', this.httpOptions);
+  }
+  getGradeHostByReservation(): Observable<number[]>{
+    return this.httpClient.get<number[]>('api/ratings/hostRating/grades', this.httpOptions);
+  }
 }

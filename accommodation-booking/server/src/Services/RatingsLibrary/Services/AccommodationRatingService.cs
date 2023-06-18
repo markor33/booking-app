@@ -26,9 +26,9 @@ namespace RatingsLibrary.Services
             return true;
         }
 
-        public void DeleteAccommodationRating(Guid guestId, Guid accommodationRatingId)
+        public void DeleteAccommodationRating(Guid reservationId)
         {
-            var rating = _accommodationRatingRepository.GetByGuestAndAccommodation(guestId, accommodationRatingId);
+            var rating = _accommodationRatingRepository.GetByReservationId(reservationId);
             _accommodationRatingRepository.Delete(rating.Id);
         }
 
@@ -42,6 +42,13 @@ namespace RatingsLibrary.Services
             return _accommodationRatingRepository.GetAverageGradeByAccommodation(accommodationId);
         }
 
+        public List<int> GetGradesByGuest(Guid id, string role)
+        {
+            if (role == "GUEST")
+                return _accommodationRatingRepository.GetGradesByGuest(id);
+            else
+                return _accommodationRatingRepository.GetGradesByHost(id);
+        }
         private bool CheckIfCanRate(Guid guestId, Guid accommodationId)
         {
             var res = _reservationRepository.GetReservationByGuestAndAccommodationInPast(guestId, accommodationId);
@@ -52,7 +59,7 @@ namespace RatingsLibrary.Services
         
         private bool EditAccommodationGradeIfExist(AccommodationRating accomRating)
         {
-            var rating = _accommodationRatingRepository.GetByGuestAndAccommodation(accomRating.GuestId, accomRating.AccommodationId);
+            var rating = _accommodationRatingRepository.GetByReservationId(accomRating.ReservationId);
             if (rating != null)
             {
                 rating.Grade = accomRating.Grade;

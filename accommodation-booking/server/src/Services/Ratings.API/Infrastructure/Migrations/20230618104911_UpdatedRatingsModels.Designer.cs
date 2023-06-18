@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ratings.API.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Ratings.API.Infrastructure.Persistence;
 namespace Ratings.API.Infrastructure.Migrations
 {
     [DbContext(typeof(RatingsDbContext))]
-    partial class RatingsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230618104911_UpdatedRatingsModels")]
+    partial class UpdatedRatingsModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

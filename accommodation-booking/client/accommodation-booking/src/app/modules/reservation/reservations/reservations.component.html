@@ -20,19 +20,18 @@
         <td md-cell>{{res.numOfGuests}}</td>
         <td md-cell>{{res.price + "eur"}} </td>
         <td md-cell>
-          <div class="rating-container">
+          <div class="rating-container"  *ngIf="compareDates(res.period.end, now) < 0">
             <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= hostRatings[i]}" (click)="rateHost(star, i, res.id, res.accommodationId)">star</mat-icon><br><br>
-            <button mat-raised-button color="warn" (click)="deleteHostRating(res.id, i)">Delete</button>
+            <button mat-raised-button color="warn" *ngIf="userRole == 'GUEST'" (click)="deleteHostRating(res.id, i)">Delete</button>
         </div>
         </td>
         <td md-cell>
-          <div class="rating-container">
-            <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= accommRatings[i]}" (click)="rateAccomm(star, i, res.accommodationId)">star</mat-icon>
-            <button mat-raised-button color="warn" (click)="deleteAccommRating(res.accommodationId, i)">Delete</button>
-        </div>
+          <div class="rating-container" *ngIf="compareDates(res.period.end, now) < 0">
+            <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= accommRatings[i]}" (click)="rateAccomm(star, i, res.accommodationId, res.id)">star</mat-icon>
+            <button mat-raised-button *ngIf="userRole == 'GUEST'" color="warn" (click)="deleteAccommRating(res.id, i)">Delete</button>
+          </div>
         </td>
-        <td md-cell *ngIf="userRole == 'GUEST'"><button mat-raised-button color="warn" (click)="cancelReservation(res.id, i)">Delete</button></td>
-       
+        <td md-cell *ngIf="userRole == 'GUEST'"><button mat-raised-button color="warn" *ngIf="compareDates(res.period.end, now) > 0" (click)="cancelReservation(res.id, i)">Cancel</button></td>
       </tr>
     </tbody>
   </table>

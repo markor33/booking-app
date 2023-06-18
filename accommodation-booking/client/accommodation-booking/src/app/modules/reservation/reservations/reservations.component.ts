@@ -25,6 +25,7 @@ export class ReservationsComponent implements OnInit {
   stars: number[] = [1, 2, 3, 4, 5];
   hostRating: HostRating ;
   accommRating: AccommodationRating;
+  now: Date;
 
   constructor(private reservationService: ReservationService,
               private userService: ApplicationUserService,
@@ -39,14 +40,17 @@ export class ReservationsComponent implements OnInit {
       hostId: "",
       guestId: "",
       grade: 0,
-      dateTimeOfGrade: new Date()
+      dateTimeOfGrade: new Date(),
+      reservationId: ""
     }
     this.accommRating = {
       accommodationId: "",
       guestId: "",
       grade: 0,
-      dateTimeOfGrade: new Date()
+      dateTimeOfGrade: new Date(),
+      reservationId: ""
     }
+    this.now = new Date();
   }
 
   ngOnInit(): void {
@@ -56,15 +60,14 @@ export class ReservationsComponent implements OnInit {
         this.userRole = this.authService.getUserRole();
     });
     this.getByUser();
+    this.now = new Date();
   }
 
   getByUser(){
     this.reservationService.getRequestByUser().subscribe((res) =>{
       this.reservations = res;
-      res.forEach((res) => {
-        this.hostRatings.push(0)
-        this.accommRatings.push(0)
-      })
+      this.getHostRatings();
+      this.getAcommRatings();
       this.include();
     });
   }
@@ -73,27 +76,39 @@ export class ReservationsComponent implements OnInit {
     if(this.userRole == 'GUEST'){
       this.hostRating.guestId = accommId;
       this.hostRating.hostId = accommId;
+      this.hostRating.reservationId = resId;
       this.hostRatings[i] = hostRating;
       this.hostRating.grade = hostRating;
       this.ratingsService.rateHost(this.hostRating, resId).subscribe((res) =>{
         console.log("host rating created");
       })
     }
-    
+
   }
-  rateAccomm(accommRating: number, i: number, accommId: string): void{
+  getHostRatings(){
+    this.ratingsService.getGradeHostByReservation().subscribe((res) =>{
+      this.hostRatings = res;
+    })
+  }
+  getAcommRatings(){
+    this.ratingsService.getGradeAccommByReservation().subscribe((res) =>{
+      this.accommRatings = res;
+    })
+  }
+  rateAccomm(accommRating: number, i: number, accommId: string, resId: string): void{
     if(this.userRole == 'GUEST'){
       this.accommRatings[i] = accommRating;
       this.accommRating.grade = accommRating;
       this.accommRating.accommodationId = accommId;
+      this.accommRating.reservationId = resId;
       this.accommRating.guestId = accommId;
       this.ratingsService.rateAccommodation(this.accommRating).subscribe((res) =>{
         console.log("accommodation rating created");
       })
     }
   }
-  deleteAccommRating(accommId: string, i: number){
-    this.ratingsService.deleteAccommodationRate(accommId).subscribe(()=>{
+  deleteAccommRating(resId: string, i: number){
+    this.ratingsService.deleteAccommodationRate(resId).subscribe(()=>{
       console.log("accommodation rating deleted")
       this.accommRatings[i] = 0;
     })
@@ -142,4 +157,11 @@ export class ReservationsComponent implements OnInit {
       return "PER PERSON"
     return "IN WHOLE"
   }
+
+
+compareDates(date1: Date, date2: Date): number{
+  var d = new Date(date1);
+  return d.getTime() - date2.getTime();
+}
+
 }

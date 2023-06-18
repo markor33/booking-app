@@ -53,12 +53,12 @@ namespace Reservations.API.Infrasructure.Persistence.Repositories
 
         public List<Reservation> GetByHost(Guid hostId)
         {
-            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.Accommodation.HostId == hostId && r.Canceled == false).ToList();
+            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.Accommodation.HostId == hostId && r.Canceled == false).OrderBy(r => r.Period.Start).ToList();
         }
 
         public List<Reservation> GetByGuest(Guid guestId)
         {
-            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.GuestId == guestId && r.Canceled == false).ToList();
+            return _dbContext.Reservations.Include(r => r.Accommodation).Where(r => r.GuestId == guestId && r.Canceled == false).OrderBy(r => r.Period.Start).ToList();
         }
     }
 }
