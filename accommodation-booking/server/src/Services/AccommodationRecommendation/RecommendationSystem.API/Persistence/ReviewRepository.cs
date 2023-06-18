@@ -20,7 +20,7 @@ namespace RecommendationSystem.API.Persistence
                     var result = tx.RunAsync(
                         "MATCH (p:Guest {id: $personId}) " +
                         "MATCH (a:Accommodation {id: $accommodationId}) " +
-                        "CREATE (p)-[:GAVE_REVIEW {id: $reviewId}, rating: $rating, date: date($date)]->(a)",
+                        "CREATE (p)-[:GAVE_REVIEW {id: $reviewId, rating: $rating, date: date($date)}]->(a)",
                         new
                         {
                             personId = review.GuestId.ToString(),
@@ -64,13 +64,14 @@ namespace RecommendationSystem.API.Persistence
                         "MATCH (p:Guest {id: $personId})-" +
                         "[r:GAVE_REVIEW {id: $reviewId}]->" +
                         "(a:Accommodation {id: $accommodationId}) " +
-                        "SET r.rating = $rating",
+                        "SET r.rating = $rating, r.date = date($date)",
                         new
                         {
                             personId = review.GuestId.ToString(),
                             accommodationId = review.AccommodationId.ToString(),
                             reviewId = review.Id.ToString(),
-                            rating = review.Rating
+                            rating = review.Rating,
+                            date = review.Date.ToString("yyyy-MM-dd")
                         });
 
                     return result;
