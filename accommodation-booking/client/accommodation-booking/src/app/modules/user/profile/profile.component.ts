@@ -37,7 +37,8 @@ export class ProfileComponent implements OnInit {
       email: "",
       firstName: "",
       lastName: "",
-      address: this.address
+      address: this.address,
+      flightBookingApiKey: null
     }
   }
   ngOnInit(): void {
@@ -54,7 +55,10 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
   editProfile(){
+    if (this.userProfile.flightBookingApiKey === '')
+    this.userProfile.flightBookingApiKey = null;
     this.userService.editProfile(this.userProfile).subscribe({
       complete:() =>{
         this.snackBar.open("Profile is edited!", "Ok", {
@@ -64,11 +68,13 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
   getUserProfile(){
     this.userService.getUserProfile().subscribe((res) => {
       this.userProfile = res;
     })
   }
+
   deleteProfile(){
     this.userService.deleteProfile().subscribe({
       complete:() =>{

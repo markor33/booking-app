@@ -11,5 +11,6 @@ namespace Identity.API.Models
         public string LastName { get; set; }
         [Required]
         public Address Address { get; set; }
+        public Guid? FlightBookingApiKey { get; set; } = null;
     }   
 }

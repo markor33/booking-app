@@ -1,0 +1,26 @@
+.container {
+    padding: 2%;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.departure-flights {
+    display: flex;
+    flex-direction: column;
+}
+
+.flight {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    gap: 2%;
+}
+
+.flight img {
+    width: 20%;
+    height: 20%;
+}
