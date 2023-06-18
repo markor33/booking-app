@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class HostSearchAccommodationsDeleteUnsuccessfulIntegrationEventHandler
-        implements IIntegrationEventHandler<HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent> {
+public class HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEventHandler
+        implements IIntegrationEventHandler<HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent> {
 
     @Autowired
     AccomodationRepository accomodationRepository;
@@ -20,7 +20,7 @@ public class HostSearchAccommodationsDeleteUnsuccessfulIntegrationEventHandler
     IEventBus eventBus;
 
     @Override
-    public void handle(HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent event) {
+    public void handle(HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent event) {
         List<Accomodation> accomodations = this.accomodationRepository.findByHostId(event.getHostId());
         for (Accomodation accomodation : accomodations)
             accomodation.setDeleted(false);

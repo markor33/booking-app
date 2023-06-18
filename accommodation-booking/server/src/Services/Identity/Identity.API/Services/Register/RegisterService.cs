@@ -1,4 +1,6 @@
-﻿using FluentResults;
+﻿using EventBus.NET.Integration.EventBus;
+using FluentResults;
+using Identity.API.IntegrationEvents;
 using Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,10 +9,12 @@ namespace Identity.API.Services.Register
     public class RegisterService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEventBus _eventBus;
 
-        public RegisterService(UserManager<ApplicationUser> userManager)
+        public RegisterService(UserManager<ApplicationUser> userManager, IEventBus eventBus)
         {
             _userManager = userManager;
+            _eventBus = eventBus;
         }
 
         public async Task<Result> RegisterAsync(RegisterViewModel register)
@@ -34,6 +38,9 @@ namespace Identity.API.Services.Register
                 await _userManager.DeleteAsync(user);
                 return Result.Fail("Registration failed");
             }
+
+            if (register.UserType == UserType.GUEST)
+                _eventBus.Publish(new GuestCreatedIntegrationEvent(user.Id, user.FirstName + " " + user.LastName));
 
             return Result.Ok();
         }

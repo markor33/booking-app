@@ -38,3 +38,10 @@ services:
     ports:
       - "80"
 
+
+  recommendationsystem.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+

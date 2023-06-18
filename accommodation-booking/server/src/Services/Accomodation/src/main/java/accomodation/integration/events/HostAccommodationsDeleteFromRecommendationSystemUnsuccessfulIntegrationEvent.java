@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent extends IntegrationEvent {
+public class HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent extends IntegrationEvent {
     private UUID hostId;
 
-    public HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent() {
+    public HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent() {
     }
 
-    public HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent(UUID hostId) {
+    public HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent(UUID hostId) {
         this.hostId = hostId;
     }
 
