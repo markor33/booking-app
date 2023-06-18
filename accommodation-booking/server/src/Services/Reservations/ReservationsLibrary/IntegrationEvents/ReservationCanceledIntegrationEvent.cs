@@ -5,12 +5,14 @@ namespace ReservationsLibrary.IntegrationEvents
 {
     public class ReservationCanceledIntegrationEvent : IntegrationEvent
     {
+        public Guid GuestId { get; private set; }
         public Guid AccommodationId { get; private set; }
         public Guid ReservationId { get; private set; }
 
         [JsonConstructor]
-        public ReservationCanceledIntegrationEvent(Guid accommodationId, Guid reservationId)
+        public ReservationCanceledIntegrationEvent(Guid guestId, Guid accommodationId, Guid reservationId)
         {
+            GuestId = guestId;
             AccommodationId = accommodationId;
             ReservationId = reservationId;
         }

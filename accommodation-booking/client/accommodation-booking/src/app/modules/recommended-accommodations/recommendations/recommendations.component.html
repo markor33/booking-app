@@ -1,0 +1,15 @@
+<div class="container">
+    <h2>Recommended accommodations:</h2>
+    <div class="accommodations">
+        <div class="accommodation" *ngFor="let accommodation of recommendedAccommodations">
+            <img [src]="accommodation.photo">
+            <div class="general-info">
+                <h2 (click)="openAccommodationDisplay(accommodation.id)">{{accommodation.name}}</h2>
+                <span class="icon-text-align location">
+                    <mat-icon color="primary">location_on</mat-icon>
+                    {{accommodation.location}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

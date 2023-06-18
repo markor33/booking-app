@@ -127,6 +127,40 @@ services:
     ports:
      - 23000:5432
 
+  neo4j:
+    image: neo4j
+    restart: always
+    ports:
+      # bolt
+      - "7687:7687"
+      # http
+      - "7474:7474"
+      # https
+      - "7473:7473"
+    # Docker healtcheck - checks if database is "alive"
+    healthcheck:
+      # test: [ "CMD-SHELL", "echo RETURN 1 | cypher-shell -a <NEO4J_dbms_connector_bolt_listen__address> -u <user defined username> -p <user defined password> || exit 1" ]
+      test:
+        [
+          "CMD-SHELL",
+          "echo RETURN 1 | cypher-shell -a bolt://neo4j:7687 -u neo4j -p 12345678 || exit 1",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      - NEO4J_AUTH=neo4j/12345678
+    volumes:
+      - neo4j_data:/data
+
+  recommendationsystem.api:
+    image: ${DOCKER_REGISTRY-}recommendationsystemapi
+    build:
+      context: .
+      dockerfile: src/Services/AccommodationRecommendation/RecommendationSystem.API/Dockerfile
+    ports:
+     - 19000:80
+
 volumes:
   identity-data:
   accomodation-data:
@@ -134,4 +168,6 @@ volumes:
   reservations-data:
   ratings-data:
   mongo_data:
+  neo4j_data:
+
 

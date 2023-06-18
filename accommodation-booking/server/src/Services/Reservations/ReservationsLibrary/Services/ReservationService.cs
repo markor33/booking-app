@@ -41,7 +41,7 @@ namespace ReservationsLibrary.Services
             {
                 res.Canceled = true;
                 _reservationRepository.Update(res);
-                _eventBus.Publish(new ReservationCanceledIntegrationEvent(res.AccommodationId, res.Id));
+                _eventBus.Publish(new ReservationCanceledIntegrationEvent(res.GuestId, res.AccommodationId, res.Id));
                 _eventBus.Publish(new ReservationCanceledNotification(res.Accommodation.HostId, res.AccommodationId, res.Id));
                 return Result.Ok();
             }

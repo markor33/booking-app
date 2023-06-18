@@ -1,4 +1,6 @@
-﻿using RatingsLibrary.Models;
+﻿using EventBus.NET.Integration.EventBus;
+using RatingsLibrary.IntegrationEvents;
+using RatingsLibrary.Models;
 using RatingsLibrary.Repository;
 
 namespace RatingsLibrary.Services
@@ -7,13 +9,16 @@ namespace RatingsLibrary.Services
     {
         private readonly IAccommodationRatingRepository _accommodationRatingRepository;
         private readonly IReservationRepository _reservationRepository;
+        private readonly IEventBus _eventBus;
 
 
         public AccommodationRatingService(IAccommodationRatingRepository accommodationRatingRepository,
-                                IReservationRepository reservationRepository)
+                                IReservationRepository reservationRepository,
+                                IEventBus eventBus)
         {
             _accommodationRatingRepository = accommodationRatingRepository;
             _reservationRepository = reservationRepository;
+            _eventBus = eventBus;
         }
 
         public bool CreateOrEditAccommodationRating(AccommodationRating accommRating)
@@ -23,6 +28,10 @@ namespace RatingsLibrary.Services
             if (!CheckIfCanRate(accommRating.GuestId, accommRating.AccommodationId))
                 return false;
             _accommodationRatingRepository.Create(accommRating);
+            _eventBus.Publish(
+                new AccommodationRatingCreatedIntegrationEvent(
+                    accommRating.Id, accommRating.GuestId, 
+                    accommRating.AccommodationId, accommRating.Grade, accommRating.DateTimeOfGrade));
             return true;
         }
 
@@ -30,6 +39,9 @@ namespace RatingsLibrary.Services
         {
             var rating = _accommodationRatingRepository.GetByReservationId(reservationId);
             _accommodationRatingRepository.Delete(rating.Id);
+            _eventBus.Publish(new AccommodationRatingDeletedIntegrationEvent(
+                rating.Id, rating.GuestId,
+                    rating.AccommodationId, rating.Grade, rating.DateTimeOfGrade));
         }
 
         public List<AccommodationRating> GetAllByAccommodation(Guid accommodationRatingId)
@@ -65,6 +77,9 @@ namespace RatingsLibrary.Services
                 rating.Grade = accomRating.Grade;
                 rating.DateTimeOfGrade = DateTime.Now;
                 _accommodationRatingRepository.Update(rating);
+                _eventBus.Publish(new AccommodationRatingChangedIntegrationEvent(
+                    rating.Id, rating.GuestId, 
+                    rating.AccommodationId, rating.Grade, rating.DateTimeOfGrade));
                 return true;
             }
             return false;

@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Accomodation } from '../models/accomodation.model';
 import { AccommodationCard } from '../models/accommodation-card.model';
 

@@ -5,7 +5,6 @@ import accomodation.integration.IntegrationEvent;
 import accomodation.integration.events.*;
 import accomodation.integration.subscriptionManager.ISubscriptionManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
@@ -35,8 +34,8 @@ public class NatsEventBus implements IEventBus {
         this.objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_INDEX);
 
         this.subscribe(HostReservationsDeletedIntegrationEvent.class, HostReservationsDeletedIntegrationEventHandler.class);
-        this.subscribe(HostSearchAccommodationsDeleteUnsuccessfulIntegrationEvent.class,
-                HostSearchAccommodationsDeleteUnsuccessfulIntegrationEventHandler.class);
+        this.subscribe(HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEvent.class,
+                HostAccommodationsDeleteFromRecommendationSystemUnsuccessfulIntegrationEventHandler.class);
     }
 
     public void publish(IntegrationEvent event) {
