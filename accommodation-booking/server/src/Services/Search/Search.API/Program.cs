@@ -1,11 +1,14 @@
 using EventBus.NET.Integration.EventBus;
 using EventBus.NET.Integration.Extensions;
 using EventBus.NET.Integration.SubscriptionManager;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NATS.Client;
+using Search.API.GrpcServices;
 using Search.API.IntegrationEvents;
 using Search.API.Persistence.Repositories;
 using Search.API.Persistence.Settings;
 using Search.API.Services;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,11 @@ builder.Services.AddScoped(typeof(IAccommodationRepository), typeof(Accommodatio
 
 builder.Services.AddScoped(typeof(ISearchService), typeof(SearchService));
 
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+
 builder.Services.AddSingleton<ISubscriptionManager, SubscriptionManager>();
 builder.Services.AddSingleton<IConnection>(provider =>
 {
@@ -30,6 +38,16 @@ builder.Services.AddSingleton<IConnection>(provider =>
 });
 builder.Services.AddSingleton<IEventBus, NatsEventBus>();
 builder.Services.AddIntegrationEventsHandlers(typeof(AccommodationCreatedIntegrationEventHandler).Assembly);
+
+builder.WebHost.UseKestrel(options => {
+    options.Listen(IPAddress.Any, 80, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
+
+    options.Listen(IPAddress.Any, 5000, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
 
 var app = builder.Build();
 
@@ -45,5 +63,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<SearchGrpcService>();
 
 app.Run();

@@ -26,9 +26,10 @@ namespace RatingsLibrary.Services
             return true;
         }
 
-        public void DeleteAccommodationRating(Guid accommodationRatingId)
+        public void DeleteAccommodationRating(Guid guestId, Guid accommodationRatingId)
         {
-            _accommodationRatingRepository.Delete(accommodationRatingId);
+            var rating = _accommodationRatingRepository.GetByGuestAndAccommodation(guestId, accommodationRatingId);
+            _accommodationRatingRepository.Delete(rating.Id);
         }
 
         public List<AccommodationRating> GetAllByAccommodation(Guid accommodationRatingId)

@@ -11,6 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { ReservationsComponent } from './reservations/reservations.component';
+import { MatIconModule } from '@angular/material/icon';
+
 const routes: Routes = [
   {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}},
   {path: 'reservations', component: ReservationsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}},
@@ -29,6 +31,7 @@ const routes: Routes = [
     MatCardModule,
     MatButtonModule,
     MatTableModule,
+    MatIconModule,
     RouterModule.forChild(routes),
   ]
 })

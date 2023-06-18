@@ -1,4 +1,6 @@
-﻿using FluentResults;
+﻿using EventBus.NET.Integration.EventBus;
+using FluentResults;
+using Identity.API.IntegrationEvents;
 using Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,10 +9,12 @@ namespace Identity.API.Services.Register
     public class RegisterService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEventBus _eventBus;
 
-        public RegisterService(UserManager<ApplicationUser> userManager)
+        public RegisterService(UserManager<ApplicationUser> userManager, IEventBus eventBus)
         {
             _userManager = userManager;
+            _eventBus = eventBus;
         }
 
         public async Task<Result> RegisterAsync(RegisterViewModel register)
@@ -25,6 +29,7 @@ namespace Identity.API.Services.Register
             };
 
             var result = await _userManager.CreateAsync(user, register.Password);
+            _eventBus.Publish(new HostRegisteredIntegrationEvent(user.Id));
             if (!result.Succeeded)
                 return Result.Fail("Registration failed");
 

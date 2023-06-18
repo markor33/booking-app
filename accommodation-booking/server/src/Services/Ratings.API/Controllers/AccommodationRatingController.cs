@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Ratings.API.Extensions;
 using RatingsLibrary.Models;
 using RatingsLibrary.Services;
 
@@ -30,13 +31,14 @@ namespace Ratings.API.Controllers
         [HttpPost]
         public ActionResult<int> RateAccommodation(AccommodationRating accommodationRating)
         {
+            accommodationRating.GuestId = Guid.Parse(User.UserId());
             return Ok(_accommodationRatingService.CreateOrEditAccommodationRating(accommodationRating));
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteAccommodationRating(Guid id)
         {
-            _accommodationRatingService.DeleteAccommodationRating(id);
+            _accommodationRatingService.DeleteAccommodationRating(Guid.Parse(User.UserId()), id);
             return Ok();
         }
     }

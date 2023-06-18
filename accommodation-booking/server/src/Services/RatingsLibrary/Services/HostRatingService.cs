@@ -28,9 +28,10 @@ namespace RatingsLibrary.Services
             return true;
         }
 
-        public void DeleteHostRating(Guid hostRatingId)
+        public void DeleteHostRating(Guid guestId, Guid hostId)
         {
-           _hostRatingRepository.Delete(hostRatingId);
+            var rating = _hostRatingRepository.GetByGuestAndHost(guestId, hostId);
+           _hostRatingRepository.Delete(rating.Id);
         }
 
         public List<HostRating> GetAllByHost(Guid hostId)
@@ -43,7 +44,7 @@ namespace RatingsLibrary.Services
             return _hostRatingRepository.GetAverageGradeByHost(hostId);
         }
 
-        private bool CheckIfCanRate(Guid guestId, Guid hostId)
+        public bool CheckIfCanRate(Guid guestId, Guid hostId)
         {
             var res = _reservationRepository.GetReservationByGuestAndHostInPast(guestId, hostId);
             if(res != null)
@@ -63,6 +64,11 @@ namespace RatingsLibrary.Services
                 return true;
             }
             return false;
+        }
+
+        public List<int> GetAllGradesByGuest(Guid guestId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

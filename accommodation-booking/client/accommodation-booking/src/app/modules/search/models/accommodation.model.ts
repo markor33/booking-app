@@ -14,4 +14,7 @@ export class Accommodation {
     benefits: Benefit[] = [];
     priceType: PriceType = PriceType.PER_GUEST;
     price: number = 0;
+    isHostProminent: boolean = false;
+    avgHostGrade: number = 0;
+    avgAccommGrade: number = 0;
 }

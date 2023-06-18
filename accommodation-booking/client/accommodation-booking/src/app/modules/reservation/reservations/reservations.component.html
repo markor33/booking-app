@@ -7,7 +7,8 @@
         <th md-column>Period</th>
         <th md-column>Number of guests</th>
         <th md-column>Price</th>
-        <th md-column></th>
+        <th md-column>Rate host</th>
+        <th md-column>Rate Accommodation</th>
       </tr>
     </thead>
     <tbody md-body>
@@ -18,7 +19,20 @@
         <td md-cell>{{res.period.start | date:'mediumDate'}} - {{res.period.end | date:'mediumDate'}}</td>
         <td md-cell>{{res.numOfGuests}}</td>
         <td md-cell>{{res.price + "eur"}} </td>
+        <td md-cell>
+          <div class="rating-container">
+            <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= hostRatings[i]}" (click)="rateHost(star, i, res.id, res.accommodationId)">star</mat-icon><br><br>
+            <button mat-raised-button color="warn" (click)="deleteHostRating(res.id, i)">Delete</button>
+        </div>
+        </td>
+        <td md-cell>
+          <div class="rating-container">
+            <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= accommRatings[i]}" (click)="rateAccomm(star, i, res.accommodationId)">star</mat-icon>
+            <button mat-raised-button color="warn" (click)="deleteAccommRating(res.accommodationId, i)">Delete</button>
+        </div>
+        </td>
         <td md-cell *ngIf="userRole == 'GUEST'"><button mat-raised-button color="warn" (click)="cancelReservation(res.id, i)">Delete</button></td>
+       
       </tr>
     </tbody>
   </table>

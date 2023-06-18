@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package grpc_accommodation_search;
+
+import "google/protobuf/timestamp.proto";
+
+service AccommodationSearch {
+	 rpc SearchAccommodations(SearchRequest) returns (SearchResponse);
+}
+
+message Address {
+  string country = 1;
+  string city = 2;
+  string street = 3;
+  string number = 4;
+}
+
+message Benefit {
+  string id = 1;
+  string name = 2;
+}
+
+enum PriceType {
+  PER_GUEST = 0;
+  IN_WHOLE = 1;
+}
+
+message AccommodationDTO {
+  string id = 1;
+  string host_id = 2;
+  string name = 3;
+  string description = 4;
+  Address location = 5;
+  int32 min_guests = 6;
+  int32 max_guests = 7;
+  string photo = 8;
+  repeated Benefit benefits = 9;
+  PriceType price_type = 10;
+  float price = 11;
+}
+
+message SearchRequest {
+  string location = 1;
+  int32 num_of_guests = 2;
+  string start = 3;
+  string end = 4;
+}
+
+message SearchResponse {
+  repeated AccommodationDTO accommodations = 1;
+}

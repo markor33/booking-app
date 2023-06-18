@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Ratings.API.Extensions;
 using RatingsLibrary.Models;
+using RatingsLibrary.Repository;
 using RatingsLibrary.Services;
-using System.Data;
+
 
 namespace Ratings.API.Controllers
 {
@@ -11,10 +12,12 @@ namespace Ratings.API.Controllers
     public class HostRatingController : ControllerBase
     {
         private readonly IHostRatingService _hostRatingService;
+        private readonly IReservationRepository _reservationRepository;
 
-        public HostRatingController(IHostRatingService hostRatingService)
+        public HostRatingController(IHostRatingService hostRatingService, IReservationRepository reservationRepository)
         {
             _hostRatingService = hostRatingService;
+            _reservationRepository = reservationRepository;
         }
 
         [HttpGet("{hostId}")]
@@ -29,17 +32,26 @@ namespace Ratings.API.Controllers
             return Ok(_hostRatingService.GetAverageByHost(hostId));
         }
 
-        [HttpPost]
-        public ActionResult<int> RateHost(HostRating hostRating)
+        [HttpPost("{resId}")]
+        public ActionResult<int> RateHost(HostRating hostRating, Guid resId)
         {
+            var res = _reservationRepository.GetById(resId);
+            hostRating.HostId = res.HostId;
+            hostRating.GuestId = Guid.Parse(User.UserId());
             return Ok(_hostRatingService.CreateOrEditHostRating(hostRating));
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult DeleteHostRating(Guid id)
+        [HttpDelete("{resId}")]
+        public ActionResult DeleteHostRating(Guid resId)
         {
-            _hostRatingService.DeleteHostRating(id);
+            var res = _reservationRepository.GetById(resId);
+            _hostRatingService.DeleteHostRating(Guid.Parse(User.UserId()), res.HostId);
             return Ok();
+        }
+        [HttpGet("grades")]
+        public ActionResult<List<int>> GetAllGradesByGuest()
+        {
+            return Ok(_hostRatingService.GetAllGradesByGuest(Guid.Parse(User.UserId())));
         }
     }
 }

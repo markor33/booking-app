@@ -15,6 +15,11 @@ namespace Ratings.API.Infrastructure.Persistence.Repositories
             return _dbContext.HostRatings.Where(rating => rating.HostId == hostId).ToList();
         }
 
+        public List<int> GetAllGradesByGuest(Guid guestId)
+        {
+            return _dbContext.HostRatings.Where(rating => rating.GuestId == guestId).Select(x => x.Grade).ToList();
+        }
+
         public double GetAverageGradeByHost(Guid hostId)
         {
             return _dbContext.HostRatings.Where(rating => rating.HostId == hostId)

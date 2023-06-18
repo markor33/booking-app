@@ -8,5 +8,6 @@ namespace RatingsLibrary.Repository
         HostRating GetByGuestAndHost(Guid guestId, Guid hostId);
         List<HostRating> GetAllByHost(Guid hostId);
         double GetAverageGradeByHost(Guid hostId);
+        List<int> GetAllGradesByGuest(Guid guestId);
     }
 }

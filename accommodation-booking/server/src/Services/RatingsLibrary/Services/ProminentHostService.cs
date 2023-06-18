@@ -1,4 +1,5 @@
-﻿using RatingsLibrary.Repository;
+﻿using RatingsLibrary.Models;
+using RatingsLibrary.Repository;
 
 namespace RatingsLibrary.Services
 {
@@ -7,13 +8,15 @@ namespace RatingsLibrary.Services
         private readonly IProminentHostRepository _prominentHostRepository;
         private readonly IHostRatingRepository _hostRatingRepository;
         private readonly IReservationRepository _reservationRepository;
+        private readonly IAccommodationRatingRepository _accommodationRatingRepository;
 
         public ProminentHostService(IProminentHostRepository prominentHostRepository, IHostRatingRepository ratingRepository,
-                                IReservationRepository reservationRepository)
+                                IReservationRepository reservationRepository, IAccommodationRatingRepository accommodationRatingRepository)
         {
             _prominentHostRepository = prominentHostRepository;
             _hostRatingRepository = ratingRepository;
             _reservationRepository = reservationRepository;
+            _accommodationRatingRepository = accommodationRatingRepository;
         }
 
         public void UpdateCancellationRateAcceptableForHost(Guid hostId)
@@ -31,17 +34,6 @@ namespace RatingsLibrary.Services
             _prominentHostRepository.Update(prominentHost);
         }
 
-        public void UpdateDurationOfReservationsAcceptableForHost(Guid hostId)
-        {
-            var prominentHost = _prominentHostRepository.GetByHost(hostId);
-            if (prominentHost.IsDurationOfReservationsAcceptable)
-                return;
-            if (!_reservationRepository.CheckReservationDurationInPastForHost(hostId))
-                return;
-            prominentHost.IsDurationOfReservationsAcceptable = true;
-            _prominentHostRepository.Update(prominentHost);
-        }
-
         public void UpdateGradeAcceptableForHost(Guid hostId)
         {
             var prominentHost = _prominentHostRepository.GetByHost(hostId);
@@ -54,23 +46,21 @@ namespace RatingsLibrary.Services
                 prominentHost.IsGradeAcceptable = true;
             }
             _prominentHostRepository.Update(prominentHost);
-        }
-
-        public void UpdateHasFiveReservationsForHost(Guid hostId)
-        {
-            var prominentHost = _prominentHostRepository.GetByHost(hostId);
-            if (prominentHost.HasFiveReservations)
-                return;
-            if (!_reservationRepository.CheckReservationCountInPastForHost(hostId))
-                return;
-            prominentHost.HasFiveReservations = true;
-            _prominentHostRepository.Update(prominentHost);
-        }
-        
+        }   
         public bool IsHostProminent(Guid hostId)
         {
            var prominentHost = _prominentHostRepository.GetByHost(hostId);
            return prominentHost.IsHostProminent;
+        }
+        public ProminentHostStats GetHostProminentStats(Guid hostId, Guid accommId)
+        {
+            var hostStats = new ProminentHostStats
+            {
+                IsHostProminent = _prominentHostRepository.GetByHost(hostId).IsHostProminent,
+                AvgHostGrade = _hostRatingRepository.GetAverageGradeByHost(hostId),
+                AvgAccommGrade = _accommodationRatingRepository.GetAverageGradeByAccommodation(accommId)
+            };
+            return hostStats;
         }
     }
 }

@@ -79,6 +79,11 @@ namespace Identity.API.Services
             };
             return Result.Ok(userProfile);
         }
+        public async Task<Result<string>> GetUserFullName(string hostId)
+        {
+            var user = await _userManager.FindByIdAsync(hostId);
+            return Result.Ok(user.FirstName + " " + user.LastName);
+        }
 
         public async Task<Result<GuestUser>> GetUserById(string id)
         {
