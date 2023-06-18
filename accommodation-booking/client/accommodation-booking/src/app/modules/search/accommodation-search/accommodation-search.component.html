@@ -41,6 +41,14 @@
                     </span>
                 </div>
                 <button mat-raised-button color="primary" *ngIf="userRole == 'GUEST'" (click)="createRequest(accommodation.id, accommodation.price)">Reserve</button>
+                <div class="accommodation-info">
+                    <div class="avg-grade">  
+                        <span *ngIf="accommodation.isHostProminent">Prominent host: &nbsp;</span>
+                        <mat-icon *ngIf="accommodation.isHostProminent" class="logo">star</mat-icon><br>
+                        Host rating: &nbsp;{{accommodation.avgHostGrade}}<br>
+                        Accommodation rating: &nbsp;{{accommodation.avgAccommGrade}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -43,3 +43,18 @@
 .reservation form h2 {
     text-align: center;
 }
+
+.rating-container {
+    display: flex;
+    align-items: center;
+  }
+  
+.star-icon {
+cursor: pointer;
+font-size: 24px;
+color: gray;
+}
+
+.star-icon.filled {
+color: gold;
+}

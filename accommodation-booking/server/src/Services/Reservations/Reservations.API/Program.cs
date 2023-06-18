@@ -13,7 +13,6 @@ using Reservations.API.Infrastructure.GrpcServices;
 using NATS.Client;
 using EventBus.NET.Integration.SubscriptionManager;
 using EventBus.NET.Integration.EventBus;
-using EventBus.NET.Integration.Events;
 using EventBus.NET.Integration.Extensions;
 using ReservationsLibrary.IntegrationEvents;
 
@@ -40,6 +39,9 @@ builder.Services.AddScoped(typeof(IReservationRequestService), typeof(Reservatio
 builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationService));
 
 builder.Services.AddScoped(typeof(IAccommodationSearchGrpcService), typeof(AccommodationSearchGrpcService));
+
+builder.Services.AddSingleton<IEventBus, NatsEventBus>();
+
 
 builder.Services.AddScoped<IIdentityAPIClient, IdentityAPIClient>();
 

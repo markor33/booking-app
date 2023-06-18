@@ -67,5 +67,12 @@ namespace Identity.API.Controllers
             return Ok(guest.Value);
         }
 
+        [HttpGet("user/fullname/{id}")]
+        public async Task<ActionResult<GuestUser>> GetUserFullName(string id)
+        {
+            var guest = await _userService.GetUserFullName(id);
+            return Ok(guest.Value);
+        }
+
     }
 }

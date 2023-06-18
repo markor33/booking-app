@@ -29,6 +29,7 @@ namespace Identity.API.Services.Register
             };
 
             var result = await _userManager.CreateAsync(user, register.Password);
+            _eventBus.Publish(new HostRegisteredIntegrationEvent(user.Id));
             if (!result.Succeeded)
                 return Result.Fail("Registration failed");
 

@@ -16,6 +16,7 @@ services:
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
     ports:
     - 11000:80
+    - 11001:5000
 
   identity.db:
     image: postgres:alpine
@@ -80,7 +81,6 @@ services:
     ports:
      - 14000:80
      - 14001:5000
-
   nats:
     image: 'nats:latest'
     expose:
@@ -106,6 +106,26 @@ services:
       dockerfile: src/Services/Notifications/Notifications.SignalR/Dockerfile
     ports:
      - 20000:80
+
+  ratings.api:
+    image: ${DOCKER_REGISTRY-}ratingsapi
+    build:
+      context: .
+      dockerfile: src/Services/Ratings.API/Dockerfile
+    ports:
+     - 15000:80
+     - 15001:5000
+
+  ratings.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - ratings-data:/var/lib/postgresql/data
+    ports:
+     - 23000:5432
 
   neo4j:
     image: neo4j
@@ -146,8 +166,8 @@ volumes:
   accomodation-data:
     name: mysql-database
   reservations-data:
+  ratings-data:
   mongo_data:
   neo4j_data:
-
 
 

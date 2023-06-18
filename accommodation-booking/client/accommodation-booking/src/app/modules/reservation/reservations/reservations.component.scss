@@ -24,3 +24,17 @@ table {
     width: 300px;
     height: 300px;
 }
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: gray;
+}
+
+.star-icon.filled {
+  color: gold;
+}

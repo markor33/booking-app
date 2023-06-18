@@ -4,6 +4,7 @@ using EventBus.NET.Integration.SubscriptionManager;
 using GrpcAccommodationSearch;
 using GrpcReservations;
 using Identity.API.Data;
+using Identity.API.GrpcService;
 using Identity.API.IntegrationEvents;
 using Identity.API.Models;
 using Identity.API.Options;
@@ -12,9 +13,11 @@ using Identity.API.Services.Login;
 using Identity.API.Services.Register;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NATS.Client;
+using System.Net;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +97,21 @@ builder.Services.AddSingleton<IConnection>(provider =>
 builder.Services.AddSingleton<IEventBus, NatsEventBus>();
 builder.Services.AddIntegrationEventsHandlers(typeof(DeleteHostRequestIntegrationEvent).Assembly);
 
+builder.Services.AddGrpc(options =>
+{
+    options.EnableDetailedErrors = true;
+});
+
+builder.WebHost.UseKestrel(options => {
+    options.Listen(IPAddress.Any, 80, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
+
+    options.Listen(IPAddress.Any, 5000, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+});
+
 var app = builder.Build();
 
 var eventBus = app.Services.GetRequiredService<IEventBus>();
@@ -113,5 +131,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<IdentityGrpcService>();
 
 app.Run();
