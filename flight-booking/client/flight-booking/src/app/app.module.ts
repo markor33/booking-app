@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import { JwtInterceptor } from './modules/auth/helpers/jwt.interceptor';
 import { FlightsModule } from './modules/flights/flights.module';
+import { ApiKeyModule } from './modules/api-key/api-key.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FlightsModule } from './modules/flights/flights.module';
     AuthModule,
     CloudinaryModule,
     FlightsModule,
+    ApiKeyModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')
