@@ -7,6 +7,7 @@ namespace RatingsLibrary.Models
         private int _grade;
         public Guid GuestId { get; set; }
         public Guid AccommodationId { get; set; }
+        public Guid ReservationId { get; set; }
         public int Grade
         {
             get { return _grade; }

@@ -16,6 +16,7 @@ services:
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
     ports:
     - 11000:80
+    - 11001:5000
 
   identity.db:
     image: postgres:alpine
@@ -80,7 +81,6 @@ services:
     ports:
      - 14000:80
      - 14001:5000
-
   nats:
     image: 'nats:latest'
     expose:
@@ -112,10 +112,9 @@ services:
     build:
       context: .
       dockerfile: src/Services/Ratings.API/Dockerfile
-    depends_on:
-      - accomodation.db
     ports:
      - 15000:80
+     - 15001:5000
 
   ratings.db:
     image: postgres:alpine

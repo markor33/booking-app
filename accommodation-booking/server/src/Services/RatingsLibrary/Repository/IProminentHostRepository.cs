@@ -5,6 +5,9 @@ namespace RatingsLibrary.Repository
 {
     public interface IProminentHostRepository : IEntityRepository<ProminentHost>
     {
+        Task<ProminentHost> CreateAsync(ProminentHost prominentHost);
         ProminentHost GetByHost(Guid hostId);
+        Task SetDurationAcceptable();
+        Task SetHasFiveReservationAcceptable();
     }
 }

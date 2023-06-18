@@ -73,6 +73,7 @@ export class AccommodationSearchComponent {
     });
   }
 
+  
   createRequest(accommodationId: string, price: number){
     this.request.period.start = this.searchQuery.start;
     this.request.period.end = this.searchQuery.end;

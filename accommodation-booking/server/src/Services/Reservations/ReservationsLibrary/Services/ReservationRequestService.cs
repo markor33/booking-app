@@ -45,6 +45,7 @@ namespace ReservationsLibrary.Services
             DeclineOverLapped(request.Period, request.AccommodationId);
 
             _eventBus.Publish(new ReservationApprovedIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period));
+            _eventBus.Publish(new ReservationApprovedForRatingsIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period, reservation.Accommodation.HostId, reservation.Canceled));
             _eventBus.Publish(new ReservationRequestStatusChangedNotification(request.GuestId, true));
         }
 
@@ -68,6 +69,7 @@ namespace ReservationsLibrary.Services
                     _reservationRepository.Create(reservation);
                     ChangeStatus(req, ReservationRequestStatus.APPROVED);
                     _eventBus.Publish(new ReservationApprovedIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period));
+                    _eventBus.Publish(new ReservationApprovedForRatingsIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period, reservation.Accommodation.HostId, reservation.Canceled));
                 }
                 _eventBus.Publish(new ReservationRequestCreatedNotification(req.Accommodation.HostId, req.AccommodationId, req.Id, isAutoConfirm));
                 return Result.Ok(req);

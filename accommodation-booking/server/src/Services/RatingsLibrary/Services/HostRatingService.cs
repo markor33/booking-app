@@ -28,9 +28,10 @@ namespace RatingsLibrary.Services
             return true;
         }
 
-        public void DeleteHostRating(Guid hostRatingId)
+        public void DeleteHostRating(Guid reservationId)
         {
-           _hostRatingRepository.Delete(hostRatingId);
+            var rating = _hostRatingRepository.GetByReservationId(reservationId);
+           _hostRatingRepository.Delete(rating.Id);
         }
 
         public List<HostRating> GetAllByHost(Guid hostId)
@@ -43,7 +44,7 @@ namespace RatingsLibrary.Services
             return _hostRatingRepository.GetAverageGradeByHost(hostId);
         }
 
-        private bool CheckIfCanRate(Guid guestId, Guid hostId)
+        public bool CheckIfCanRate(Guid guestId, Guid hostId)
         {
             var res = _reservationRepository.GetReservationByGuestAndHostInPast(guestId, hostId);
             if(res != null)
@@ -51,9 +52,17 @@ namespace RatingsLibrary.Services
             return false;
         }
 
+        public List<int> GetGradesByGuest(Guid guestId, string role)
+        {
+            if(role == "GUEST")
+                return _hostRatingRepository.GetGradesByGuest(guestId);
+            else
+                return _hostRatingRepository.GetGradesByHost(guestId);
+        }
+
         private bool EditHostRatingIfExits(HostRating hostRating)
         {
-            var rating = _hostRatingRepository.GetByGuestAndHost(hostRating.GuestId, hostRating.HostId);
+            var rating = _hostRatingRepository.GetByReservationId(hostRating.ReservationId);
             if (rating != null)
             {
                 rating.Grade = hostRating.Grade;
@@ -63,6 +72,11 @@ namespace RatingsLibrary.Services
                 return true;
             }
             return false;
+        }
+
+        public List<int> GetAllGradesByGuest(Guid guestId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -40,6 +40,9 @@ namespace Ratings.API.Infrastructure.Migrations
                     b.Property<Guid>("GuestId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ReservationId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.ToTable("AccommodationRatings");
@@ -61,6 +64,9 @@ namespace Ratings.API.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("HostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReservationId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -119,19 +125,19 @@ namespace Ratings.API.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d27b4d27-cd63-48fa-b2a6-e9f37c5d546a"),
-                            AccommodationId = new Guid("63ce63e8-33bb-4be7-afd7-fdd7d273c756"),
+                            Id = new Guid("e1008dd3-2342-41ab-9135-27fc94ce088e"),
+                            AccommodationId = new Guid("0b20e8cc-088c-47d0-ae80-d1f88db19c87"),
                             Canceled = false,
-                            GuestId = new Guid("e8867cd0-71f5-43af-93af-c5f316ed200d"),
-                            HostId = new Guid("268f65b3-7dbc-4cdb-85e2-5ab421f0763c")
+                            GuestId = new Guid("6c0fdb9d-359e-43b6-bd68-cd11ff2289e7"),
+                            HostId = new Guid("3e1ead7b-1412-47c9-94e6-c3928b47b474")
                         },
                         new
                         {
-                            Id = new Guid("eddf846c-b1b0-4bc8-9c50-e7e544a918fd"),
-                            AccommodationId = new Guid("2e0e5d5e-9dd3-40f0-a211-501150818478"),
+                            Id = new Guid("06f77f0d-f089-417a-b186-3af1b1116830"),
+                            AccommodationId = new Guid("549180d0-2b6c-4bf8-9c88-51d0b9f8e6b4"),
                             Canceled = false,
-                            GuestId = new Guid("75cbe6a5-e567-4c9f-ab50-adfb974d275c"),
-                            HostId = new Guid("a230742a-372c-446f-9984-1e74e8b39db6")
+                            GuestId = new Guid("f44ced9f-88e3-4c24-9c76-14dcd3ccb7b9"),
+                            HostId = new Guid("8f172d06-3e60-4a6d-b0ca-2a59305fd10a")
                         });
                 });
 
@@ -160,13 +166,13 @@ namespace Ratings.API.Infrastructure.Migrations
                             b1.HasData(
                                 new
                                 {
-                                    ReservationId = new Guid("d27b4d27-cd63-48fa-b2a6-e9f37c5d546a"),
+                                    ReservationId = new Guid("e1008dd3-2342-41ab-9135-27fc94ce088e"),
                                     End = new DateTime(2023, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 },
                                 new
                                 {
-                                    ReservationId = new Guid("eddf846c-b1b0-4bc8-9c50-e7e544a918fd"),
+                                    ReservationId = new Guid("06f77f0d-f089-417a-b186-3af1b1116830"),
                                     End = new DateTime(2023, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                                     Start = new DateTime(2023, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
                                 });

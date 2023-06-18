@@ -7,8 +7,8 @@ namespace RatingsLibrary.Repository
     {
         Reservation GetReservationByGuestAndHostInPast(Guid guestId, Guid hostId);
         Reservation GetReservationByGuestAndAccommodationInPast(Guid guestId, Guid accommodationId);
-        bool CheckReservationCountInPastForHost(Guid hostId);
-        bool CheckReservationDurationInPastForHost(Guid hostId);
         bool CheckCancelationRateLessThenFive(Guid hostId);
+        Task<Reservation> CancelAsync(Guid id);
+        Task<Reservation> CreateAsync(Reservation res);
     }
 }
