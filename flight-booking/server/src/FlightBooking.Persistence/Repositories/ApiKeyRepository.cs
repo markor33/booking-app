@@ -17,5 +17,10 @@ namespace FlightBooking.Persistence.Repositories
             return a;
         }
 
+        public async Task<ApiKey> GetByKey(Guid key)
+        {
+            var filter = Builders<ApiKey>.Filter.Eq(ak => ak.Key, key);
+            return await (await _collection.FindAsync(filter)).FirstOrDefaultAsync();
+        }
     }
 }

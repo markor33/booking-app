@@ -46,6 +46,9 @@ namespace Identity.API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("FlightBookingApiKey")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text");

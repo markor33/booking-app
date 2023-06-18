@@ -14,7 +14,7 @@
     <tbody md-body>
       <tr md-row *ngFor="let res of reservations;index as i">
         <td md-cell *ngIf="res.accommodationCard != undefined"><img mat-card-image src={{res.accommodationCard.photoUrl}} class="img"/></td>
-        <td md-cell *ngIf="res.accommodationCard != undefined">{{res.accommodationCard.name}}</td>
+        <td md-cell *ngIf="res.accommodationCard != undefined" (click)="openFlightBooking(res)">{{res.accommodationCard.name}}</td>
         <td md-cell *ngIf="userRole == 'HOST' && res.guestProfile != undefined">{{res.guestProfile.firstName + " " + res.guestProfile.lastName}}</td>
         <td md-cell>{{res.period.start | date:'mediumDate'}} - {{res.period.end | date:'mediumDate'}}</td>
         <td md-cell>{{res.numOfGuests}}</td>

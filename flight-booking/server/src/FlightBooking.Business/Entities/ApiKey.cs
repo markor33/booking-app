@@ -29,5 +29,12 @@ namespace FlightBooking.Business.Entities
                 ExpireDate = null;
         }
 
+        public bool IsExpired()
+        {
+            if (ExpireDate == null)
+                return false;
+            return DateTime.UtcNow > ExpireDate;
+        }
+
     }
 }

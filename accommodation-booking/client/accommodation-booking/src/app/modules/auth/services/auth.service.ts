@@ -49,6 +49,13 @@ export class AuthService {
     return this.userClaims.sub;
   }
 
+  getFlightBookingApiKey(): string | null {
+    var apiKey = this.userClaims.FlightBookingApiKey;
+    if (apiKey === undefined)
+      return null;
+    return apiKey;
+  }
+
   isLogged(): boolean {
     if (!this.jwtHelper.tokenGetter())
       return false;
