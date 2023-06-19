@@ -37,6 +37,7 @@
                 <mat-option *ngFor="let benefit of benefits" [value]="benefit.id">{{benefit.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            <mat-checkbox [checked]="searchQuery.filterArgs.isProminent" (change)="updateIsProminent($event.checked)">Is prominent</mat-checkbox>
             <button mat-raised-button color="primary" type="submit">Apply</button>
             <button mat-raised-button type="reset">Reset</button>
         </form>

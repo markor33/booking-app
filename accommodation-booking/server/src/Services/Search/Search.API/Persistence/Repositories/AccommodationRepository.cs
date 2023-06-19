@@ -105,7 +105,7 @@ namespace Search.API.Persistence.Repositories
 
             var benefitFilter = Builders<Accommodation>.Filter.And(benefitFilters);
 
-            var combinedFilter = Builders<Accommodation>.Filter.And(locationFilter, guestsFilter, dateFilter, benefitFilter);
+            var combinedFilter = Builders<Accommodation>.Filter.And(locationFilter, guestsFilter, dateFilter);
 
             var accommodations = await (await _accommodations.FindAsync(combinedFilter)).ToListAsync();
 

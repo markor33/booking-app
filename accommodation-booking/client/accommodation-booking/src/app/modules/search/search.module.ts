@@ -14,6 +14,7 @@ import { AccommodationDisplayDialogComponent } from './accommodation-display-dia
 import { MatDialogModule } from '@angular/material/dialog';
 import { RecommendedAccommodationsModule } from '../recommended-accommodations/recommended-accommodations.module';
 import { MatSelectModule } from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const routes: Routes = [
   { path: '', component: AccommodationSearchComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
     MatDividerModule,
     MatSelectModule,
     MatDialogModule,
+    MatCheckboxModule,
     RecommendedAccommodationsModule,
     RouterModule.forChild(routes),
   ],

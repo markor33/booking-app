@@ -8,6 +8,12 @@ service AccommodationSearch {
 	 rpc SearchAccommodations(SearchRequest) returns (SearchResponse);
 }
 
+message SearchFilters {
+    int32 minPrice = 1;
+    int32 maxPrice = 2;
+    repeated string benefits = 3;
+}
+
 message Address {
   string country = 1;
   string city = 2;
@@ -44,6 +50,7 @@ message SearchRequest {
   int32 num_of_guests = 2;
   string start = 3;
   string end = 4;
+  SearchFilters filterArgs = 5;
 }
 
 message SearchResponse {

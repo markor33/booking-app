@@ -22,7 +22,22 @@ namespace Web.Bff.Services
         public List<SearchExtended> SearchAccommodations(SearchArgs args)
         {
             var res = new List<SearchExtended>();
-            var searchResponse = _searchClient.SearchAccommodations(new SearchRequest { Location = args.Location, NumOfGuests = args.NumOfGuests, End = args.End.ToString(), Start = args.Start.ToString()});
+            var filterArgs = new SearchFilters();
+            if (args.FilterArgs.MinPrice is null)
+            {
+                filterArgs.MinPrice = -1;
+                filterArgs.MaxPrice = -1;
+            }
+            else
+            {
+                filterArgs.MinPrice = (int)args.FilterArgs.MinPrice;
+                filterArgs.MaxPrice = (int)args.FilterArgs.MaxPrice;
+            }
+            foreach (var benefit in args.FilterArgs.Benefits)
+                filterArgs.Benefits.Add(benefit.ToString());
+            var searchResponse = _searchClient.SearchAccommodations(
+                new SearchRequest { Location = args.Location, NumOfGuests = args.NumOfGuests, End = args.End.ToString(), 
+                    Start = args.Start.ToString(), FilterArgs = filterArgs});
             
             foreach(AccommodationDTO accommDto in searchResponse.Accommodations)
             {
@@ -45,7 +60,10 @@ namespace Web.Bff.Services
                     AvgAccommGrade = prominentResponse.AvgAccommGrade,
                     Benefits = convertedBenefits
                 };
-                res.Add(searchItem);
+                if (args.FilterArgs.IsProminent && prominentResponse.IsHostProminent)
+                    res.Add(searchItem);
+                else if (!args.FilterArgs.IsProminent)
+                    res.Add(searchItem);
             }
 
             return res;

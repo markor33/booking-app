@@ -10,4 +10,5 @@ export class Filters {
     minPrice: number | null = null;
     maxPrice: number | null = null;
     benefits: string[] = [];
+    isProminent: boolean = false;
 }

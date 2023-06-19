@@ -56,6 +56,10 @@ export class AccommodationSearchComponent {
     this.benefitService.getBenefits().subscribe((benefits) => this.benefits = benefits);
   }
 
+  updateIsProminent(value: boolean) {
+    this.searchQuery.filterArgs.isProminent = value;
+  }
+
   search() {
     this.searchService.search(this.searchQuery).subscribe((res) => 
     {

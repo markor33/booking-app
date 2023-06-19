@@ -26,6 +26,17 @@ namespace Search.API.GrpcServices
                 End = DateTime.Parse(request.End)
             };
 
+            var filterArgs = new FilterArgs();
+            if (request.FilterArgs.MinPrice != -1)
+            {
+                filterArgs.MinPrice = request.FilterArgs.MinPrice;
+                filterArgs.MaxPrice = request.FilterArgs.MaxPrice;
+            }
+            foreach (var benefit in request.FilterArgs.Benefits)
+                filterArgs.Benefits.Add(Guid.Parse(benefit));
+
+            args.FilterArgs = filterArgs;
+
             List<GrpcAccommodationDTO> searchResults = new();
 
             List<AccommodationDTO> foundAccommodations = await _searchService.SearchAccommodations(args);

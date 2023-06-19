@@ -48,12 +48,19 @@ namespace RatingsLibrary.Models
                 UpdateIsHostProminent();
             }
         }
+
+        private bool _isHostProminent;
+
         [NotMapped]
-        public bool IsHostProminent { get; set; } = false;
+        public bool IsHostProminent
+        {
+            get { return (IsGradeAcceptable == true) && IsCancellationRateAcceptable && HasFiveReservations && IsDurationOfReservationsAcceptable; }
+            set { _isHostProminent = value;}
+        }
 
         private void UpdateIsHostProminent()
         {
-            IsHostProminent = IsGradeAcceptable && IsCancellationRateAcceptable && HasFiveReservations && IsDurationOfReservationsAcceptable;
+            IsHostProminent = (IsGradeAcceptable == true) && IsCancellationRateAcceptable && HasFiveReservations && IsDurationOfReservationsAcceptable;
         }
     }
 }
