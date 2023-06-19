@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { AccomodationService } from '../../accomodation/services/accomodation.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AccomodationDialog } from '../models/accommodationDialog.model';
 import { Accomodation } from '../../accomodation/models/accomodation.model';
 import { ReservationRequestService } from '../../reservation/service/reservation-request.service';
 import { AccommodationSearchService } from '../services/accommodation-search.service';
@@ -16,7 +17,8 @@ import { Request } from '../models/request.model';
 })
 export class AccommodationDisplayDialogComponent {
 
-  accommodation: Accomodation = new Accomodation();
+  accommodation: AccomodationDialog = new AccomodationDialog();
+  stars: number[] = [1, 2, 3, 4, 5];
   availability!: { id: string, numOfGuests: number, start: Date, end: Date};
   availableAccommodation: Accommodation | null = null;
   numOfNights: number = 0;
@@ -29,7 +31,9 @@ export class AccommodationDisplayDialogComponent {
     private requestService: ReservationRequestService,
     private searchService: AccommodationSearchService,
     private snackBar: MatSnackBar) {
-      this.accommodationService.getAccomodation(data.id as string).subscribe((res) => this.accommodation = res);
+      this.accommodationService.getAccommodationDialog(data.accommId as string, data.hostId as string).subscribe((res) => {
+        this.accommodation = res
+      });
       this.availability = {
         id: data.id,
         numOfGuests: 0,

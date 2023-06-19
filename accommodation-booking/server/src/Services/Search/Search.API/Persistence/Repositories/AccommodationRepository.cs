@@ -97,7 +97,7 @@ namespace Search.API.Persistence.Repositories
 
             var dateFilter = Builders<Accommodation>.Filter.Not(
                  Builders<Accommodation>.Filter.ElemMatch(a => a.Reservations, r =>
-                        r.Period.Start <= searchArgs.End && r.Period.End >= searchArgs.Start)
+                            r.Period.Start <= searchArgs.Start && r.Period.End >= searchArgs.End)
             );
 
             List<FilterDefinition<Accommodation>> benefitFilters = searchArgs.FilterArgs.Benefits.Select(benefitGuid =>

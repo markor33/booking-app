@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Accomodation } from '../models/accomodation.model';
 import { AccommodationCard } from '../models/accommodation-card.model';
+import { AccomodationDialog } from '../../search/models/accommodationDialog.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,9 @@ export class AccomodationService {
 
     return this.http
       .get<Accomodation[]>(url, this.httpOptions);
+  }
+  getAccommodationDialog(accommId: string, hostId: string): Observable<AccomodationDialog> {
+    return this.http.get<AccomodationDialog>('api/aggregator/accommodation/' + accommId + '/' + hostId, this.httpOptions);
   }
 
   createAccomodation(accomodation: Accomodation){

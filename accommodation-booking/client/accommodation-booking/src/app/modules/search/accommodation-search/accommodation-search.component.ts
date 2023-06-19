@@ -9,8 +9,9 @@ import { Request } from '../models/request.model';
 import { ReservationRequestService } from '../../reservation/service/reservation-request.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/services/auth.service';
-import { Benefit } from '../../shared/models/benefit.model';
 import { BenefitService } from '../../accomodation/services/benefit.service';
+import { Benefit } from '../../accomodation/models/benefit.model';
+
 
 @Component({
   selector: 'app-accommodation-search',
@@ -45,6 +46,7 @@ export class AccommodationSearchComponent {
       numOfGuests: 0,
       price: 0,
     }
+  
   }
 
   ngOnInit() {
@@ -61,6 +63,7 @@ export class AccommodationSearchComponent {
   }
 
   search() {
+    console.log(this.searchQuery)
     this.searchService.search(this.searchQuery).subscribe((res) => 
     {
       this.accommodations = res;
@@ -74,15 +77,14 @@ export class AccommodationSearchComponent {
   }
 
 
-  openAccommodationDisplay(id: string) {
+  openAccommodationDisplay(accommId: string, hostId: string) {
     this.matDialog.open(AccommodationDisplayDialogComponent, {
-      data: { id: id },
+      data: { accommId: accommId, hostId: hostId },
       width: '80%',
       height: '90%'
     });
   }
 
-  
   createRequest(accommodationId: string, price: number){
     this.request.period.start = this.searchQuery.start;
     this.request.period.end = this.searchQuery.end;

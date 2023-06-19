@@ -1,4 +1,6 @@
-﻿namespace Search.API.DTO
+﻿using Search.API.Models;
+
+namespace Search.API.DTO
 {
     public class SearchArgs
     {

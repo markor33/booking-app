@@ -13,21 +13,21 @@
     </thead>
     <tbody md-body>
       <tr md-row *ngFor="let res of reservations;index as i">
-        <td md-cell *ngIf="res.accommodationCard != undefined"><img mat-card-image src={{res.accommodationCard.photoUrl}} class="img"/></td>
-        <td md-cell *ngIf="res.accommodationCard != undefined" (click)="openFlightBooking(res)">{{res.accommodationCard.name}}</td>
-        <td md-cell *ngIf="userRole == 'HOST' && res.guestProfile != undefined">{{res.guestProfile.firstName + " " + res.guestProfile.lastName}}</td>
+        <td md-cell><img mat-card-image src={{res.accommPhoto}} class="img"/></td>
+        <td md-cell>{{res.accommName}}</td>
+        <td md-cell *ngIf="userRole == 'HOST'">{{ res.userFullName}}</td>
         <td md-cell>{{res.period.start | date:'mediumDate'}} - {{res.period.end | date:'mediumDate'}}</td>
         <td md-cell>{{res.numOfGuests}}</td>
         <td md-cell>{{res.price + "eur"}} </td>
         <td md-cell>
           <div class="rating-container"  *ngIf="compareDates(res.period.end, now) < 0">
-            <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= hostRatings[i]}" (click)="rateHost(star, i, res.id, res.accommodationId)">star</mat-icon><br><br>
+            <mat-icon class="star-icon" *ngFor="let star of stars" [ngClass]="{'filled': star <= res.hRating}" (click)="rateHost(star, i, res.id, res.accommodationId)">star</mat-icon><br><br>
             <button mat-raised-button color="warn" *ngIf="userRole == 'GUEST'" (click)="deleteHostRating(res.id, i)">Delete</button>
         </div>
         </td>
         <td md-cell>
           <div class="rating-container" *ngIf="compareDates(res.period.end, now) < 0">
-            <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= accommRatings[i]}" (click)="rateAccomm(star, i, res.accommodationId, res.id)">star</mat-icon>
+            <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= res.aRating}" (click)="rateAccomm(star, i, res.accommodationId, res.id)">star</mat-icon>
             <button mat-raised-button *ngIf="userRole == 'GUEST'" color="warn" (click)="deleteAccommRating(res.id, i)">Delete</button>
           </div>
         </td>

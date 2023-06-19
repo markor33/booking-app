@@ -4,4 +4,5 @@ export class HostRating {
     grade: number = 0;
     reservationId: string = "";
     dateTimeOfGrade: Date = new Date(); 
+    guestFullName: string = "";
 }

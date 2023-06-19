@@ -38,6 +38,7 @@
 		<Protobuf Include="..\..\Services\Search\Search.API\Proto\accommodation-search.proto" GrpcServices="Client" />
 		<Protobuf Include="..\..\Services\Ratings.API\Proto\ratings.proto" GrpcServices="Client" />
 		<Protobuf Include="..\..\Services\Identity\Identity.API\Proto\identity.proto" GrpcServices="Client" />
+		<Protobuf Include="..\..\Services\Reservations\Reservations.API\Proto\reservations.proto" GrpcServices="Client" />
 	</ItemGroup>
 
 </Project>

@@ -39,7 +39,8 @@ builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
 builder.Services.AddAuthorization();
 builder.Services.AddOcelot();
-builder.Services.AddTransient<AggregationService>();
+builder.Services.AddTransient<AccommodationService>();
+builder.Services.AddTransient<ReservationService>();
 
 builder.Services.AddGrpc(options =>
 {
@@ -58,6 +59,10 @@ builder.Services.AddGrpcClient<GrpcRatings.Ratings.RatingsClient>((services, opt
 builder.Services.AddGrpcClient<GrpcIdentity.Identity.IdentityClient>((services, options) =>
 {
     options.Address = new Uri("http://host.docker.internal:11001");
+});
+builder.Services.AddGrpcClient<GrpcReservations.Reservations.ReservationsClient>((services, options) =>
+{
+    options.Address = new Uri("http://host.docker.internal:12001");
 });
 
 var app = builder.Build();

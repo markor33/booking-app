@@ -42,7 +42,7 @@ namespace Ratings.API.Infrastructure.Persistence.Repositories
 
         public List<int> GetGradesByGuest(Guid guestId)
         {
-            var reservations = _dbContext.Reservations.Where(r => r.GuestId == guestId).OrderBy(r => r.Period.Start).ToList();
+            var reservations = _dbContext.Reservations.Where(r => r.GuestId == guestId && r.Canceled == false).OrderBy(r => r.Period.Start).ToList();
             var list = new List<int>();
             foreach (Reservation r in reservations)
             {
@@ -57,7 +57,7 @@ namespace Ratings.API.Infrastructure.Persistence.Repositories
 
         public List<int> GetGradesByHost(Guid hostId)
         {
-            var reservations = _dbContext.Reservations.Where(r => r.HostId == hostId).OrderBy(r => r.Period.Start).ToList();
+            var reservations = _dbContext.Reservations.Where(r => r.HostId == hostId && r.Canceled == false).OrderBy(r => r.Period.Start).ToList();
             var list = new List<int>();
             foreach (Reservation r in reservations)
             {

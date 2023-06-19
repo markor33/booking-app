@@ -8,7 +8,31 @@ service Reservations {
 	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
 	rpc DeleteUserDependencies(DeleteUserDependenciesRequest) returns (DeleteUserDependenciesResponse);
 	rpc IsOverLappedByAccomodation(IsOverLappedByAccomodationRequest) returns (IsOverLappedByAccomodationResponse);
+	rpc GetReservationsForUser(GetReservationsForUserRequest) returns(GetReservationsForUserResponse);
+}
 
+message Reservation {
+  string accommodationId = 1;
+  string guestId = 2;
+  DateRange period = 3;
+  int32 numOfGuests = 4;
+  int32 price = 5;
+  bool canceled = 6;
+  bool isDeleted = 7;
+  string id = 8;
+}
+
+message DateRange {
+  string startDate = 1;
+  string endDate = 2;
+}
+
+message GetReservationsForUserRequest{
+	string userId = 1;
+	string userRole = 2;
+}
+message GetReservationsForUserResponse{
+	repeated Reservation reservations = 1;
 }
 
 message IsOverLappedByAccomodationRequest {

@@ -1,4 +1,4 @@
-﻿namespace Search.API.DTO
+﻿namespace Web.Bff.Models
 {
     public class SearchArgs
     {

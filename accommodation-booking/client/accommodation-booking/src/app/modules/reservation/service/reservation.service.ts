@@ -17,8 +17,8 @@ export class ReservationService {
   getNumberOfCancelationforGuest(id: string): Observable<number>{
     return this.httpClient.get<number>('api/reservations-service/reservation/canceled/reservations/'+ id, this.httpOptions);
   }
-  getRequestByUser(): Observable<Reservation[]>{
-    return this.httpClient.get<Reservation[]>('api/reservations-service/reservation/user', this.httpOptions);
+  getByReservation(): Observable<Reservation[]>{
+    return this.httpClient.get<Reservation[]>('api/aggregator/reservation/user', this.httpOptions);
   }
   cancelReservation(id: string): Observable<boolean>{
     return this.httpClient.put<boolean>('api/reservations-service/reservation/'+ id, this.httpOptions);

@@ -22,36 +22,34 @@ export class ReservationsComponent implements OnInit {
   reservations: Reservation[];
   isUserLogged: boolean = false;
   userRole: string = '';
-  hostRatings: number[];
-  accommRatings: number[];
   stars: number[] = [1, 2, 3, 4, 5];
   hostRating: HostRating ;
   accommRating: AccommodationRating;
   now: Date;
 
   constructor(private reservationService: ReservationService,
-              private userService: ApplicationUserService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
-              private accommService: AccomodationService,
               private ratingsService: RatingsService,
+              private accommService: AccomodationService,
               private dialog: MatDialog){
+
     this.reservations = [];
-    this.hostRatings = [];
-    this.accommRatings = [];
     this.hostRating = {
       hostId: "",
       guestId: "",
       grade: 0,
       dateTimeOfGrade: new Date(),
-      reservationId: ""
+      reservationId: "",
+      guestFullName: ""
     }
     this.accommRating = {
       accommodationId: "",
       guestId: "",
       grade: 0,
       dateTimeOfGrade: new Date(),
-      reservationId: ""
+      reservationId: "",
+      guestFullName: ""
     }
     this.now = new Date();
   }
@@ -79,11 +77,9 @@ export class ReservationsComponent implements OnInit {
   }
 
   getByUser(){
-    this.reservationService.getRequestByUser().subscribe((res) =>{
+    this.reservationService.getByReservation().subscribe((res) =>{
       this.reservations = res;
-      this.getHostRatings();
-      this.getAcommRatings();
-      this.include();
+
     });
   }
 
@@ -92,27 +88,17 @@ export class ReservationsComponent implements OnInit {
       this.hostRating.guestId = accommId;
       this.hostRating.hostId = accommId;
       this.hostRating.reservationId = resId;
-      this.hostRatings[i] = hostRating;
+      this.reservations[i].hRating = hostRating;
       this.hostRating.grade = hostRating;
+      console.log(this.hostRating);
       this.ratingsService.rateHost(this.hostRating, resId).subscribe((res) =>{
         console.log("host rating created");
       })
     }
-
-  }
-  getHostRatings(){
-    this.ratingsService.getGradeHostByReservation().subscribe((res) =>{
-      this.hostRatings = res;
-    })
-  }
-  getAcommRatings(){
-    this.ratingsService.getGradeAccommByReservation().subscribe((res) =>{
-      this.accommRatings = res;
-    })
   }
   rateAccomm(accommRating: number, i: number, accommId: string, resId: string): void{
     if(this.userRole == 'GUEST'){
-      this.accommRatings[i] = accommRating;
+      this.reservations[i].aRating = accommRating;
       this.accommRating.grade = accommRating;
       this.accommRating.accommodationId = accommId;
       this.accommRating.reservationId = resId;
@@ -125,29 +111,18 @@ export class ReservationsComponent implements OnInit {
   deleteAccommRating(resId: string, i: number){
     this.ratingsService.deleteAccommodationRate(resId).subscribe(()=>{
       console.log("accommodation rating deleted")
-      this.accommRatings[i] = 0;
+      this.reservations[i].aRating = 0;
     })
   }
 
   deleteHostRating(resId: string, i: number){
     this.ratingsService.deleteHostRating(resId).subscribe(()=>{
       console.log("host rating deleted")
-      this.hostRatings[i] = 0;
+      this.reservations[i].hRating = 0;
     })
   }
 
-  include(){
-    this.reservations.forEach((req) => {
-      if(this.userRole == 'HOST')
-      this.userService.getById(req.guestId).subscribe((res) => {
-        req.guestProfile = res;
-      })
-      this.accommService.getAccommodationCoverAndName(req.accommodationId).subscribe((res) => {
-        req.accommodationCard = res;
-      })
-    })
-  }
-
+ 
   cancelReservation(id: string, i: number){
     this.reservationService.cancelReservation(id).subscribe({
       complete: () =>{

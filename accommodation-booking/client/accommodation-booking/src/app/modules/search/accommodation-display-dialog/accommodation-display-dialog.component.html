@@ -14,6 +14,69 @@
     <div class="photos">
         <img *ngFor="let photo of accommodation.photos" [src]="photo.url">
     </div>
+    <div class="table">
+        <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Guest Name</th>
+                    <th>Host Rating</th>
+                    <th>Date of rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hostRating of accommodation.hostRatings">
+                    <td>
+                        {{hostRating.guestFullName}}
+                    </td>
+                    <td>
+                        <div class="rating-container">
+                            <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= hostRating.grade}" >star</mat-icon>
+                        </div>
+                    </td>
+                    <td>
+                        {{hostRating.dateTimeOfGrade | date: 'dd.MM.yyyy'}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Accommodation Rating</th>
+                        <th>Date of rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let accommRating of accommodation.accommRatings">
+                        <td>
+                            {{accommRating.guestFullName}}
+                        </td>
+                        <td>
+                            <div class="rating-container">
+                                <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= accommRating.grade}" >star</mat-icon>
+                            </div>
+                        </td>
+                        <td>
+                            {{accommRating.dateTimeOfGrade | date: 'dd.MM.yyyy'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        <div class="accommodation-info">
+            <div class="avg-grade">  
+                <span *ngIf="accommodation.isHostProminent">Prominent host: &nbsp;</span>
+                <mat-icon *ngIf="accommodation.isHostProminent" class="logo">star</mat-icon><br>
+                Host rating: &nbsp;{{accommodation.avgHostGrade}}<br>
+                Accommodation rating: &nbsp;{{accommodation.avgAccommGrade}}
+            </div>
+        </div>
+
     <div class="reservation">
         <form (ngSubmit)="check()">
             <h2>Reservation</h2>
