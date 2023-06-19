@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using NATS.Client;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Ratings.API.Infrastructure.GrpcServices;
 using Ratings.API.Infrastructure.Persistence;
 using Ratings.API.Infrastructure.Persistence.Repositories;
@@ -17,10 +19,22 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -9,9 +9,26 @@ using Notifications.SignalR.Persistence.Repositories;
 using Notifications.SignalR.Persistence.Settings;
 using Notifications.SignalR.Security;
 using Notifications.SignalR.Services;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Reservations.API.Security;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

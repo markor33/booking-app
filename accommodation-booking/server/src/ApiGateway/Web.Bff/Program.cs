@@ -1,10 +1,27 @@
 using Microsoft.AspNetCore.Authentication;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Web.Bff.Security;
 using Web.Bff.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Configuration.AddJsonFile("ocelot.json");
 

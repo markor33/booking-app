@@ -19,8 +19,25 @@ using Microsoft.IdentityModel.Tokens;
 using NATS.Client;
 using System.Net;
 using System.Text;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
