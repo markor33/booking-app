@@ -28,7 +28,7 @@ export class ReservationRequest {
     }
 }
 
-interface ReservationRequestInterface{
+export interface ReservationRequestInterface{
     id: string;
     accommodationId: string;
     guestProfile: UserProfile;

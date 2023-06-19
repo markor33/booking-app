@@ -6,6 +6,7 @@ namespace Search.API.Persistence.Repositories
     public interface IAccommodationRepository
     {
         Task<Accommodation> GetByIdAsync(Guid id);
+        Task<Accommodation> CheckAvailability(CheckAvailabilityArgs args);
         Task<List<Accommodation>> Search(SearchArgs searchArgs);
         Task CreateAsync(Accommodation accommodation);
         Task UpdateAsync(Accommodation accommodation);

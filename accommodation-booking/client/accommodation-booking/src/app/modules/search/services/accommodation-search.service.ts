@@ -16,7 +16,11 @@ export class AccommodationSearchService {
   constructor(private httpClient: HttpClient) { }
 
   search(query: SearchQuery): Observable<Accommodation[]> {
-    return this.httpClient.post<Accommodation[]>('api/accommodation-search/search', query, this.httpOptions);
+    return this.httpClient.post<Accommodation[]>('api/aggregator/accommodation/search', query, this.httpOptions);
+  }
+
+  checkAvailability(checkAvailabilityArgs: any): Observable<Accommodation> {
+    return this.httpClient.post<Accommodation>('api/accommodation-search/search/availability', checkAvailabilityArgs, this.httpOptions);
   }
 
 }

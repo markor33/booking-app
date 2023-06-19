@@ -13,11 +13,29 @@ using Reservations.API.Infrastructure.GrpcServices;
 using NATS.Client;
 using EventBus.NET.Integration.SubscriptionManager;
 using EventBus.NET.Integration.EventBus;
-using EventBus.NET.Integration.Events;
 using EventBus.NET.Integration.Extensions;
 using ReservationsLibrary.IntegrationEvents;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Resources;
+using Prometheus;
+using Reservations.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +43,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReservationAPI", Version = "v1" });
 });
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
@@ -41,7 +61,10 @@ builder.Services.AddScoped(typeof(IReservationService), typeof(ReservationServic
 
 builder.Services.AddScoped(typeof(IAccommodationSearchGrpcService), typeof(AccommodationSearchGrpcService));
 
-builder.Services.AddScoped<IHospitalAPIClient, HospitalAPIClient>();
+builder.Services.AddSingleton<IEventBus, NatsEventBus>();
+
+
+builder.Services.AddScoped<IIdentityAPIClient, IdentityAPIClient>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -85,6 +108,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+// app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

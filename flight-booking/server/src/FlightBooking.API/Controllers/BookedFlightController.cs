@@ -33,6 +33,7 @@ namespace FlightBooking.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<BookedFlight>> Create(BookedFlightDTO flightDTO)
         {
             var bookedFlight = new BookedFlight() {

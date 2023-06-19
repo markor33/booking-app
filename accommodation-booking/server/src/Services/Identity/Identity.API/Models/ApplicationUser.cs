@@ -9,6 +9,7 @@ namespace Identity.API.Models
         public string LastName { get; set; }
         public Address Address { get; set; }
         public UserStatus Status { get; set; } = UserStatus.ACTIVE;
+        public Guid? FlightBookingApiKey { get; set; } = null;
     }
 
     [Owned]

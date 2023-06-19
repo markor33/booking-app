@@ -40,10 +40,27 @@
     height: 200px;
     flex-direction: row;
     padding: 1%;
-    gap: 1%;
     border: solid 1px grey;
     border-radius: 2%;
     margin-top: 2%;
+    position: relative;
+}
+
+.accommodation-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1%;
+    gap: 1%;
+}
+
+.accommodation-info div {
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .accommodation img {

@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>API Key</h2>
+    <div class="no-key" *ngIf="apiKey === null">
+        <mat-checkbox [(ngModel)]="isPermanent" >Permanent</mat-checkbox>
+        <button mat-raised-button color="primary" (click)="create()">
+            Create
+        </button>
+    </div>
+    <div *ngIf="apiKey !== null">
+        <div class="key">
+            <span>Key: </span>
+            <span>{{apiKey.key}}</span>
+        </div>
+        <div *ngIf="apiKey.expireDate !== null">
+            <span>Expire date: </span>
+            <span>{{apiKey.expireDate | date}}</span>
+        </div>
+        <mat-checkbox [(ngModel)]="isPermanent" >Permanent</mat-checkbox>
+        <div class="actions">
+            <button mat-raised-button color="primary" (click)="update()">
+                Update
+            </button>
+            <button mat-raised-button color="primary" *ngIf="apiKey.expireDate !== null" (click)="refresh()">
+                Refresh
+            </button>
+            <button mat-raised-button color="warn" (click)="delete()">
+                Delete
+            </button>
+        </div>
+    </div>
+</div>

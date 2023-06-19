@@ -1,13 +1,23 @@
 version: '3.4'
 
+x-logging: &fluent-bit
+ driver: fluentd
+ options:
+  fluentd-address: localhost:24224
+  
+
 services:
   web.bff:
     image: ${DOCKER_REGISTRY-}webbff
+    environment:
+      - FLUENT_LOGGING=reservations.api
     build:
       context: .
       dockerfile: src/ApiGateway/Web.Bff/Dockerfile
     ports:
      - 10000:80
+    logging: 
+     *fluent-bit
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
@@ -16,6 +26,8 @@ services:
       dockerfile: src/Services/Identity/Identity.API/Dockerfile
     ports:
     - 11000:80
+    - 11001:5000
+    logging: *fluent-bit
 
   identity.db:
     image: postgres:alpine
@@ -38,6 +50,8 @@ services:
     ports:
      - 12000:80
      - 12001:5000
+    logging: 
+     *fluent-bit
 
   accomodation.api:
     image: ${DOCKER_REGISTRY-}accomodationapi
@@ -48,6 +62,8 @@ services:
       - accomodation.db
     ports:
      - 9000:8080
+    logging: 
+     *fluent-bit
   
   accomodation.db:
     image: mysql
@@ -72,17 +88,6 @@ services:
     ports:
      - 22000:5432
 
-  accommodation-search.api:
-    image: accommodation-search.api
-    build:
-      context: .
-      dockerfile: src/Services/Search/Dockerfile
-    environment:
-      - MONGODB_URI=mongodb+srv://addm2019:Z522zXN2eBo7xDzM@cluster0.23ppwpl.mongodb.net/search_db?retryWrites=true&w=majority
-    ports:
-      - 13000:5000
-      - 13001:5001
-
   search.api:
     image: ${DOCKER_REGISTRY-}searchapi
     build:
@@ -91,6 +96,8 @@ services:
     ports:
      - 14000:80
      - 14001:5000
+    logging: 
+     *fluent-bit
 
   nats:
     image: 'nats:latest'
@@ -110,10 +117,144 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     restart: always
 
+  notifications.signalr:
+    image: ${DOCKER_REGISTRY-}notificationssignalr
+    build:
+      context: .
+      dockerfile: src/Services/Notifications/Notifications.SignalR/Dockerfile
+    ports:
+     - 20000:80
+
+  ratings.api:
+    image: ${DOCKER_REGISTRY-}ratingsapi
+    build:
+      context: .
+      dockerfile: src/Services/Ratings.API/Dockerfile
+    ports:
+     - 15000:80
+     - 15001:5000
+
+  ratings.db:
+    image: postgres:alpine
+    restart: always
+    environment:
+     POSTGRES_USERNAME: postgres
+     POSTGRES_PASSWORD: 123456
+    volumes:
+     - ratings-data:/var/lib/postgresql/data
+    ports:
+     - 23000:5432
+
+  neo4j:
+    image: neo4j
+    restart: always
+    ports:
+      # bolt
+      - "7687:7687"
+      # http
+      - "7474:7474"
+      # https
+      - "7473:7473"
+    # Docker healtcheck - checks if database is "alive"
+    healthcheck:
+      # test: [ "CMD-SHELL", "echo RETURN 1 | cypher-shell -a <NEO4J_dbms_connector_bolt_listen__address> -u <user defined username> -p <user defined password> || exit 1" ]
+      test:
+        [
+          "CMD-SHELL",
+          "echo RETURN 1 | cypher-shell -a bolt://neo4j:7687 -u neo4j -p 12345678 || exit 1",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      - NEO4J_AUTH=neo4j/12345678
+    volumes:
+      - neo4j_data:/data
+
+  recommendationsystem.api:
+    image: ${DOCKER_REGISTRY-}recommendationsystemapi
+    build:
+      context: .
+      dockerfile: src/Services/AccommodationRecommendation/RecommendationSystem.API/Dockerfile
+    ports:
+     - 19000:80
+
+  loki:
+    container_name: loki
+    image: grafana/loki:master
+    ports:
+       - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    healthcheck:
+        test: wget -q --tries=1 -O- http://localhost:3100/ready 
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 10s
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:master
+    ports:
+      - "3000:3000"
+    depends_on:
+        loki:
+            condition: service_healthy
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+  fluentbit:
+    image: grafana/fluent-bit-plugin-loki:latest
+    environment:
+     - LOKI_URL=http://host.docker.internal:3100/loki/api/v1/push
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "6831:6831/udp"
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus:/var/lib/prometheus
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    ports:
+      - "9200:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
 volumes:
   identity-data:
   accomodation-data:
     name: mysql-database
   reservations-data:
+  ratings-data:
   mongo_data:
-
+  neo4j_data:
+  prometheus:
+    name: prometheus
+  grafana:
+    name: grafana

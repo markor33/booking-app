@@ -1,0 +1,49 @@
+﻿syntax = "proto3";
+
+package GrpcRatings;
+
+service Ratings {
+	rpc GetHostProminentStats(GetHostProminentStatsRequest) returns (ProminentHostStats);
+	rpc GetRatings(GetRatingsRequest) returns (GetRatingsResponse);
+}
+
+message HostRating {
+  string id = 1;
+  string hostId = 2;
+  string guestId = 3;
+  int32 grade = 4;
+  string dateTimeOfGrade = 5;
+}
+
+message AccommodationRating {
+  string id = 1;
+  string accommodationId = 2;
+  string guestId = 3;
+  int32 grade = 4;
+  string dateTimeOfGrade = 5;
+}
+
+message GetRatingsRequest {
+  string accommId = 1;
+  string guestId = 2;
+  string hostId = 3;
+}
+
+message GetRatingsResponse {
+  repeated HostRating hostRatings = 1;
+  repeated AccommodationRating accommodationRatings = 2;
+  float avgHostGrade = 3;
+  float avgAccomGrade = 4;
+  bool canRate = 5;
+}
+
+message GetHostProminentStatsRequest {
+  string hostId = 1;
+  string accommId = 2;
+}
+
+message ProminentHostStats {
+  bool isHostProminent = 1;
+  float avgHostGrade = 2;
+  float avgAccommGrade = 3;
+}

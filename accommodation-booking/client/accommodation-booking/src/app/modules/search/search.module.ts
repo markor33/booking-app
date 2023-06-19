@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { AccommodationDisplayDialogComponent } from './accommodation-display-dialog/accommodation-display-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RecommendedAccommodationsModule } from '../recommended-accommodations/recommended-accommodations.module';
 import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
     MatDividerModule,
     MatSelectModule,
     MatDialogModule,
+    RecommendedAccommodationsModule,
     RouterModule.forChild(routes),
   ],
   exports: [

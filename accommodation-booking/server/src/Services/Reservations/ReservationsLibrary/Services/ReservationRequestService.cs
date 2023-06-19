@@ -3,6 +3,7 @@ using FluentResults;
 using Reservations.API.Infrasructure;
 using ReservationsLibrary.Enums;
 using ReservationsLibrary.IntegrationEvents;
+using ReservationsLibrary.IntegrationEvents.Notifications;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Utils;
 
@@ -44,12 +45,15 @@ namespace ReservationsLibrary.Services
             DeclineOverLapped(request.Period, request.AccommodationId);
 
             _eventBus.Publish(new ReservationApprovedIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period));
+            _eventBus.Publish(new ReservationApprovedForRatingsIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period, reservation.Accommodation.HostId, reservation.Canceled));
+            _eventBus.Publish(new ReservationRequestStatusChangedNotification(request.GuestId, true));
         }
 
         public void DeclineRequest(Guid requestId)
         {
             var request = _reservationRequestRepository.GetById(requestId);
             ChangeStatus(request, ReservationRequestStatus.DECLINED);
+            _eventBus.Publish(new ReservationRequestStatusChangedNotification(request.GuestId, false));
         }
 
         public Result<ReservationRequest> Create(ReservationRequest request)
@@ -58,13 +62,16 @@ namespace ReservationsLibrary.Services
             if (!_reservationRepository.IsOverLappedByAccomodation(request.Period, request.AccommodationId))
             {
                 var req = _reservationRequestRepository.Create(request);
-                if (_accommodationService.IsAutoConfirmation(req.AccommodationId))
+                var isAutoConfirm = _accommodationService.IsAutoConfirmation(req.AccommodationId);
+                if (isAutoConfirm)
                 {
                     var reservation = new Reservation(req);
                     _reservationRepository.Create(reservation);
                     ChangeStatus(req, ReservationRequestStatus.APPROVED);
                     _eventBus.Publish(new ReservationApprovedIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period));
+                    _eventBus.Publish(new ReservationApprovedForRatingsIntegrationEvent(reservation.Id, reservation.AccommodationId, reservation.GuestId, reservation.Period, reservation.Accommodation.HostId, reservation.Canceled));
                 }
+                _eventBus.Publish(new ReservationRequestCreatedNotification(req.Accommodation.HostId, req.AccommodationId, req.Id, isAutoConfirm));
                 return Result.Ok(req);
             }
                

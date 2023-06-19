@@ -8,7 +8,6 @@ service Reservations {
 	rpc AddAccommodation(AddAccommodationRequest) returns (AddAccommodationResponse);
 	rpc DeleteUserDependencies(DeleteUserDependenciesRequest) returns (DeleteUserDependenciesResponse);
 	rpc IsOverLappedByAccomodation(IsOverLappedByAccomodationRequest) returns (IsOverLappedByAccomodationResponse);
-
 }
 
 message IsOverLappedByAccomodationRequest {

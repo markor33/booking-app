@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+}
+
+.accommodation {
+    display: flex;
+    width: 30%;
+    height: 150px;
+    flex-direction: row;
+    padding: 1%;
+    margin-left: 1%;
+    border: solid 1px grey;
+    border-radius: 2%;
+    margin-top: 2%;
+}
+
+.accommodation img {
+    width: 50%;
+    height: 100%;
+}
+
+.accommodations {
+    display: flex;
+}
+
+.icon-text-align {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

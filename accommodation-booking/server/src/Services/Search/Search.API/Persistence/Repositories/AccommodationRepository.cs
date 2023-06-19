@@ -20,6 +20,27 @@ namespace Search.API.Persistence.Repositories
             return await (await _accommodations.FindAsync(filter)).FirstOrDefaultAsync();
         }
 
+        public async Task<Accommodation> CheckAvailability(CheckAvailabilityArgs args)
+        {
+            var idFilter = Builders<Accommodation>.Filter.Eq(fr => fr.Id, args.Id);
+
+            var guestsFilter = Builders<Accommodation>.Filter.And(
+                Builders<Accommodation>.Filter.Lte(a => a.MinGuests, args.NumOfGuests),
+                Builders<Accommodation>.Filter.Gte(a => a.MaxGuests, args.NumOfGuests)
+            );
+
+            var dateFilter = Builders<Accommodation>.Filter.Not(
+                 Builders<Accommodation>.Filter.ElemMatch(a => a.Reservations, r =>
+                        r.Period.Start <= args.End && r.Period.End >= args.Start)
+            );
+
+            var combinedFilter = Builders<Accommodation>.Filter.And(idFilter, guestsFilter, dateFilter);
+
+            var accommodation = await (await _accommodations.FindAsync(combinedFilter)).FirstOrDefaultAsync();
+
+            return accommodation;
+        }
+
         public async Task CreateAsync(Accommodation accommodation)
         {
             await _accommodations.InsertOneAsync(accommodation);
@@ -90,5 +111,6 @@ namespace Search.API.Persistence.Repositories
 
             return accommodations.ToList();
         }
+       
     }
 }

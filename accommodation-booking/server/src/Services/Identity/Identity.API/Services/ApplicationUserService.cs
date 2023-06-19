@@ -27,10 +27,11 @@ namespace Identity.API.Services
             userToUpdate.Address = user.Address;
             userToUpdate.FirstName = user.FirstName;
             userToUpdate.LastName = user.LastName;
+            userToUpdate.FlightBookingApiKey = user.FlightBookingApiKey;
             var result = await _userManager.UpdateAsync(userToUpdate);
 
             if(!result.Succeeded)
-                return Result.Fail("Failet to update profile");
+                return Result.Fail("Failed to update profile");
 
             return Result.Ok();
         }
@@ -75,9 +76,15 @@ namespace Identity.API.Services
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Address = user.Address
+                Address = user.Address,
+                FlightBookingApiKey = user.FlightBookingApiKey,
             };
             return Result.Ok(userProfile);
+        }
+        public async Task<Result<string>> GetUserFullName(string hostId)
+        {
+            var user = await _userManager.FindByIdAsync(hostId);
+            return Result.Ok(user.FirstName + " " + user.LastName);
         }
 
         public async Task<Result<GuestUser>> GetUserById(string id)

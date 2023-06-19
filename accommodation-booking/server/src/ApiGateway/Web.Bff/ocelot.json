@@ -48,6 +48,57 @@
       ],
       "UpstreamPathTemplate": "/api/reservations-service/{everything}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "ratings.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ratings/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "recommendationsystem.api",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/accommodation-recommendation/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notifications.signalr",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/notifications-service/{everything}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/hub/{path}",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notifications.signalr",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/hub/{path}",
+      "QoSOptions": {
+        "TimeoutValue": 1000
+      },
+      "Priority": 50
     }
   ]
 }

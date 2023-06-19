@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+
+package GrpcIdentity;
+
+service Identity {
+	rpc GetGuestFullName(GetGuestFullNameRequest) returns (GetGuestFullNameResponse);
+}
+
+
+message GetGuestFullNameResponse{
+	string guestFullName = 1;
+}
+
+message GetGuestFullNameRequest{
+	string guestId = 1;
+}
