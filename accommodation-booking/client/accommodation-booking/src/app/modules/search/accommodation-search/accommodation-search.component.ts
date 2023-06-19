@@ -9,6 +9,9 @@ import { Request } from '../models/request.model';
 import { ReservationRequestService } from '../../reservation/service/reservation-request.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/services/auth.service';
+import { BenefitService } from '../../accomodation/services/benefit.service';
+import { Benefit } from '../../accomodation/models/benefit.model';
+import { PriceRange } from '../models/price-range.model';
 
 @Component({
   selector: 'app-accommodation-search',
@@ -29,7 +32,8 @@ export class AccommodationSearchComponent {
               private requestService: ReservationRequestService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private benefitService: BenefitService) {
     this.period = {
       start: new Date(),
       end: new Date()
@@ -40,6 +44,7 @@ export class AccommodationSearchComponent {
       numOfGuests: 0,
       price: 0,
     }
+  
   }
 
   ngOnInit() {
@@ -51,11 +56,11 @@ export class AccommodationSearchComponent {
   }
 
   search() {
+    console.log(this.searchQuery)
     this.searchService.search(this.searchQuery).subscribe((res) => 
     {
       this.accommodations = res;
       this.numOfNights = this.getNumOfNights();
-      console.log(this.numOfNights);
     });
   }
 
@@ -65,15 +70,14 @@ export class AccommodationSearchComponent {
   }
 
 
-  openAccommodationDisplay(id: string) {
+  openAccommodationDisplay(accommId: string, hostId: string) {
     this.matDialog.open(AccommodationDisplayDialogComponent, {
-      data: { id: id },
+      data: { accommId: accommId, hostId: hostId },
       width: '80%',
       height: '90%'
     });
   }
 
-  
   createRequest(accommodationId: string, price: number){
     this.request.period.start = this.searchQuery.start;
     this.request.period.end = this.searchQuery.end;

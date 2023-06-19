@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Search.API.DTO;
 using Search.API.Models;
 using Search.API.Persistence.Settings;
 
@@ -75,8 +76,9 @@ namespace Search.API.Persistence.Repositories
 
             var dateFilter = Builders<Accommodation>.Filter.Not(
                  Builders<Accommodation>.Filter.ElemMatch(a => a.Reservations, r =>
-                        r.Period.Start <= endDate && r.Period.End >= startDate)
+                        r.Period.Start <= startDate && r.Period.End >= endDate)
             );
+
 
             var combinedFilter = Builders<Accommodation>.Filter.And(locationFilter, guestsFilter, dateFilter);
 

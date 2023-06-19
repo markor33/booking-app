@@ -4,8 +4,8 @@ namespace Web.Bff.Models
 {
     public class Benefit
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get;  set; }
+        public string Name { get;  set; }
 
     }
 }

@@ -25,7 +25,7 @@
         <div class="accommodation" *ngFor="let accommodation of accommodations">
             <img [src]="accommodation.photo">
             <div class="general-info">
-                <h2 (click)="openAccommodationDisplay(accommodation.id)">{{accommodation.name}}</h2>
+                <h2 (click)="openAccommodationDisplay(accommodation.id, accommodation.hostId)">{{accommodation.name}}</h2>
                 <span class="icon-text-align location">
                     <mat-icon color="primary">location_on</mat-icon>
                     {{accommodation.location.street + ' ' + accommodation.location.number + ', ' + accommodation.location.city + ' ' + accommodation.location.country}}

@@ -37,7 +37,6 @@
   }
   
   .star-icon {
-    cursor: pointer;
     font-size: 24px;
     color: gray;
   }
@@ -45,3 +44,42 @@
   .star-icon.filled {
     color: gold;
   }
+.table {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-container {
+    width: 40%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4%;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+.accommodation-info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1%;
+    gap: 1%;
+}
+
+.accommodation-info div {
+    font-size: 16px;
+}

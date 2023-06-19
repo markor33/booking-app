@@ -39,11 +39,19 @@ message AccommodationDTO {
   float price = 11;
 }
 
+message PriceRange {
+  int32 min_price = 1;
+  int32 max_price = 2;
+}
+
 message SearchRequest {
   string location = 1;
   int32 num_of_guests = 2;
   string start = 3;
   string end = 4;
+  PriceRange price_range = 5;
+  repeated Benefit benefits = 6;
+  bool isHostProminent = 7;
 }
 
 message SearchResponse {

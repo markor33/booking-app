@@ -5,19 +5,27 @@ package GrpcRatings;
 service Ratings {
 	rpc GetHostProminentStats(GetHostProminentStatsRequest) returns (ProminentHostStats);
 	rpc GetRatings(GetRatingsRequest) returns (GetRatingsResponse);
+	rpc GetGradesForUser(GradesRequest) returns (GradesResponse);
+
+}
+
+message GradesRequest {
+  string userId = 1;
+  string userRole = 2;
+}
+
+message GradesResponse {
+  repeated int32 accommGrades = 1;
+  repeated int32 hostGrades = 2;
 }
 
 message HostRating {
-  string id = 1;
-  string hostId = 2;
   string guestId = 3;
   int32 grade = 4;
   string dateTimeOfGrade = 5;
 }
 
 message AccommodationRating {
-  string id = 1;
-  string accommodationId = 2;
   string guestId = 3;
   int32 grade = 4;
   string dateTimeOfGrade = 5;
@@ -25,7 +33,6 @@ message AccommodationRating {
 
 message GetRatingsRequest {
   string accommId = 1;
-  string guestId = 2;
   string hostId = 3;
 }
 
@@ -34,7 +41,6 @@ message GetRatingsResponse {
   repeated AccommodationRating accommodationRatings = 2;
   float avgHostGrade = 3;
   float avgAccomGrade = 4;
-  bool canRate = 5;
 }
 
 message GetHostProminentStatsRequest {

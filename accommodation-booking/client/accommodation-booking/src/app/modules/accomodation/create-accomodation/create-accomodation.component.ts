@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Accomodation, PriceType } from '../models/accomodation.model';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BenefitService } from '../services/benefit.service';
 import { Benefit } from '../models/benefit.model';
 import { AuthService } from '../../auth/services/auth.service';

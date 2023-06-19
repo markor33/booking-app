@@ -2,7 +2,9 @@
 using GrpcReservations;
 using ReservationsLibrary.Models;
 using ReservationsLibrary.Services;
-using ReservationsLibrary.Utils;
+using DateRange = ReservationsLibrary.Utils.DateRange;
+using GrpcReservation = GrpcReservations.Reservation;
+using GrpcDateRange = GrpcReservations.DateRange;
 
 namespace Reservations.API.Infrastructure.GrpcServices
 {
@@ -67,6 +69,34 @@ namespace Reservations.API.Infrastructure.GrpcServices
             var range = new DateRange(request.StartDate.ToDateTime(), request.EndDate.ToDateTime());
             var result = _reservationService.IsOverLappedByAccomodation(range, accommodationId);
             return new IsOverLappedByAccomodationResponse() { IsOverlapped = result };
+        }
+
+        public async override Task<GetReservationsForUserResponse> GetReservationsForUser(GetReservationsForUserRequest request, ServerCallContext context)
+        {
+            var userId = Guid.Parse(request.UserId);
+            var userRole = request.UserRole;
+            var reservations = _reservationService.GetByUser(userId, userRole);
+            var grpcReservations = new List<GrpcReservation>();
+
+            foreach (var reservation in reservations)
+            {
+                var grpcReservation = new GrpcReservation
+                {
+                    AccommodationId = reservation.AccommodationId.ToString(),
+                    GuestId = reservation.GuestId.ToString(),
+                    Period = new GrpcDateRange { EndDate = reservation.Period.End.ToString(), StartDate = reservation.Period.Start.ToString() },
+                    NumOfGuests = reservation.NumOfGuests,
+                    Price = reservation.Price,
+                    Canceled = reservation.Canceled,
+                    IsDeleted = reservation.IsDeleted,
+                    Id = reservation.Id.ToString()
+                };
+                grpcReservations.Add(grpcReservation);
+            }
+            var response = new GetReservationsForUserResponse();
+            response.Reservations.AddRange(grpcReservations);
+
+            return response;
         }
     }
 }

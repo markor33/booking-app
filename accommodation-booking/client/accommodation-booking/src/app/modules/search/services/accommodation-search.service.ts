@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Accommodation } from '../models/accommodation.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { SearchQuery } from '../models/search-query.model';
+import { Accommodation } from '../models/accommodation.model';
 
 @Injectable({
   providedIn: 'root'

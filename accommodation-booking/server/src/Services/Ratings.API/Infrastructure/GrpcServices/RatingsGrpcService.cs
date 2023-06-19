@@ -39,11 +39,9 @@ namespace Ratings.API.Infrastructure.GrpcServices
             var accomRatings = _accommodationRatingService.GetAllByAccommodation(Guid.Parse(request.AccommId));
             var avgHostGrade = _hostRatingService.GetAverageByHost(Guid.Parse(request.HostId));
             var avgAccommGrade = _accommodationRatingService.GetAverageByAccommodation(Guid.Parse(request.HostId));
-            var canRate = _hostRatingService.CheckIfCanRate(Guid.Parse(request.GuestId), Guid.Parse(request.HostId));
 
             var response = new GetRatingsResponse
             {
-                CanRate = canRate,
                 AvgAccomGrade = (float)avgAccommGrade,
                 AvgHostGrade = (float)avgHostGrade
             };
@@ -55,10 +53,8 @@ namespace Ratings.API.Infrastructure.GrpcServices
             {
                 GrpcHostRating grpcRating = new()
                 {
-                    Id = hostRating.Id.ToString(),
                     Grade = hostRating.Grade,
                     GuestId = hostRating.GuestId.ToString(),
-                    HostId = hostRating.HostId.ToString(),
                     DateTimeOfGrade = hostRating.DateTimeOfGrade.ToString()
                 };
 
@@ -69,10 +65,8 @@ namespace Ratings.API.Infrastructure.GrpcServices
             {
                 GrpcAccommodationRating grpcRating = new()
                 {
-                    Id = accommRating.Id.ToString(),
                     Grade = accommRating.Grade,
                     GuestId = accommRating.GuestId.ToString(),
-                    AccommodationId = accommRating.AccommodationId.ToString(),
                     DateTimeOfGrade = accommRating.DateTimeOfGrade.ToString()
                 };
 
@@ -85,5 +79,15 @@ namespace Ratings.API.Infrastructure.GrpcServices
             return Task.FromResult(response);
         }
 
+        public override Task<GradesResponse> GetGradesForUser(GradesRequest request, ServerCallContext context)
+        {
+            var gradeResponse = new GradesResponse();
+            var userId = Guid.Parse(request.UserId);
+            var userRole = request.UserRole;
+            gradeResponse.AccommGrades.AddRange(_accommodationRatingService.GetGradesByGuest(userId, userRole));
+            gradeResponse.HostGrades.AddRange(_hostRatingService.GetGradesByGuest(userId, userRole));
+
+            return Task.FromResult(gradeResponse);
+        }
     }
 }
