@@ -1,4 +1,6 @@
-﻿using RatingsLibrary.Models;
+﻿using EventBus.NET.Integration.EventBus;
+using RatingsLibrary.IntegrationEvents.Notifications;
+using RatingsLibrary.Models;
 using RatingsLibrary.Repository;
 
 namespace RatingsLibrary.Services
@@ -8,13 +10,18 @@ namespace RatingsLibrary.Services
         private readonly IHostRatingRepository _hostRatingRepository;
         private readonly IReservationRepository _reservationRepository;
         private readonly IProminentHostService _prominentHostService;
+        private readonly IEventBus _eventBus;
 
-        public HostRatingService(IHostRatingRepository hostRatingRepository, IReservationRepository reservationRepository, 
-                                 IProminentHostService prominentHostService)
+        public HostRatingService(
+            IHostRatingRepository hostRatingRepository, 
+            IReservationRepository reservationRepository, 
+            IProminentHostService prominentHostService,
+            IEventBus eventBus)
         {
             _hostRatingRepository = hostRatingRepository;
             _reservationRepository = reservationRepository;
             _prominentHostService = prominentHostService;
+            _eventBus = eventBus;
         }
 
         public bool CreateOrEditHostRating(HostRating hostRating)
@@ -25,6 +32,7 @@ namespace RatingsLibrary.Services
                 return false;
             _hostRatingRepository.Create(hostRating);
             _prominentHostService.UpdateGradeAcceptableForHost(hostRating.HostId);
+            _eventBus.Publish(new HostReviewedNotification(hostRating.HostId));
             return true;
         }
 
