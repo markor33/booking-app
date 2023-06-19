@@ -7,7 +7,7 @@ namespace Search.API.Persistence.Repositories
     {
         Task<Accommodation> GetByIdAsync(Guid id);
         Task<Accommodation> CheckAvailability(CheckAvailabilityArgs args);
-        Task<List<Accommodation>> Search(string location, int numOfGuests, DateTime startDate, DateTime endDate);
+        Task<List<Accommodation>> Search(SearchArgs searchArgs);
         Task CreateAsync(Accommodation accommodation);
         Task UpdateAsync(Accommodation accommodation);
         Task<bool> DeleteByHostAsync(Guid hostId);
