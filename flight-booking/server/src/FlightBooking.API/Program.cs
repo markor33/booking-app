@@ -4,6 +4,7 @@ using FlightBooking.API.Infrastructure;
 using FlightBooking.Persistence;
 using FlightBooking.Persistence.Seed;
 using FlightBooking.Persistence.Settings;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -34,10 +35,21 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
+    options.DefaultAuthenticateScheme = "DefaultScheme";
+    options.DefaultChallengeScheme = "DefaultScheme";
+})
+    .AddPolicyScheme("DefaultScheme", "JWT or API Key", options =>
+    {
+        options.ForwardDefaultSelector = context =>
+        {
+            if (context.Request.Headers.ContainsKey("API-KEY"))
+            {
+                return "ApiKey";
+            }
+            return JwtBearerDefaults.AuthenticationScheme;
+        };
+    })
+    .AddJwtBearer(o =>
     {
         o.TokenValidationParameters = new TokenValidationParameters
         {
@@ -48,7 +60,9 @@ builder.Services.AddAuthentication(options =>
             ValidateLifetime = false,
             ValidateIssuerSigningKey = true
         };
-    });
+    })
+    .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>("ApiKey", null); ;
+
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped(typeof(IImageUploader), typeof(ImageUploader));
@@ -59,15 +73,15 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200/").AllowAnyHeader().AllowAnyMethod();
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
 
 var app = builder.Build();
 
-//await IdentitySeed.SeedIdentityDatabase(app.Services.CreateScope().ServiceProvider);
-//await UserSeed.SeedUsers(app.Services.CreateScope().ServiceProvider);
-//await FlightSeed.SeedFlights(app.Services.CreateScope().ServiceProvider);
+// await IdentitySeed.SeedIdentityDatabase(app.Services.CreateScope().ServiceProvider);
+// await UserSeed.SeedUsers(app.Services.CreateScope().ServiceProvider);
+// await FlightSeed.SeedFlights(app.Services.CreateScope().ServiceProvider);
 
 if (app.Environment.IsDevelopment())
 {

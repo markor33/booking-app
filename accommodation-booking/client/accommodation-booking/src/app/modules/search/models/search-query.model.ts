@@ -1,12 +1,14 @@
-import { Benefit } from "../../accomodation/models/benefit.model";
-import { PriceRange } from "./price-range.model";
-
 export class SearchQuery {
     location: string = '';
     numOfGuests: number = 0;
     start: Date = new Date();
     end: Date = new Date();
-    priceRange: PriceRange = new PriceRange();
-    benefits: Benefit[] = [];
-    isHostProminent: boolean = false;
+    filterArgs: Filters = new Filters();
+}
+
+export class Filters {
+    minPrice: number | null = null;
+    maxPrice: number | null = null;
+    benefits: string[] = [];
+    isProminent: boolean = false;
 }

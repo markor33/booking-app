@@ -12,8 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { AccommodationDisplayDialogComponent } from './accommodation-display-dialog/accommodation-display-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { RecommendedAccommodationsModule } from '../recommended-accommodations/recommended-accommodations.module';
 import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const routes: Routes = [
   { path: '', component: AccommodationSearchComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
     MatCheckboxModule,
     MatDialogModule,
     MatSelectModule,
+    RecommendedAccommodationsModule,
     RouterModule.forChild(routes),
   ],
   exports: [

@@ -9,6 +9,8 @@ import { AccomodationService } from '../../accomodation/services/accomodation.se
 import { RatingsService } from '../service/ratings.service';
 import { HostRating } from '../model/host-rating.model';
 import { AccommodationRating } from '../model/accommodation-rating.model';
+import { MatDialog } from '@angular/material/dialog';
+import { FlightBookingDialogComponent } from '../flight-booking-dialog/flight-booking-dialog.component';
 
 @Component({
   selector: 'app-reservations',
@@ -28,7 +30,10 @@ export class ReservationsComponent implements OnInit {
   constructor(private reservationService: ReservationService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
-              private ratingsService: RatingsService){
+              private ratingsService: RatingsService,
+              private accommService: AccomodationService,
+              private dialog: MatDialog){
+
     this.reservations = [];
     this.hostRating = {
       hostId: "",
@@ -59,6 +64,18 @@ export class ReservationsComponent implements OnInit {
     this.now = new Date();
   }
 
+  openFlightBooking(reservation: Reservation) {
+    this.dialog.open(FlightBookingDialogComponent, {
+      width: '50%',
+      height: '50%',
+      data: {
+        accommodationId: reservation.accommodationId,
+        period: reservation.period,
+        numberOfPassengers: reservation.numOfGuests
+      }
+    });
+  }
+
   getByUser(){
     this.reservationService.getByReservation().subscribe((res) =>{
       this.reservations = res;
@@ -67,7 +84,7 @@ export class ReservationsComponent implements OnInit {
   }
 
   rateHost(hostRating: number, i: number, resId: string, accommId: string): void {
-    if(this.userRole == 'GUEST'){
+    if(this.userRole == 'GUEST') {
       this.hostRating.guestId = accommId;
       this.hostRating.hostId = accommId;
       this.hostRating.reservationId = resId;

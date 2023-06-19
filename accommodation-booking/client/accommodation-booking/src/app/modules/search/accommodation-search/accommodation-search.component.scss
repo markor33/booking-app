@@ -18,6 +18,18 @@
     font-size: large;
 }
 
+.filters form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1%;
+}
+
+.filters form button {
+    font-size: large;
+}
+
 .search-result {
     display: flex;
     flex-direction: column;
@@ -28,7 +40,6 @@
     height: 200px;
     flex-direction: row;
     padding: 1%;
-    gap: 1%;
     border: solid 1px grey;
     border-radius: 2%;
     margin-top: 2%;

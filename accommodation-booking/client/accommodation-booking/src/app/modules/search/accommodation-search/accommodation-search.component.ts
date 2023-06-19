@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth/services/auth.service';
 import { BenefitService } from '../../accomodation/services/benefit.service';
 import { Benefit } from '../../accomodation/models/benefit.model';
-import { PriceRange } from '../models/price-range.model';
+
 
 @Component({
   selector: 'app-accommodation-search',
@@ -28,12 +28,14 @@ export class AccommodationSearchComponent {
   isUserLogged: boolean = false;
   userRole: string = '';
 
+  benefits: Benefit[] = [];
+
   constructor(private searchService: AccommodationSearchService,
               private requestService: ReservationRequestService,
+              private benefitService: BenefitService,
               private snackBar: MatSnackBar,
               private authService: AuthService,
-              private matDialog: MatDialog,
-              private benefitService: BenefitService) {
+              private matDialog: MatDialog) {
     this.period = {
       start: new Date(),
       end: new Date()
@@ -53,6 +55,11 @@ export class AccommodationSearchComponent {
       if(this.isUserLogged)
         this.userRole = this.authService.getUserRole();
     });
+    this.benefitService.getBenefits().subscribe((benefits) => this.benefits = benefits);
+  }
+
+  updateIsProminent(value: boolean) {
+    this.searchQuery.filterArgs.isProminent = value;
   }
 
   search() {

@@ -59,12 +59,44 @@
                 </tbody>
             </table>
         </div>
+    </div>
         <div class="accommodation-info">
             <div class="avg-grade">  
                 <span *ngIf="accommodation.isHostProminent">Prominent host: &nbsp;</span>
                 <mat-icon *ngIf="accommodation.isHostProminent" class="logo">star</mat-icon><br>
                 Host rating: &nbsp;{{accommodation.avgHostGrade}}<br>
                 Accommodation rating: &nbsp;{{accommodation.avgAccommGrade}}
+            </div>
+        </div>
+
+    <div class="reservation">
+        <form (ngSubmit)="check()">
+            <h2>Reservation</h2>
+            <mat-form-field>
+                <mat-label>Number of guests</mat-label>
+                <input matInput type="number" [(ngModel)]="availability.numOfGuests" name="numGuests">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" [(ngModel)]="availability.start" name="startDate">
+                <input matEndDate placeholder="End date" [(ngModel)]="availability.end" name="endDate">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Check</button>
+        </form>
+        <div class="result" *ngIf="availableAccommodation !== null">
+            <div class="reservation">
+                <h3>{{numOfNights}} nights, {{availability.numOfGuests}} guests</h3>
+                <div class="price">
+                    <span class="icon-text-align">
+                        <mat-icon>euro</mat-icon>
+                        <b>{{availableAccommodation.price}}</b>
+                    </span>
+                </div>
+                <button mat-raised-button color="primary" (click)="createRequest(availableAccommodation.id, availableAccommodation.price)">Reserve</button>
             </div>
         </div>
     </div>

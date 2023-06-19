@@ -21,6 +21,9 @@ namespace FlightBooking.Persistence
             services.AddScoped(typeof(IBookedFlightRepository), typeof(BookedFlightRepository));
             services.AddScoped(typeof(IBookedFlightService), typeof(BookedFlightService));
 
+            services.AddScoped(typeof(IApiKeyRepository), typeof(ApiKeyRepository));
+            services.AddScoped(typeof(IApiKeyService), typeof(ApiKeyService));
+
             return services;
         }
     }

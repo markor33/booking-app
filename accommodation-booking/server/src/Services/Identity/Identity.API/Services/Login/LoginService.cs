@@ -40,7 +40,7 @@ namespace Identity.API.Services.Login
         private async Task<string> BuildTokenAsync(ApplicationUser user)
         {
             string role = (await _userManager.GetRolesAsync(user)).First();
-            Claim[] userClaims = GetUserClaims(user, role);
+            var userClaims = GetUserClaims(user, role);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -57,15 +57,19 @@ namespace Identity.API.Services.Login
             return token;
         }
 
-        private static Claim[] GetUserClaims(ApplicationUser user, string role)
+        private static List<Claim> GetUserClaims(ApplicationUser user, string role)
         {
-            Claim[] claims = new Claim[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
             };
+
+            if (role == "GUEST" && user.FlightBookingApiKey is not null)
+                claims.Add(new Claim("FlightBookingApiKey", user.FlightBookingApiKey.ToString()));
+
             return claims;
         }
 

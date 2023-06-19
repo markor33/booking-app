@@ -20,6 +20,27 @@ namespace Search.API.Persistence.Repositories
             return await (await _accommodations.FindAsync(filter)).FirstOrDefaultAsync();
         }
 
+        public async Task<Accommodation> CheckAvailability(CheckAvailabilityArgs args)
+        {
+            var idFilter = Builders<Accommodation>.Filter.Eq(fr => fr.Id, args.Id);
+
+            var guestsFilter = Builders<Accommodation>.Filter.And(
+                Builders<Accommodation>.Filter.Lte(a => a.MinGuests, args.NumOfGuests),
+                Builders<Accommodation>.Filter.Gte(a => a.MaxGuests, args.NumOfGuests)
+            );
+
+            var dateFilter = Builders<Accommodation>.Filter.Not(
+                 Builders<Accommodation>.Filter.ElemMatch(a => a.Reservations, r =>
+                        r.Period.Start <= args.End && r.Period.End >= args.Start)
+            );
+
+            var combinedFilter = Builders<Accommodation>.Filter.And(idFilter, guestsFilter, dateFilter);
+
+            var accommodation = await (await _accommodations.FindAsync(combinedFilter)).FirstOrDefaultAsync();
+
+            return accommodation;
+        }
+
         public async Task CreateAsync(Accommodation accommodation)
         {
             await _accommodations.InsertOneAsync(accommodation);
@@ -63,28 +84,33 @@ namespace Search.API.Persistence.Repositories
             }
         }
 
-        public async Task<List<Accommodation>> Search(string location, int numOfGuests, DateTime startDate, DateTime endDate)
+        public async Task<List<Accommodation>> Search(SearchArgs searchArgs)
         {
             var locationFilter = Builders<Accommodation>.Filter.Or(
-                Builders<Accommodation>.Filter.Eq(a => a.Location.Country, location),
-                Builders<Accommodation>.Filter.Eq(a => a.Location.City, location));
+                Builders<Accommodation>.Filter.Eq(a => a.Location.Country, searchArgs.Location),
+                Builders<Accommodation>.Filter.Eq(a => a.Location.City, searchArgs.Location));
 
             var guestsFilter = Builders<Accommodation>.Filter.And(
-                Builders<Accommodation>.Filter.Lte(a => a.MinGuests, numOfGuests),
-                Builders<Accommodation>.Filter.Gte(a => a.MaxGuests, numOfGuests)
+                Builders<Accommodation>.Filter.Lte(a => a.MinGuests, searchArgs.NumOfGuests),
+                Builders<Accommodation>.Filter.Gte(a => a.MaxGuests, searchArgs.NumOfGuests)
             );
 
             var dateFilter = Builders<Accommodation>.Filter.Not(
                  Builders<Accommodation>.Filter.ElemMatch(a => a.Reservations, r =>
-                        r.Period.Start <= startDate && r.Period.End >= endDate)
+                            r.Period.Start <= searchArgs.Start && r.Period.End >= searchArgs.End)
             );
 
+            List<FilterDefinition<Accommodation>> benefitFilters = searchArgs.FilterArgs.Benefits.Select(benefitGuid =>
+                Builders<Accommodation>.Filter.ElemMatch(a => a.Benefits, b => b.Id == benefitGuid)).ToList();
+
+            var benefitFilter = Builders<Accommodation>.Filter.And(benefitFilters);
 
             var combinedFilter = Builders<Accommodation>.Filter.And(locationFilter, guestsFilter, dateFilter);
 
-            var accommodations = await _accommodations.FindAsync(combinedFilter);
+            var accommodations = await (await _accommodations.FindAsync(combinedFilter)).ToListAsync();
 
             return accommodations.ToList();
         }
+       
     }
 }

@@ -5,7 +5,13 @@ package grpc_accommodation_search;
 import "google/protobuf/timestamp.proto";
 
 service AccommodationSearch {
-	 rpc SearchAccommodations(SearchRequest) returns (SearchResponse);
+     rpc SearchAccommodations(SearchRequest) returns (SearchResponse);
+}
+
+message SearchFilters {
+    int32 minPrice = 1;
+    int32 maxPrice = 2;
+    repeated string benefits = 3;
 }
 
 message Address {
@@ -39,19 +45,12 @@ message AccommodationDTO {
   float price = 11;
 }
 
-message PriceRange {
-  int32 min_price = 1;
-  int32 max_price = 2;
-}
-
 message SearchRequest {
   string location = 1;
   int32 num_of_guests = 2;
   string start = 3;
   string end = 4;
-  PriceRange price_range = 5;
-  repeated Benefit benefits = 6;
-  bool isHostProminent = 7;
+  SearchFilters filterArgs = 5;
 }
 
 message SearchResponse {

@@ -40,6 +40,9 @@ namespace Identity.API.Services.Register
                 return Result.Fail("Registration failed");
             }
 
+            if (register.UserType == UserType.GUEST)
+                _eventBus.Publish(new GuestCreatedIntegrationEvent(user.Id, user.FirstName + " " + user.LastName));
+
             return Result.Ok();
         }
     }

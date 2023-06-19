@@ -5,6 +5,9 @@
     </button>
     <span>Flight Booking</span>
     <span class="spacer"></span>
+    <button mat-icon-button routerLink="/api-key"  *ngIf="isUserLogged && userRole == 'USER'">
+      API
+    </button>
     <button mat-icon-button [matMenuTriggerFor]="accountMenu" *ngIf="isUserLogged">
       <mat-icon>account_circle</mat-icon>
     </button>

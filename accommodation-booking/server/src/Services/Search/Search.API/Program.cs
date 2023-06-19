@@ -3,8 +3,12 @@ using EventBus.NET.Integration.Extensions;
 using EventBus.NET.Integration.SubscriptionManager;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NATS.Client;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Prometheus;
 using Search.API.GrpcServices;
 using Search.API.IntegrationEvents;
+using Search.API.Middleware;
 using Search.API.Persistence.Repositories;
 using Search.API.Persistence.Settings;
 using Search.API.Services;
@@ -12,9 +16,26 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 var mongoDbSettings = builder.Configuration.GetSection("MongoDB");
 builder.Services.Configure<MongoDBSettings>(mongoDbSettings);
@@ -59,6 +80,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+// app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthorization();
 

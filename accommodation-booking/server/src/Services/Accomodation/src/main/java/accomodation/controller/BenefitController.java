@@ -25,7 +25,6 @@ public class BenefitController {
 	BenefitService benefitService;
 	
 	@GetMapping()
-	@PreAuthorize("hasAuthority('HOST')")
 	public ResponseEntity<List<BenefitDTO>> getAllBenefits(HttpServletRequest request){
 		List<BenefitDTO> benefits = new ArrayList<>();
 		for(Benefit b : benefitService.findAll()) {

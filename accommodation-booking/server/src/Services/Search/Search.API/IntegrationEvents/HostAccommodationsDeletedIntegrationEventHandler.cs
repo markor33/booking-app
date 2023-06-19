@@ -4,7 +4,7 @@ using Search.API.Persistence.Repositories;
 
 namespace Search.API.IntegrationEvents
 {
-    public class HostAccommodationsDeletedIntegrationEventHandler : IIntegrationEventHandler<HostAccommodationsDeletedIntegrationEvent>
+    public class HostAccommodationsDeletedIntegrationEventHandler
     {
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly IEventBus _eventBus;

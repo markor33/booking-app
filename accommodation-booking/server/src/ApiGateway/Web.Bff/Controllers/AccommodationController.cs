@@ -11,12 +11,10 @@ namespace Web.Bff.Controllers
     public class AccommodationController : ControllerBase
     {
         private readonly AccommodationService _accommodationService;
-        private readonly ReservationService _reservationService;
-        public AccommodationController(AccommodationService aggregationService, ReservationService reservationService)
+        public AccommodationController(AccommodationService aggregationService)
 
         {
             _accommodationService = aggregationService;
-            _reservationService = reservationService;
         }
 
         [HttpPost("search")]

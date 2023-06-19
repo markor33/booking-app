@@ -1,0 +1,33 @@
+<div class="container">
+    <form (ngSubmit)="search()">
+        <mat-form-field>
+            <mat-label>Departure destination</mat-label>
+            <input matInput type="text" [(ngModel)]="departureDestination" name="location">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Arrival destination</mat-label>
+            <input matInput type="text" [(ngModel)]="arrivalDestination" name="location">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Search</button>
+    </form>
+    <div class="departure-flights">
+        <h2>Departure flights</h2>
+        <div *ngFor="let flight of departureFlights" class="flight">
+            <img [src]="flight.imgUrl">
+            <span>Departure time: {{flight.departureTime | date}}</span>
+            <span>Landing time: {{flight.landingTime | date}}</span>
+            <span>Price: {{flight.ticketPrice}}</span>
+            <button mat-raised-button color="primary" *ngIf="hasAPIKey" (click)="book(flight)">Reserve</button>
+        </div>
+    </div>
+    <div class="arrival-flights">
+        <h2>Arrival flights</h2>
+        <div *ngFor="let flight of arrivalFlights" class="flight">
+            <img [src]="flight.imgUrl">
+            <span>Departure time: {{flight.departureTime | date}}</span>
+            <span>Landing time: {{flight.landingTime | date}}</span>
+            <span>Price: {{flight.ticketPrice}}</span>
+            <button mat-raised-button color="primary" *ngIf="hasAPIKey" (click)="book(flight)">Reserve</button>
+        </div>
+    </div>
+</div>

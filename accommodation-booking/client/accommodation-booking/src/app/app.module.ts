@@ -14,6 +14,7 @@ import { UserModule } from './modules/user/user.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { JwtInterceptor } from './modules/auth/helpers/jwt.interceptor';
+import { RecommendedAccommodationsModule } from './modules/recommended-accommodations/recommended-accommodations.module';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { JwtInterceptor } from './modules/auth/helpers/jwt.interceptor';
     UserModule,
     ReservationModule,
     NotificationsModule,
+    RecommendedAccommodationsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token')

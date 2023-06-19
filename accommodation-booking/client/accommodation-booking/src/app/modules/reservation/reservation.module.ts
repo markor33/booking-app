@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { ReservationsComponent } from './reservations/reservations.component';
 import { MatIconModule } from '@angular/material/icon';
+import { FlightBookingDialogComponent } from './flight-booking-dialog/flight-booking-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const routes: Routes = [
   {path: 'requests', component: ReservationRequestsComponent, canActivate: [AuthGuard, RoleGuard], data: {roles: ['HOST','GUEST']}},
@@ -21,7 +23,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ReservationRequestsComponent,
-    ReservationsComponent
+    ReservationsComponent,
+    FlightBookingDialogComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +35,7 @@ const routes: Routes = [
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatDialogModule,
     RouterModule.forChild(routes),
   ]
 })

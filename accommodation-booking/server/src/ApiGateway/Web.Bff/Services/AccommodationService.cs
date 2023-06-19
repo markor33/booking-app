@@ -29,50 +29,54 @@ namespace Web.Bff.Services
         public List<SearchExtended> SearchAccommodations(SearchArgs args)
         {
             var res = new List<SearchExtended>();
-            var benefits = new List<GrpcBenefit>();
-            foreach(var ben in args.Benefits)
+            var filterArgs = new SearchFilters();
+            if (args.FilterArgs.MinPrice is null)
             {
-                benefits.Add(new GrpcBenefit { Id = ben.Id, Name = ben.Name });
+                filterArgs.MinPrice = -1;
+                filterArgs.MaxPrice = -1;
             }
-            var searchRequest = new SearchRequest
+            else
             {
-                Location = args.Location,
-                NumOfGuests = args.NumOfGuests,
-                End = args.End.ToString(),
-                Start = args.Start.ToString(),
-                PriceRange = new GrpcAccommodationSearch.PriceRange { MaxPrice = args.PriceRange.MaxPrice, MinPrice = args.PriceRange.MinPrice }
-
-            };
-            searchRequest.Benefits.AddRange(benefits);
-            var searchResponse = _searchClient.SearchAccommodations(searchRequest);
-
-            
-            
-            foreach(AccommodationDTO accommDto in searchResponse.Accommodations)
-            {
-                var prominentResponse =  _ratingsClient.GetHostProminentStats(new GetHostProminentStatsRequest { AccommId = accommDto.Id, HostId = accommDto.HostId});
-                if(args.IsHostProminent == prominentResponse.IsHostProminent)
+                filterArgs.MinPrice = (int)args.FilterArgs.MinPrice;
+                filterArgs.MaxPrice = (int)args.FilterArgs.MaxPrice;
+            }
+            foreach (var benefit in args.FilterArgs.Benefits)
+                filterArgs.Benefits.Add(benefit.ToString());
+            var searchResponse = _searchClient.SearchAccommodations(
+                new SearchRequest
                 {
-                    List<Benefit> convertedBenefits = accommDto.Benefits.Select(b => new Benefit { Id = b.Id, Name = b.Name }).ToList();
-                    var searchItem = new SearchExtended
-                    {
-                        Id = Guid.Parse(accommDto.Id),
-                        HostId = Guid.Parse(accommDto.HostId),
-                        Name = accommDto.Name,
-                        Description = accommDto.Description,
-                        Location = new Address(accommDto.Location.Country, accommDto.Location.City, accommDto.Location.Street, accommDto.Location.Number),
-                        MinGuests = accommDto.MinGuests,
-                        MaxGuests = accommDto.MaxGuests,
-                        Photo = accommDto.Photo,
-                        PriceType = (PriceType)accommDto.PriceType,
-                        Price = accommDto.Price,
-                        IsHostProminent = prominentResponse.IsHostProminent,
-                        AvgHostGrade = prominentResponse.AvgHostGrade,
-                        AvgAccommGrade = prominentResponse.AvgAccommGrade,
-                        Benefits = convertedBenefits
-                    };
+                    Location = args.Location,
+                    NumOfGuests = args.NumOfGuests,
+                    End = args.End.ToString(),
+                    Start = args.Start.ToString(),
+                    FilterArgs = filterArgs
+                });
+
+            foreach (AccommodationDTO accommDto in searchResponse.Accommodations)
+            {
+                var prominentResponse = _ratingsClient.GetHostProminentStats(new GetHostProminentStatsRequest { AccommId = accommDto.Id, HostId = accommDto.HostId });
+                List<Benefit> convertedBenefits = accommDto.Benefits.Select(b => new Benefit { Id = b.Id, Name = b.Name }).ToList();
+                var searchItem = new SearchExtended
+                {
+                    Id = Guid.Parse(accommDto.Id),
+                    HostId = Guid.Parse(accommDto.HostId),
+                    Name = accommDto.Name,
+                    Description = accommDto.Description,
+                    Location = new Address(accommDto.Location.Country, accommDto.Location.City, accommDto.Location.Street, accommDto.Location.Number),
+                    MinGuests = accommDto.MinGuests,
+                    MaxGuests = accommDto.MaxGuests,
+                    Photo = accommDto.Photo,
+                    PriceType = (PriceType)accommDto.PriceType,
+                    Price = accommDto.Price,
+                    IsHostProminent = prominentResponse.IsHostProminent,
+                    AvgHostGrade = prominentResponse.AvgHostGrade,
+                    AvgAccommGrade = prominentResponse.AvgAccommGrade,
+                    Benefits = convertedBenefits
+                };
+                if (args.FilterArgs.IsProminent && prominentResponse.IsHostProminent)
                     res.Add(searchItem);
-                } 
+                else if (!args.FilterArgs.IsProminent)
+                    res.Add(searchItem);
             }
 
             return res;
