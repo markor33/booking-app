@@ -6,7 +6,9 @@ using NATS.Client;
 using Neo4j.Driver;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 using RecommendationSystem.API.IntegrationEvents;
+using RecommendationSystem.API.Middleware;
 using RecommendationSystem.API.Models;
 using RecommendationSystem.API.Persistence;
 using RecommendationSystem.API.Security;
@@ -32,6 +34,8 @@ builder.Services.AddOpenTelemetry()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
@@ -70,6 +74,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

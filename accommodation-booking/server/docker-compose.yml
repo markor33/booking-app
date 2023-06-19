@@ -200,6 +200,10 @@ services:
     depends_on:
         loki:
             condition: service_healthy
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
   fluentbit:
     image: grafana/fluent-bit-plugin-loki:latest
@@ -218,6 +222,30 @@ services:
       - "14268:14268"
       - "6831:6831/udp"
 
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus:/var/lib/prometheus
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    ports:
+      - "9200:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
 volumes:
   identity-data:
   accomodation-data:
@@ -226,5 +254,7 @@ volumes:
   ratings-data:
   mongo_data:
   neo4j_data:
-
-
+  prometheus:
+    name: prometheus
+  grafana:
+    name: grafana

@@ -3,6 +3,8 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
+using Web.Bff.Middleware;
 using Web.Bff.Security;
 using Web.Bff.Services;
 
@@ -29,6 +31,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddScoped<IIdentityAPIClient, IdentityAPIClient>();
 
@@ -66,6 +69,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

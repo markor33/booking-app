@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NATS.Client;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 using Search.API.GrpcServices;
 using Search.API.IntegrationEvents;
+using Search.API.Middleware;
 using Search.API.Persistence.Repositories;
 using Search.API.Persistence.Settings;
 using Search.API.Services;
@@ -32,6 +34,8 @@ builder.Services.AddOpenTelemetry()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 var mongoDbSettings = builder.Configuration.GetSection("MongoDB");
 builder.Services.Configure<MongoDBSettings>(mongoDbSettings);
@@ -76,6 +80,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthorization();
 

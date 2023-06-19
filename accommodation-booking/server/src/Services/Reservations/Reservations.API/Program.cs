@@ -17,6 +17,8 @@ using EventBus.NET.Integration.Extensions;
 using ReservationsLibrary.IntegrationEvents;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Resources;
+using Prometheus;
+using Reservations.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +43,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReservationAPI", Version = "v1" });
 });
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
@@ -104,6 +108,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

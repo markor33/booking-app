@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Authentication;
 using NATS.Client;
 using Notifications.SignalR.Hubs;
 using Notifications.SignalR.IntegrationEvents.Notifications;
+using Notifications.SignalR.Middleware;
 using Notifications.SignalR.Persistence.Repositories;
 using Notifications.SignalR.Persistence.Settings;
 using Notifications.SignalR.Security;
 using Notifications.SignalR.Services;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 using Reservations.API.Security;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,8 @@ builder.Services.AddOpenTelemetry()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddScoped<IIdentityAPIClient, IdentityAPIClient>();
 
@@ -73,6 +77,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

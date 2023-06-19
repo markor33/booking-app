@@ -7,9 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using NATS.Client;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Prometheus;
 using Ratings.API.Infrastructure.GrpcServices;
 using Ratings.API.Infrastructure.Persistence;
 using Ratings.API.Infrastructure.Persistence.Repositories;
+using Ratings.API.Middleware;
 using Ratings.API.Security;
 using RatingsLibrary.BackgroundTasks;
 using RatingsLibrary.IntegrationEvents;
@@ -37,6 +39,8 @@ builder.Services.AddOpenTelemetry()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
@@ -96,6 +100,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
