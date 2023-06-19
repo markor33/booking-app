@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReservationRequest } from '../model/reservation-request.model';
 import { Request } from '../../search/models/request.model';
+import { convertToUTCDate } from '../../shared/utils/date-helper.util';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,8 @@ export class ReservationRequestService {
     return this.httpClient.delete<boolean>('api/reservations-service/reservationrequest/' + id, this.httpOptions);
   }
   createRequest(request: Request): Observable<ReservationRequest>{
+    request.period.start = convertToUTCDate(request.period.start);
+    request.period.end = convertToUTCDate(request.period.end);
     return this.httpClient.post<ReservationRequest>('api/reservations-service/reservationrequest/', request, this.httpOptions);
   }
 }

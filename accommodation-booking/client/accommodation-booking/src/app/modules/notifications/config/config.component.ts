@@ -11,7 +11,9 @@ export class ConfigComponent {
   configs: { [key: string]: boolean } = {
     'ReservationRequestCreatedNotification': true,
     'ReservationCanceledNotification': true,
-    'ReservationRequestStatusChangedNotification': true
+    'ReservationRequestStatusChangedNotification': true,
+    'HostReviewedNotification': true,
+    'HostProminentStatusChanged': true
   };
 
   constructor(private notificationConfigService: NotificationsConfigService) {

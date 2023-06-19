@@ -1,5 +1,6 @@
 ﻿using EventBus.NET.Integration.EventBus;
 using RatingsLibrary.IntegrationEvents;
+using RatingsLibrary.IntegrationEvents.Notifications;
 using RatingsLibrary.Models;
 using RatingsLibrary.Repository;
 
