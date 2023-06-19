@@ -21,6 +21,7 @@
                 <tr>
                     <th>Guest Name</th>
                     <th>Host Rating</th>
+                    <th>Date of rating</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,9 @@
                             <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= hostRating.grade}" >star</mat-icon>
                         </div>
                     </td>
+                    <td>
+                        {{hostRating.dateTimeOfGrade | date: 'dd.MM.yyyy'}}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -43,6 +47,7 @@
                     <tr>
                         <th>Guest Name</th>
                         <th>Accommodation Rating</th>
+                        <th>Date of rating</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,6 +59,9 @@
                             <div class="rating-container">
                                 <mat-icon class="star-icon" *ngFor="let star of stars"  [ngClass]="{'filled': star <= accommRating.grade}" >star</mat-icon>
                             </div>
+                        </td>
+                        <td>
+                            {{accommRating.dateTimeOfGrade | date: 'dd.MM.yyyy'}}
                         </td>
                     </tr>
                 </tbody>
