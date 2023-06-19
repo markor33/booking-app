@@ -112,7 +112,7 @@ if (app.Environment.IsDevelopment())
 app.UseMetricServer();
 app.UseHttpMetrics();
 
-app.UseMiddleware<HttpRequestMetricsMiddleware>();
+// app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
