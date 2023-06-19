@@ -1,13 +1,23 @@
 version: '3.4'
 
+x-logging: &fluent-bit
+ driver: fluentd
+ options:
+  fluentd-address: localhost:24224
+  
+
 services:
   web.bff:
     image: ${DOCKER_REGISTRY-}webbff
+    environment:
+      - FLUENT_LOGGING=reservations.api
     build:
       context: .
       dockerfile: src/ApiGateway/Web.Bff/Dockerfile
     ports:
      - 10000:80
+    logging: 
+     *fluent-bit
 
   identity.api:
     image: ${DOCKER_REGISTRY-}identityapi
@@ -17,6 +27,7 @@ services:
     ports:
     - 11000:80
     - 11001:5000
+    logging: *fluent-bit
 
   identity.db:
     image: postgres:alpine
@@ -39,6 +50,8 @@ services:
     ports:
      - 12000:80
      - 12001:5000
+    logging: 
+     *fluent-bit
 
   accomodation.api:
     image: ${DOCKER_REGISTRY-}accomodationapi
@@ -49,6 +62,8 @@ services:
       - accomodation.db
     ports:
      - 9000:8080
+    logging: 
+     *fluent-bit
   
   accomodation.db:
     image: mysql
@@ -81,6 +96,9 @@ services:
     ports:
      - 14000:80
      - 14001:5000
+    logging: 
+     *fluent-bit
+
   nats:
     image: 'nats:latest'
     expose:
@@ -161,6 +179,73 @@ services:
     ports:
      - 19000:80
 
+  loki:
+    container_name: loki
+    image: grafana/loki:master
+    ports:
+       - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    healthcheck:
+        test: wget -q --tries=1 -O- http://localhost:3100/ready 
+        interval: 3s
+        timeout: 3s
+        retries: 10
+        start_period: 10s
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:master
+    ports:
+      - "3000:3000"
+    depends_on:
+        loki:
+            condition: service_healthy
+    volumes:
+      - grafana:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+  fluentbit:
+    image: grafana/fluent-bit-plugin-loki:latest
+    environment:
+     - LOKI_URL=http://host.docker.internal:3100/loki/api/v1/push
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+      - "6831:6831/udp"
+
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    restart: on-failure
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus:/var/lib/prometheus
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+
+  cadvisor:
+    image: google/cadvisor:v0.33.0
+    ports:
+      - "9200:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
 volumes:
   identity-data:
   accomodation-data:
@@ -169,5 +254,7 @@ volumes:
   ratings-data:
   mongo_data:
   neo4j_data:
-
-
+  prometheus:
+    name: prometheus
+  grafana:
+    name: grafana

@@ -4,7 +4,11 @@ using EventBus.NET.Integration.SubscriptionManager;
 using Microsoft.AspNetCore.Authentication;
 using NATS.Client;
 using Neo4j.Driver;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Prometheus;
 using RecommendationSystem.API.IntegrationEvents;
+using RecommendationSystem.API.Middleware;
 using RecommendationSystem.API.Models;
 using RecommendationSystem.API.Persistence;
 using RecommendationSystem.API.Security;
@@ -12,10 +16,26 @@ using RecommendationSystem.API.Security.API.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracingProviderBuilder =>
+        tracingProviderBuilder
+        .AddSource(builder.Environment.ApplicationName)
+        .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddGrpcClientInstrumentation()
+        .AddJaegerExporter(config =>
+        {
+            config.Endpoint = new Uri("http://host.docker.internal:14268");
+            config.AgentHost = "host.docker.internal";
+        }));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<HttpRequestMetricsMiddleware>();
 
 builder.Services.AddAuthentication("Default")
                 .AddScheme<AuthenticationSchemeOptions, AuthHandler>("Default", null);
@@ -54,6 +74,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMetricServer();
+app.UseHttpMetrics();
+
+app.UseMiddleware<HttpRequestMetricsMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
